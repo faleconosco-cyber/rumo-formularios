@@ -1,0 +1,1082 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iI0ZEREVENSIvPjx0ZXh0IHg9IjUwIiB5PSI0NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlJ1PC90ZXh0Pjx0ZXh0IHg9IjUzIiB5PSI3NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm1vPC90ZXh0Pjwvc3ZnPg==">
+  <title>Rumo – Cadastro e Autorização</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --azul:       #3E658E;
+      --azul-dark:  #2e4f72;
+      --laranja:    #FD745D;
+      --laranja-dk: #e05a44;
+      --creme:      #FDDED5;
+      --creme-bg:   #fdf0eb;
+      --verde:      #3B503F;
+      --verde-agua: #91B096;
+      --amarelo:    #FDBB71;
+      --preto:      #282828;
+      --cinza:      #6b7280;
+      --branco:     #FFFFFF;
+      --erro:       #d94040;
+    }
+    body { font-family: 'Montserrat', sans-serif; background: var(--creme-bg); color: var(--preto); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+
+    /* HEADER */
+    .header { width: 100%; background: var(--azul); padding: 14px 24px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+    .logo-text { color: var(--branco); font-size: 1.5rem; font-weight: 800; font-style: italic; letter-spacing: -0.5px; line-height: 1; }
+    .logo-sub { color: var(--creme); font-size: 0.6rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+
+    /* PROGRESS */
+    .progress-wrap { width: 100%; background: rgba(255,255,255,.25); height: 4px; }
+    .progress-bar { height: 4px; background: var(--laranja); transition: width .4s ease; border-radius: 0 2px 2px 0; }
+
+    /* CONTAINER */
+    .container { width: 100%; max-width: 600px; padding: 24px 16px 80px; flex: 1; }
+
+    /* STEPS */
+    .step { display: none; animation: fadeUp .35s ease; }
+    .step.active { display: block; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+    .step-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--azul); margin-bottom: 6px; }
+    .step-title { font-size: 1.25rem; font-weight: 700; color: var(--preto); line-height: 1.35; margin-bottom: 6px; }
+    .step-desc { font-size: 0.85rem; color: var(--cinza); margin-bottom: 20px; line-height: 1.5; }
+
+    /* WELCOME */
+    .welcome-card { background: var(--azul); border-radius: 20px; padding: 36px 28px 32px; color: var(--branco); text-align: center; margin-top: 12px; }
+    .welcome-logo { font-size: 2.4rem; font-weight: 800; font-style: italic; margin-bottom: 4px; }
+    .welcome-sub { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--creme); margin-bottom: 20px; }
+    .welcome-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; line-height: 1.4; }
+    .welcome-card p { font-size: 0.85rem; opacity: .85; line-height: 1.6; margin-bottom: 8px; }
+    .welcome-card .time-badge { display: inline-block; background: rgba(255,255,255,.15); border-radius: 20px; padding: 5px 14px; font-size: 0.75rem; font-weight: 600; margin: 12px auto 0; }
+
+    /* SECTION DIVIDER */
+    .section-divider { background: var(--azul); border-radius: 12px; padding: 10px 16px; margin-bottom: 18px; }
+    .section-divider span { color: var(--branco); font-size: 0.78rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* INPUTS */
+    .field { margin-bottom: 18px; }
+    .field label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--preto); margin-bottom: 7px; }
+    .field input, .field textarea, .field select {
+      width: 100%; padding: 13px 15px; border: 2px solid #e5d9d4; border-radius: 12px;
+      font-family: 'Montserrat', sans-serif; font-size: 0.9rem; color: var(--preto);
+      background: var(--branco); outline: none; transition: border-color .2s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--azul); box-shadow: 0 0 0 3px rgba(62,101,142,.12); }
+    .field textarea { resize: vertical; min-height: 90px; }
+    .field .error-msg { display: none; font-size: 0.75rem; color: var(--erro); margin-top: 5px; font-weight: 500; }
+    .field.has-error input, .field.has-error textarea, .field.has-error select { border-color: var(--erro); }
+    .field.has-error .error-msg { display: block; }
+    .optional-tag { font-size: 0.68rem; color: var(--cinza); font-weight: 500; margin-left: 5px; }
+
+    /* CHIPS */
+    .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+    .chip { cursor: pointer; padding: 9px 15px; border-radius: 30px; border: 2px solid #e5d9d4; font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--cinza); background: var(--branco); transition: all .2s; user-select: none; -webkit-user-select: none; }
+    .chip:hover { border-color: var(--azul); color: var(--azul); }
+    .chip.selected { background: var(--azul); border-color: var(--azul); color: var(--branco); }
+    .chip.multi.selected { background: var(--azul); border-color: var(--azul); color: var(--branco); }
+
+    /* CHECKBOXES LGPD */
+    .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; background: var(--branco); border-radius: 12px; border: 2px solid #e5d9d4; margin-bottom: 10px; cursor: pointer; transition: border-color .2s; }
+    .check-item:hover { border-color: var(--azul); }
+    .check-item.checked { border-color: var(--azul); background: rgba(62,101,142,.05); }
+    .check-box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #e5d9d4; background: var(--branco); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .2s; margin-top: 1px; }
+    .check-item.checked .check-box { background: var(--azul); border-color: var(--azul); }
+    .check-box::after { content: '✓'; color: var(--branco); font-size: 0.8rem; font-weight: 700; display: none; }
+    .check-item.checked .check-box::after { display: block; }
+    .check-text { font-size: 0.82rem; line-height: 1.5; color: var(--preto); }
+
+    /* SUB-FIELD */
+    .sub-field { display: none; margin-top: 12px; }
+    .sub-field.visible { display: block; }
+
+    /* BUTTONS */
+    .btn-row { display: flex; gap: 10px; margin-top: 28px; }
+    .btn { flex: 1; padding: 15px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; border: none; transition: all .2s; }
+    .btn-primary { background: var(--azul); color: var(--branco); }
+    .btn-primary:hover { background: var(--azul-dark); transform: translateY(-1px); }
+    .btn-secondary { background: transparent; color: var(--azul); border: 2px solid var(--azul); flex: 0 0 auto; padding: 15px 20px; }
+    .btn-secondary:hover { background: var(--azul); color: var(--branco); }
+    .btn-start { width: 100%; background: var(--laranja); color: var(--branco); padding: 16px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; border: none; margin-top: 22px; transition: all .2s; }
+    .btn-start:hover { background: var(--laranja-dk); transform: translateY(-1px); }
+
+    /* RESUMO */
+    .resumo-block { background: var(--branco); border-radius: 14px; padding: 18px; margin-bottom: 12px; }
+    .resumo-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--azul); margin-bottom: 10px; }
+    .resumo-row { display: flex; flex-direction: column; margin-bottom: 8px; gap: 2px; }
+    .resumo-label { font-size: 0.72rem; color: var(--cinza); font-weight: 600; }
+    .resumo-val { font-size: 0.88rem; color: var(--preto); font-weight: 500; }
+
+    /* SUCESSO */
+    #step-sucesso { text-align: center; }
+    #step-sucesso .success-icon { width: 72px; height: 72px; background: var(--verde-agua); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 20px auto 20px; font-size: 2rem; }
+
+    /* SPINNER */
+    .spinner { display: none; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.4); border-top-color: var(--branco); border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading .btn-label { display: none; }
+    .loading .spinner { display: block; }
+
+    /* FOOTER */
+    .footer { text-align: center; font-size: 0.7rem; color: var(--cinza); margin-top: 24px; opacity: .7; }
+
+    /* ALERTA LGPD */
+    .lgpd-box { background: rgba(62,101,142,.07); border-left: 4px solid var(--azul); border-radius: 0 12px 12px 0; padding: 14px 16px; margin-bottom: 20px; font-size: 0.82rem; line-height: 1.6; color: var(--preto); }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div>
+    <div class="logo-text">Rumo</div>
+    <div class="logo-sub">Orientação Profissional</div>
+  </div>
+  <div style="margin-left:auto">
+    <span id="header-step" style="font-size:.75rem;font-weight:600;color:var(--creme);opacity:.8"></span>
+  </div>
+</header>
+<div class="progress-wrap" style="background:var(--azul-dark)">
+  <div class="progress-bar" id="progressBar" style="width:0%"></div>
+</div>
+
+<div class="container">
+
+  <!-- STEP 0 – BOAS-VINDAS -->
+  <div class="step active" id="step-0">
+    <div class="welcome-card">
+      <div class="welcome-logo">Rumo</div>
+      <div class="welcome-sub">Orientação Profissional</div>
+      <h2>Bem-vindo(a) ao Instituto Rumo! 🌱</h2>
+      <p>Este formulário reúne o <strong>cadastro do(a) responsável e do(a) adolescente</strong>, a triagem inicial de expectativas e o <strong>termo de autorização</strong> para o processo de orientação profissional.</p>
+      <p>As informações são <strong>confidenciais</strong> e utilizadas exclusivamente para fins de acompanhamento.</p>
+      <div class="time-badge">⏱ Cerca de 10 minutos</div>
+    </div>
+    <button class="btn-start" onclick="goTo(1)">Começar preenchimento →</button>
+    <p class="footer">Dúvidas? Fale conosco pelo WhatsApp.</p>
+  </div>
+
+  <!-- STEP 1 – RESPONSÁVEL 1: IDENTIFICAÇÃO -->
+  <div class="step" id="step-1">
+    <div class="step-label">Parte 1 de 12</div>
+    <div class="step-title">Responsável 1</div>
+    <div class="step-desc">Dados de identificação do primeiro responsável.</div>
+
+    <div class="field" id="f-resp1Nome">
+      <label>Nome completo *</label>
+      <input type="text" id="resp1Nome" placeholder="Ex: Maria Silva" autocomplete="name">
+      <div class="error-msg">Por favor, informe o nome completo.</div>
+    </div>
+    <div class="field" id="f-resp1Relacao">
+      <label>Relação com o adolescente *</label>
+      <div class="chips" id="chips-resp1Relacao">
+        <div class="chip" data-val="Mãe">Mãe</div>
+        <div class="chip" data-val="Pai">Pai</div>
+        <div class="chip" data-val="Outro">Outro</div>
+      </div>
+      <div class="sub-field" id="sub-resp1RelacaoOutro">
+        <input type="text" id="resp1RelacaoOutro" placeholder="Qual a relação?">
+      </div>
+      <div class="error-msg" id="err-resp1Relacao">Por favor, selecione a relação.</div>
+    </div>
+    <div class="field" id="f-resp1Formacao">
+      <label>Formação acadêmica *</label>
+      <input type="text" id="resp1Formacao" placeholder="Ex: Administração, Medicina, Ensino Médio...">
+      <div class="error-msg">Por favor, informe a formação.</div>
+    </div>
+    <div class="field" id="f-resp1AtuaNaArea">
+      <label>Atua na área de formação? *</label>
+      <div class="chips" id="chips-resp1AtuaNaArea">
+        <div class="chip" data-val="Sim">Sim</div>
+        <div class="chip" data-val="Não">Não</div>
+      </div>
+      <div class="error-msg" id="err-resp1AtuaNaArea">Por favor, selecione uma opção.</div>
+    </div>
+    <div class="field">
+      <label>Descreva brevemente sua atuação atual <span class="optional-tag">(opcional)</span></label>
+      <textarea id="resp1Atuacao" placeholder="Ex: Sou gerente de projetos em uma empresa de tecnologia..."></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(0)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(1)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 – RESPONSÁVEL 1: CONTATO -->
+  <div class="step" id="step-2">
+    <div class="step-label">Parte 2 de 12</div>
+    <div class="step-title">Contato do Responsável 1</div>
+
+    <div class="field" id="f-resp1Whatsapp">
+      <label>WhatsApp *</label>
+      <div style="display:flex;gap:8px">
+        <select id="resp1CodigoPais" style="width:120px;padding:13px 10px;border:2px solid #e5d9d4;border-radius:12px;font-family:'Montserrat',sans-serif;font-size:0.85rem;color:var(--preto);background:var(--branco);outline:none;flex-shrink:0">
+          <option value="+55">🇧🇷 +55</option>
+          <option value="+351">🇵🇹 +351</option>
+          <option value="+1">🇺🇸 +1</option>
+          <option value="+44">🇬🇧 +44</option>
+          <option value="+34">🇪🇸 +34</option>
+          <option value="+54">🇦🇷 +54</option>
+          <option value="+56">🇨🇱 +56</option>
+          <option value="+598">🇺🇾 +598</option>
+        </select>
+        <input type="tel" id="resp1Whatsapp" placeholder="(11) 99999-9999" style="flex:1">
+      </div>
+      <div class="error-msg">Por favor, informe um WhatsApp válido.</div>
+    </div>
+    <div class="field" id="f-resp1Email">
+      <label>E-mail *</label>
+      <input type="email" id="resp1Email" placeholder="exemplo@email.com" autocomplete="email">
+      <div class="error-msg">Por favor, informe um e-mail válido.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(1)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(2)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 – RESPONSÁVEL 1: NOTA FISCAL -->
+  <div class="step" id="step-3">
+    <div class="step-label">Parte 3 de 12</div>
+    <div class="step-title">Dados para Nota Fiscal</div>
+    <div class="step-desc">Informações do Responsável 1 para emissão da nota fiscal.</div>
+
+    <div class="field" id="f-resp1Cpf">
+      <label>CPF *</label>
+      <input type="text" id="resp1Cpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric">
+      <div class="error-msg">Por favor, informe um CPF válido.</div>
+    </div>
+    <div class="field" id="f-resp1Cep">
+      <label>CEP *</label>
+      <input type="text" id="resp1Cep" placeholder="00000-000" maxlength="9" inputmode="numeric">
+      <div class="error-msg">Por favor, informe o CEP.</div>
+    </div>
+    <div class="field" id="f-resp1Endereco">
+      <label>Endereço completo com número *</label>
+      <input type="text" id="resp1Endereco" placeholder="Ex: Rua das Flores, 123 – Jardim Primavera">
+      <div class="error-msg">Por favor, informe o endereço.</div>
+    </div>
+    <div class="field">
+      <label>Autoriza ser contatado(a) futuramente para pesquisa? <span class="optional-tag">(opcional)</span></label>
+      <div class="chips" id="chips-resp1AutorizaPesquisa">
+        <div class="chip" data-val="Sim, autorizo">Sim, autorizo</div>
+        <div class="chip" data-val="Não autorizo">Não autorizo</div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(2)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(3)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 – RESPONSÁVEL 2: IDENTIFICAÇÃO -->
+  <div class="step" id="step-4">
+    <div class="step-label">Parte 4 de 12</div>
+    <div class="step-title">Responsável 2</div>
+    <div class="step-desc">Preencha se houver um segundo responsável. <strong>Todos os campos são opcionais.</strong></div>
+
+    <div class="field">
+      <label>Nome completo <span class="optional-tag">(opcional)</span></label>
+      <input type="text" id="resp2Nome" placeholder="Ex: João Silva" autocomplete="name">
+    </div>
+    <div class="field">
+      <label>Relação com o adolescente <span class="optional-tag">(opcional)</span></label>
+      <div class="chips" id="chips-resp2Relacao">
+        <div class="chip" data-val="Mãe">Mãe</div>
+        <div class="chip" data-val="Pai">Pai</div>
+        <div class="chip" data-val="Outro">Outro</div>
+      </div>
+      <div class="sub-field" id="sub-resp2RelacaoOutro">
+        <input type="text" id="resp2RelacaoOutro" placeholder="Qual a relação?">
+      </div>
+    </div>
+    <div class="field">
+      <label>Formação acadêmica <span class="optional-tag">(opcional)</span></label>
+      <input type="text" id="resp2Formacao" placeholder="Ex: Engenharia, Direito...">
+    </div>
+    <div class="field">
+      <label>Atua na área de formação? <span class="optional-tag">(opcional)</span></label>
+      <div class="chips" id="chips-resp2AtuaNaArea">
+        <div class="chip" data-val="Sim">Sim</div>
+        <div class="chip" data-val="Não">Não</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Descreva brevemente sua atuação atual <span class="optional-tag">(opcional)</span></label>
+      <textarea id="resp2Atuacao" placeholder="Ex: Sou advogado autônomo..."></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(3)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(4)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5 – RESPONSÁVEL 2: CONTATO E NF -->
+  <div class="step" id="step-5">
+    <div class="step-label">Parte 5 de 12</div>
+    <div class="step-title">Contato e dados do Responsável 2</div>
+    <div class="step-desc">Todos os campos são opcionais.</div>
+
+    <div class="field">
+      <label>WhatsApp <span class="optional-tag">(opcional)</span></label>
+      <div style="display:flex;gap:8px">
+        <select id="resp2CodigoPais" style="width:120px;padding:13px 10px;border:2px solid #e5d9d4;border-radius:12px;font-family:'Montserrat',sans-serif;font-size:0.85rem;color:var(--preto);background:var(--branco);outline:none;flex-shrink:0">
+          <option value="+55">🇧🇷 +55</option>
+          <option value="+351">🇵🇹 +351</option>
+          <option value="+1">🇺🇸 +1</option>
+          <option value="+44">🇬🇧 +44</option>
+          <option value="+34">🇪🇸 +34</option>
+          <option value="+54">🇦🇷 +54</option>
+          <option value="+56">🇨🇱 +56</option>
+          <option value="+598">🇺🇾 +598</option>
+        </select>
+        <input type="tel" id="resp2Whatsapp" placeholder="(11) 99999-9999" style="flex:1">
+      </div>
+    </div>
+    <div class="field">
+      <label>E-mail <span class="optional-tag">(opcional)</span></label>
+      <input type="email" id="resp2Email" placeholder="exemplo@email.com">
+    </div>
+    <div class="field">
+      <label>CPF <span class="optional-tag">(opcional)</span></label>
+      <input type="text" id="resp2Cpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric">
+    </div>
+    <div class="field">
+      <label>CEP <span class="optional-tag">(opcional)</span></label>
+      <input type="text" id="resp2Cep" placeholder="00000-000" maxlength="9" inputmode="numeric">
+    </div>
+    <div class="field">
+      <label>Endereço completo com número <span class="optional-tag">(opcional)</span></label>
+      <input type="text" id="resp2Endereco" placeholder="Ex: Av. Paulista, 1000 – Bela Vista">
+    </div>
+    <div class="field">
+      <label>Autoriza ser contatado(a) futuramente para pesquisa? <span class="optional-tag">(opcional)</span></label>
+      <div class="chips" id="chips-resp2AutorizaPesquisa">
+        <div class="chip" data-val="Sim, autorizo">Sim, autorizo</div>
+        <div class="chip" data-val="Não autorizo">Não autorizo</div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(4)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(5)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 6 – SITUAÇÃO FAMILIAR -->
+  <div class="step" id="step-6">
+    <div class="step-label">Parte 6 de 12</div>
+    <div class="step-title">Situação familiar</div>
+    <div class="step-desc">Como é a situação dos responsáveis atualmente?</div>
+
+    <div class="field" id="f-situacaoFamiliar">
+      <div class="chips" style="flex-direction:column;align-items:flex-start" id="chips-situacaoFamiliar">
+        <div class="chip" data-val="Casados ou vivem juntos" style="width:100%">Casados ou vivem juntos</div>
+        <div class="chip" data-val="Separados ou divorciados" style="width:100%">Separados ou divorciados</div>
+        <div class="chip" data-val="Outro" style="width:100%">Outro</div>
+      </div>
+      <div class="sub-field" id="sub-situacaoOutro">
+        <input type="text" id="situacaoOutro" placeholder="Descreva a situação...">
+      </div>
+      <div class="error-msg" id="err-situacaoFamiliar">Por favor, selecione uma opção.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(5)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(6)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 7 – DADOS DO ADOLESCENTE -->
+  <div class="step" id="step-7">
+    <div class="step-label">Parte 7 de 12</div>
+    <div class="step-title">Sobre o adolescente</div>
+
+    <div class="field" id="f-nomeAdolescente">
+      <label>Nome completo *</label>
+      <input type="text" id="nomeAdolescente" placeholder="Ex: Pedro Silva" autocomplete="name">
+      <div class="error-msg">Por favor, informe o nome do adolescente.</div>
+    </div>
+    <div class="field" id="f-dataNascAdolescente">
+      <label>Data de nascimento *</label>
+      <input type="text" id="dataNascAdolescente" placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric">
+      <div class="error-msg">Por favor, informe uma data válida (DD/MM/AAAA).</div>
+    </div>
+    <div class="field" id="f-serieAdolescente">
+      <label>Série escolar *</label>
+      <div class="chips" id="chips-serieAdolescente">
+        <div class="chip" data-val="1º ano EM">1º EM</div>
+        <div class="chip" data-val="2º ano EM">2º EM</div>
+        <div class="chip" data-val="3º ano EM">3º EM</div>
+        <div class="chip" data-val="Pré-vestibular">Pré-vest.</div>
+        <div class="chip" data-val="Graduação">Graduação</div>
+        <div class="chip" data-val="Não estuda">Não estuda</div>
+      </div>
+      <div class="error-msg" id="err-serieAdolescente">Por favor, selecione a série.</div>
+    </div>
+    <div class="field">
+      <label>Escola <span class="optional-tag">(opcional)</span></label>
+      <input type="text" id="escolaAdolescente" placeholder="Ex: Colégio São Paulo">
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(6)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(7)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 8 – EXPECTATIVAS -->
+  <div class="step" id="step-8">
+    <div class="step-label">Parte 8 de 12</div>
+    <div class="step-title">Expectativas e percepções</div>
+    <div class="step-desc">Queremos entender como você enxerga o adolescente e o que espera do processo.</div>
+
+    <div class="field" id="f-expectativas">
+      <label>O que os responsáveis esperam do processo de orientação profissional? *</label>
+      <textarea id="expectativas" placeholder="Ex: Esperamos que ele(a) consiga se conhecer melhor e encontrar um caminho que combine com seus interesses..." oninput="atualizarContadorExpect()" style="min-height:110px"></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px">
+        <div class="error-msg" style="margin:0" id="err-expectativas-texto">Por favor, escreva ao menos um parágrafo (mínimo 100 caracteres).</div>
+        <span id="contador-expectativas" style="font-size:0.72rem;color:var(--cinza);font-weight:600;margin-left:auto">0 / 100</span>
+      </div>
+    </div>
+    <div class="field" id="f-habilidades">
+      <label>Que habilidades ou qualidades você reconhece no adolescente? *</label>
+      <textarea id="habilidades" placeholder="Ex: É muito criativo, empático, tem facilidade com tecnologia..." oninput="atualizarContadorHab()" style="min-height:110px"></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px">
+        <div class="error-msg" style="margin:0" id="err-habilidades-texto">Por favor, escreva ao menos um parágrafo (mínimo 100 caracteres).</div>
+        <span id="contador-habilidades" style="font-size:0.72rem;color:var(--cinza);font-weight:600;margin-left:auto">0 / 100</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(7)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(8)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 9 – PERCEPÇÕES DE CARREIRA -->
+  <div class="step" id="step-9">
+    <div class="step-label">Parte 9 de 12</div>
+    <div class="step-title">Percepções de carreira</div>
+
+    <div class="field" id="f-carreirasCombinam">
+      <label>Na sua percepção, quais carreiras ou áreas <strong>combinam</strong> com o adolescente? *</label>
+      <textarea id="carreirasCombinam" placeholder="Ex: Acredito que ele(a) tem perfil para artes, comunicação ou psicologia..." oninput="atualizarContadorCombinam()" style="min-height:110px"></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px">
+        <div class="error-msg" style="margin:0" id="err-carreirasCombinam-texto">Por favor, escreva ao menos um parágrafo (mínimo 100 caracteres).</div>
+        <span id="contador-combinam" style="font-size:0.72rem;color:var(--cinza);font-weight:600;margin-left:auto">0 / 100</span>
+      </div>
+    </div>
+    <div class="field" id="f-carreirasNaoCombinam">
+      <label>E quais carreiras <strong>não combinam</strong>? Por quê? *</label>
+      <textarea id="carreirasNaoCombinam" placeholder="Ex: Acho que carreiras muito técnicas como engenharia não são o perfil dele(a) porque..." oninput="atualizarContadorNaoCombinam()" style="min-height:110px"></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px">
+        <div class="error-msg" style="margin:0" id="err-carreirasNaoCombinam-texto">Por favor, escreva ao menos um parágrafo (mínimo 100 caracteres).</div>
+        <span id="contador-naocombinam" style="font-size:0.72rem;color:var(--cinza);font-weight:600;margin-left:auto">0 / 100</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(8)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(9)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 10 – SAÚDE MENTAL -->
+  <div class="step" id="step-10">
+    <div class="step-label">Parte 10 de 12</div>
+    <div class="step-title">Saúde mental do adolescente</div>
+    <div class="step-desc">Informações confidenciais que nos ajudam a oferecer o melhor suporte.</div>
+
+    <div style="margin-bottom:20px">
+      <div class="saude-label" style="font-size:.82rem;font-weight:600;margin-bottom:9px">Faz ou já fez psicoterapia? *</div>
+      <div class="field" id="f-psicoterapia">
+        <div class="chips" id="chips-psicoterapia">
+          <div class="chip" data-val="Sim, atualmente">Sim, atualmente</div>
+          <div class="chip" data-val="Já fez, não faz mais">Já fez, não faz mais</div>
+          <div class="chip" data-val="Nunca fez">Nunca fez</div>
+        </div>
+        <div class="error-msg" id="err-psicoterapia">Por favor, selecione uma opção.</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px">
+      <div class="saude-label" style="font-size:.82rem;font-weight:600;margin-bottom:9px">Tem ou já teve acompanhamento psiquiátrico? *</div>
+      <div class="field" id="f-psiquiatra">
+        <div class="chips" id="chips-psiquiatra">
+          <div class="chip" data-val="Sim, atualmente">Sim, atualmente</div>
+          <div class="chip" data-val="Já teve, não tem mais">Já teve, não tem mais</div>
+          <div class="chip" data-val="Nunca teve">Nunca teve</div>
+        </div>
+        <div class="error-msg" id="err-psiquiatra">Por favor, selecione uma opção.</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px">
+      <div class="saude-label" style="font-size:.82rem;font-weight:600;margin-bottom:9px">Possui diagnóstico psiquiátrico formal? *</div>
+      <div class="field" id="f-diagnostico">
+        <div class="chips" id="chips-diagnostico">
+          <div class="chip" data-val="Sim">Sim</div>
+          <div class="chip" data-val="Não">Não</div>
+          <div class="chip" data-val="Em investigação">Em investigação</div>
+        </div>
+        <div class="error-msg" id="err-diagnostico">Por favor, selecione uma opção.</div>
+      </div>
+      <div class="sub-field" id="sub-diagnostico">
+        <div class="field">
+          <label>Qual diagnóstico?</label>
+          <input type="text" id="detalheDiagnostico" placeholder="Ex: TDAH, Ansiedade, Depressão...">
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px">
+      <div class="saude-label" style="font-size:.82rem;font-weight:600;margin-bottom:9px">Faz uso de medicação? *</div>
+      <div class="field" id="f-medicacao">
+        <div class="chips" id="chips-medicacao">
+          <div class="chip" data-val="Sim">Sim</div>
+          <div class="chip" data-val="Não">Não</div>
+        </div>
+        <div class="error-msg" id="err-medicacao">Por favor, selecione uma opção.</div>
+      </div>
+      <div class="sub-field" id="sub-medicacao">
+        <div class="field">
+          <label>Qual medicação?</label>
+          <input type="text" id="detalheMedicacao" placeholder="Ex: Ritalina, Fluoxetina...">
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(9)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(10)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 11 – AUTORIZAÇÕES -->
+  <div class="step" id="step-11">
+    <div class="step-label">Parte 11 de 12</div>
+    <div class="step-title">Declarações e autorizações</div>
+    <div class="step-desc">Leia e marque cada item para prosseguir.</div>
+
+    <div class="lgpd-box">
+      Ao marcar os itens abaixo, você confirma as declarações como responsável pelo(a) adolescente participante do processo de orientação profissional do Instituto RUMO.
+    </div>
+
+    <div id="checks-lgpd">
+      <div class="check-item" onclick="toggleCheck(this)" data-key="decl1">
+        <div class="check-box"></div>
+        <div class="check-text">Autorizo o(a) adolescente a participar do processo de orientação profissional do Instituto RUMO.</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)" data-key="decl2">
+        <div class="check-box"></div>
+        <div class="check-text">Estou ciente de que se trata de um processo de natureza <strong>educativa e reflexiva</strong>, sem finalidade clínica, diagnóstica ou terapêutica.</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)" data-key="decl3">
+        <div class="check-box"></div>
+        <div class="check-text">Autorizo o tratamento de dados pessoais e sensíveis conforme a <strong>LGPD (Lei nº 13.709/2018)</strong>.</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)" data-key="decl4">
+        <div class="check-box"></div>
+        <div class="check-text">Tenho ciência de que poderei solicitar acesso, correção ou exclusão de dados pelos canais oficiais do Instituto RUMO.</div>
+      </div>
+    </div>
+    <div class="error-msg" id="err-checks" style="margin-top:8px">Por favor, marque todos os itens acima.</div>
+
+    <div style="margin-top:20px">
+      <div style="font-size:.82rem;font-weight:600;margin-bottom:9px">Autoriza o(a) adolescente a realizar as sessões de atendimento? *</div>
+      <div class="field" id="f-autorizaParticipacao">
+        <div class="chips" id="chips-autorizaParticipacao">
+          <div class="chip" data-val="Sim, autorizo">Sim, autorizo</div>
+          <div class="chip" data-val="Não autorizo">Não autorizo</div>
+        </div>
+        <div class="error-msg" id="err-autorizaParticipacao">Por favor, selecione uma opção.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <div style="font-size:.82rem;font-weight:600;margin-bottom:9px">Autoriza uso de imagem/voz em materiais institucionais? *</div>
+      <div class="field" id="f-autorizaImagem">
+        <div class="chips" id="chips-autorizaImagem">
+          <div class="chip" data-val="Sim, autorizo">Sim, autorizo</div>
+          <div class="chip" data-val="Não autorizo">Não autorizo</div>
+        </div>
+        <div class="error-msg" id="err-autorizaImagem">Por favor, selecione uma opção.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <div style="font-size:.82rem;font-weight:600;margin-bottom:9px">Autoriza contato via WhatsApp e e-mail? *</div>
+      <div class="field" id="f-autorizaContato">
+        <div class="chips" id="chips-autorizaContato">
+          <div class="chip" data-val="Sim, autorizo">Sim, autorizo</div>
+          <div class="chip" data-val="Não autorizo">Não autorizo</div>
+        </div>
+        <div class="error-msg" id="err-autorizaContato">Por favor, selecione uma opção.</div>
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:16px">
+      <label>Em caso de pais separados: concordância do outro responsável <span class="optional-tag">(opcional)</span></label>
+      <textarea id="observacoesSeparacao" placeholder="Descreva se necessário..."></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(10)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(11)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 12 – VERIFICAÇÃO DE IDENTIDADE -->
+  <div class="step" id="step-12">
+    <div class="step-label">Parte 12 de 12</div>
+    <div class="step-title">Verificação de identidade</div>
+    <div class="step-desc">Para concluir o cadastro, precisamos confirmar sua identidade.</div>
+
+    <div class="lgpd-box">
+      📎 Envie uma foto do seu <strong>documento de identificação com foto</strong> (RG, CNH, Passaporte) diretamente pelo <strong>WhatsApp do Instituto RUMO</strong> após concluir este formulário.<br><br>
+      O documento será utilizado exclusivamente para fins de verificação de identidade, conforme a LGPD.
+    </div>
+
+    <div class="field" id="f-confirmacaoDoc">
+      <div style="font-size:.82rem;font-weight:600;margin-bottom:9px">Confirmo que enviarei o documento via WhatsApp *</div>
+      <div class="chips" id="chips-confirmacaoDoc">
+        <div class="chip" data-val="Confirmo – enviarei via WhatsApp">Confirmo – enviarei via WhatsApp</div>
+        <div class="chip" data-val="Já enviei anteriormente">Já enviei anteriormente</div>
+      </div>
+      <div class="error-msg" id="err-confirmacaoDoc">Por favor, confirme o envio do documento.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(11)">← Voltar</button>
+      <button class="btn btn-primary" onclick="goResumo()">Revisar e enviar →</button>
+    </div>
+  </div>
+
+  <!-- RESUMO -->
+  <div class="step" id="step-resumo">
+    <div class="step-label">Confirme os dados</div>
+    <div class="step-title">Tudo certo?</div>
+    <div class="step-desc">Revise antes de enviar.</div>
+    <div id="resumo-content"></div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(12)">← Editar</button>
+      <button class="btn btn-primary" id="btnEnviar" onclick="enviarFormulario()">
+        <span class="btn-label">Enviar ✓</span>
+        <span class="spinner"></span>
+      </button>
+    </div>
+    <p class="footer" style="margin-top:16px">Ao enviar, você confirma as autorizações e declarações acima.</p>
+  </div>
+
+  <!-- SUCESSO -->
+  <div class="step" id="step-sucesso">
+    <div class="success-icon">✓</div>
+    <div class="step-title">Cadastro enviado!</div>
+    <div class="step-desc" style="margin-top:12px">
+      Obrigada, <strong id="nome-resp-final"></strong>! 🌱<br><br>
+      Recebemos seu cadastro e entraremos em contato em breve para os próximos passos.<br><br>
+      <strong>Não esqueça</strong> de enviar a foto do seu documento de identificação pelo WhatsApp do Instituto RUMO.
+    </div>
+    <div style="margin-top:24px;background:var(--creme);border-radius:14px;padding:16px;text-align:left">
+      <div style="font-size:.75rem;font-weight:700;color:var(--azul);margin-bottom:6px;letter-spacing:1px;text-transform:uppercase">Próximos passos</div>
+      <div style="font-size:.85rem;line-height:1.7;color:var(--preto)">
+        📋 Analisamos seu cadastro com cuidado<br>
+        📎 Envie seu documento pelo WhatsApp<br>
+        📞 Entraremos em contato em até <strong>2 dias úteis</strong>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUEWWXvDNVk7GeRGaN-Yx8wEQMbj_s4H22YssP6T7_EINGy2j_VHEjLl1ie5VwrZA/exec';
+
+const formData = {};
+const TOTAL_STEPS = 13;
+
+// ── Chips ─────────────────────────────────
+const chipGroups = {};
+document.querySelectorAll('.chips').forEach(group => {
+  const id = group.id.replace('chips-', '');
+  const isMulti = group.querySelector('.chip.multi') !== null;
+  chipGroups[id] = { multi: isMulti };
+  group.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      if (isMulti) { chip.classList.toggle('selected'); }
+      else { group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected')); chip.classList.add('selected'); }
+      handleConditional(id, group);
+      clearError(id);
+    });
+  });
+});
+
+function handleConditional(id, group) {
+  const sel = [...group.querySelectorAll('.chip.selected')].map(c => c.dataset.val);
+  if (id === 'resp1Relacao') document.getElementById('sub-resp1RelacaoOutro').classList.toggle('visible', sel.includes('Outro'));
+  if (id === 'resp2Relacao') document.getElementById('sub-resp2RelacaoOutro').classList.toggle('visible', sel.includes('Outro'));
+  if (id === 'situacaoFamiliar') document.getElementById('sub-situacaoOutro').classList.toggle('visible', sel.includes('Outro'));
+  if (id === 'diagnostico') document.getElementById('sub-diagnostico').classList.toggle('visible', sel.includes('Sim'));
+  if (id === 'medicacao') document.getElementById('sub-medicacao').classList.toggle('visible', sel.includes('Sim'));
+}
+
+function getChipVal(id) {
+  const g = document.getElementById('chips-' + id);
+  if (!g) return '';
+  const sel = [...g.querySelectorAll('.chip.selected')];
+  if (chipGroups[id]?.multi) return sel.map(c => c.dataset.val).join(', ');
+  return sel[0]?.dataset.val || '';
+}
+
+// ── Checkboxes LGPD ───────────────────────
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  document.getElementById('err-checks').style.display = 'none';
+}
+function todosChecked() {
+  return [...document.querySelectorAll('#checks-lgpd .check-item')].every(el => el.classList.contains('checked'));
+}
+
+// ── Erros ─────────────────────────────────
+function setError(id) { const f = document.getElementById('f-' + id); const e = document.getElementById('err-' + id); if (f) f.classList.add('has-error'); if (e) e.style.display = 'block'; }
+function clearError(id) { const f = document.getElementById('f-' + id); if (f) f.classList.remove('has-error'); const e = document.getElementById('err-' + id); if (e) e.style.display = 'none'; }
+function clearAllErrors() { document.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error')); document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none'); }
+
+// ── Validação ─────────────────────────────
+function validate(step) {
+  clearAllErrors();
+  let ok = true;
+  if (step === 1) {
+    if (!document.getElementById('resp1Nome').value.trim()) { setError('resp1Nome'); ok = false; }
+    if (!getChipVal('resp1Relacao')) { setError('resp1Relacao'); ok = false; }
+    if (!document.getElementById('resp1Formacao').value.trim()) { setError('resp1Formacao'); ok = false; }
+    if (!getChipVal('resp1AtuaNaArea')) { setError('resp1AtuaNaArea'); ok = false; }
+  }
+  if (step === 2) {
+    const wa = document.getElementById('resp1Whatsapp').value.replace(/\D/g, '');
+    if (wa.length < 10) { setError('resp1Whatsapp'); ok = false; }
+    const em = document.getElementById('resp1Email').value.trim();
+    if (!em || !em.includes('@')) { setError('resp1Email'); ok = false; }
+  }
+  if (step === 3) {
+    if (!document.getElementById('resp1Cpf').value.replace(/\D/g,'').length >= 11) { setError('resp1Cpf'); ok = false; }
+    if (!document.getElementById('resp1Cep').value.trim()) { setError('resp1Cep'); ok = false; }
+    if (!document.getElementById('resp1Endereco').value.trim()) { setError('resp1Endereco'); ok = false; }
+  }
+  if (step === 6) {
+    if (!getChipVal('situacaoFamiliar')) { setError('situacaoFamiliar'); ok = false; }
+  }
+  if (step === 7) {
+    if (!document.getElementById('nomeAdolescente').value.trim()) { setError('nomeAdolescente'); ok = false; }
+    const dn = document.getElementById('dataNascAdolescente').value;
+    if (!/^\d{2}\/\d{2}\/\d{4}$/.test(dn)) { setError('dataNascAdolescente'); ok = false; }
+    if (!getChipVal('serieAdolescente')) { setError('serieAdolescente'); ok = false; }
+  }
+  if (step === 8) {
+    const exp = document.getElementById('expectativas').value.trim();
+    if (exp.length < 100) {
+      document.getElementById('f-expectativas').classList.add('has-error');
+      document.getElementById('err-expectativas-texto').style.display = 'block';
+      ok = false;
+    }
+    const hab = document.getElementById('habilidades').value.trim();
+    if (hab.length < 100) {
+      document.getElementById('f-habilidades').classList.add('has-error');
+      document.getElementById('err-habilidades-texto').style.display = 'block';
+      ok = false;
+    }
+  }
+  if (step === 9) {
+    const comb = document.getElementById('carreirasCombinam').value.trim();
+    if (comb.length < 100) {
+      document.getElementById('f-carreirasCombinam').classList.add('has-error');
+      document.getElementById('err-carreirasCombinam-texto').style.display = 'block';
+      ok = false;
+    }
+    const naoComb = document.getElementById('carreirasNaoCombinam').value.trim();
+    if (naoComb.length < 100) {
+      document.getElementById('f-carreirasNaoCombinam').classList.add('has-error');
+      document.getElementById('err-carreirasNaoCombinam-texto').style.display = 'block';
+      ok = false;
+    }
+  }
+  if (step === 10) {
+    if (!getChipVal('psicoterapia')) { setError('psicoterapia'); ok = false; }
+    if (!getChipVal('psiquiatra'))   { setError('psiquiatra');   ok = false; }
+    if (!getChipVal('diagnostico'))  { setError('diagnostico');  ok = false; }
+    if (!getChipVal('medicacao'))    { setError('medicacao');    ok = false; }
+  }
+  if (step === 11) {
+    if (!todosChecked()) { document.getElementById('err-checks').style.display = 'block'; ok = false; }
+    if (!getChipVal('autorizaParticipacao')) { setError('autorizaParticipacao'); ok = false; }
+    if (!getChipVal('autorizaImagem'))       { setError('autorizaImagem');       ok = false; }
+    if (!getChipVal('autorizaContato'))      { setError('autorizaContato');      ok = false; }
+  }
+  if (step === 12) {
+    if (!getChipVal('confirmacaoDoc')) { setError('confirmacaoDoc'); ok = false; }
+  }
+  return ok;
+}
+
+// ── Coleta dados ──────────────────────────
+function collectStep(step) {
+  if (step === 1) {
+    formData.resp1Nome     = document.getElementById('resp1Nome').value.trim();
+    formData.resp1Relacao  = getChipVal('resp1Relacao') + (document.getElementById('resp1RelacaoOutro').value ? ' – ' + document.getElementById('resp1RelacaoOutro').value : '');
+    formData.resp1Formacao = document.getElementById('resp1Formacao').value.trim();
+    formData.resp1AtuaNaArea = getChipVal('resp1AtuaNaArea');
+    formData.resp1Atuacao  = document.getElementById('resp1Atuacao').value.trim();
+  }
+  if (step === 2) {
+    formData.resp1Whatsapp = document.getElementById('resp1CodigoPais').value + ' ' + document.getElementById('resp1Whatsapp').value.trim();
+    formData.resp1Email    = document.getElementById('resp1Email').value.trim();
+  }
+  if (step === 3) {
+    formData.resp1Cpf      = document.getElementById('resp1Cpf').value.trim();
+    formData.resp1Cep      = document.getElementById('resp1Cep').value.trim();
+    formData.resp1Endereco = document.getElementById('resp1Endereco').value.trim();
+    formData.resp1AutorizaPesquisa = getChipVal('resp1AutorizaPesquisa');
+  }
+  if (step === 4) {
+    formData.resp2Nome     = document.getElementById('resp2Nome').value.trim();
+    formData.resp2Relacao  = getChipVal('resp2Relacao') + (document.getElementById('resp2RelacaoOutro').value ? ' – ' + document.getElementById('resp2RelacaoOutro').value : '');
+    formData.resp2Formacao = document.getElementById('resp2Formacao').value.trim();
+    formData.resp2AtuaNaArea = getChipVal('resp2AtuaNaArea');
+    formData.resp2Atuacao  = document.getElementById('resp2Atuacao').value.trim();
+  }
+  if (step === 5) {
+    formData.resp2Whatsapp = document.getElementById('resp2CodigoPais').value + ' ' + document.getElementById('resp2Whatsapp').value.trim();
+    formData.resp2Email    = document.getElementById('resp2Email').value.trim();
+    formData.resp2Cpf      = document.getElementById('resp2Cpf').value.trim();
+    formData.resp2Cep      = document.getElementById('resp2Cep').value.trim();
+    formData.resp2Endereco = document.getElementById('resp2Endereco').value.trim();
+    formData.resp2AutorizaPesquisa = getChipVal('resp2AutorizaPesquisa');
+  }
+  if (step === 6) {
+    formData.situacaoFamiliar = getChipVal('situacaoFamiliar') + (document.getElementById('situacaoOutro').value ? ' – ' + document.getElementById('situacaoOutro').value : '');
+  }
+  if (step === 7) {
+    formData.nomeAdolescente    = document.getElementById('nomeAdolescente').value.trim();
+    formData.dataNascAdolescente = document.getElementById('dataNascAdolescente').value.trim();
+    formData.serieAdolescente   = getChipVal('serieAdolescente');
+    formData.escolaAdolescente  = document.getElementById('escolaAdolescente').value.trim();
+  }
+  if (step === 8) {
+    formData.expectativas = document.getElementById('expectativas').value.trim();
+    formData.habilidades  = document.getElementById('habilidades').value.trim();
+  }
+  if (step === 9) {
+    formData.carreirasCombinam    = document.getElementById('carreirasCombinam').value.trim();
+    formData.carreirasNaoCombinam = document.getElementById('carreirasNaoCombinam').value.trim();
+  }
+  if (step === 10) {
+    formData.psicoterapia       = getChipVal('psicoterapia');
+    formData.psiquiatra         = getChipVal('psiquiatra');
+    formData.diagnostico        = getChipVal('diagnostico');
+    formData.detalheDiagnostico = document.getElementById('detalheDiagnostico').value.trim();
+    formData.medicacao          = getChipVal('medicacao');
+    formData.detalheMedicacao   = document.getElementById('detalheMedicacao').value.trim();
+  }
+  if (step === 11) {
+    formData.autorizaParticipacao  = getChipVal('autorizaParticipacao');
+    formData.autorizaImagem        = getChipVal('autorizaImagem');
+    formData.autorizaContato       = getChipVal('autorizaContato');
+    formData.observacoesSeparacao  = document.getElementById('observacoesSeparacao').value.trim();
+  }
+  if (step === 12) {
+    formData.confirmacaoDoc = getChipVal('confirmacaoDoc');
+  }
+}
+
+// ── Navegação ─────────────────────────────
+let currentStep = 0;
+
+function goTo(step) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('step-' + step) || document.getElementById('step-resumo');
+  if (el) { el.classList.add('active'); currentStep = step; }
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep(current) {
+  if (!validate(current)) return;
+  collectStep(current);
+  goTo(current + 1);
+}
+
+function goResumo() {
+  collectStep(12);
+  buildResumo();
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-resumo').classList.add('active');
+  currentStep = 'resumo';
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress() {
+  const n = typeof currentStep === 'number' ? currentStep : 13;
+  document.getElementById('progressBar').style.width = Math.min((n / 13) * 100, 100) + '%';
+  document.getElementById('header-step').textContent = n > 0 && n <= 12 ? `${n} / 12` : '';
+}
+
+// ── Resumo ────────────────────────────────
+function buildResumo() {
+  const d = formData;
+  const rows = [
+    { title: 'Responsável 1', items: [
+      ['Nome', d.resp1Nome], ['Relação', d.resp1Relacao], ['Formação', d.resp1Formacao],
+      ['Atua na área', d.resp1AtuaNaArea], ['Atuação', d.resp1Atuacao || '—'],
+      ['WhatsApp', d.resp1Whatsapp], ['E-mail', d.resp1Email],
+      ['CPF', d.resp1Cpf], ['CEP', d.resp1Cep], ['Endereço', d.resp1Endereco],
+      ['Autoriza pesquisa', d.resp1AutorizaPesquisa || '—'],
+    ]},
+    { title: 'Responsável 2', items: [
+      ['Nome', d.resp2Nome || '—'], ['Relação', d.resp2Relacao || '—'],
+      ['WhatsApp', d.resp2Whatsapp || '—'], ['E-mail', d.resp2Email || '—'],
+    ]},
+    { title: 'Situação familiar', items: [['', d.situacaoFamiliar]] },
+    { title: 'Adolescente', items: [
+      ['Nome', d.nomeAdolescente], ['Nascimento', d.dataNascAdolescente],
+      ['Série', d.serieAdolescente], ['Escola', d.escolaAdolescente || '—'],
+    ]},
+    { title: 'Expectativas e percepções', items: [
+      ['Expectativas', d.expectativas], ['Habilidades', d.habilidades || '—'],
+      ['Carreiras que combinam', d.carreirasCombinam || '—'],
+      ['Carreiras que não combinam', d.carreirasNaoCombinam || '—'],
+    ]},
+    { title: 'Saúde mental', items: [
+      ['Psicoterapia', d.psicoterapia], ['Psiquiatra', d.psiquiatra],
+      ['Diagnóstico', d.diagnostico + (d.detalheDiagnostico ? ' – ' + d.detalheDiagnostico : '')],
+      ['Medicação', d.medicacao + (d.detalheMedicacao ? ' – ' + d.detalheMedicacao : '')],
+    ]},
+    { title: 'Autorizações', items: [
+      ['Autoriza processo', d.autorizaParticipacao],
+      ['Autoriza imagem', d.autorizaImagem],
+      ['Autoriza contato', d.autorizaContato],
+      ['Documento', d.confirmacaoDoc],
+    ]},
+  ];
+  let html = '';
+  rows.forEach(s => {
+    html += `<div class="resumo-block"><div class="resumo-title">${s.title}</div>`;
+    s.items.forEach(([l, v]) => {
+      html += `<div class="resumo-row">${l ? `<div class="resumo-label">${l}</div>` : ''}<div class="resumo-val">${v || '—'}</div></div>`;
+    });
+    html += `</div>`;
+  });
+  document.getElementById('resumo-content').innerHTML = html;
+}
+
+// ── Envio ─────────────────────────────────
+async function enviarFormulario() {
+  const btn = document.getElementById('btnEnviar');
+  btn.classList.add('loading'); btn.disabled = true;
+  const payload = { ...formData, dataEnvio: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }) };
+  try {
+    const url = APPS_SCRIPT_URL + '?payload=' + encodeURIComponent(JSON.stringify(payload));
+    await fetch(url, { method: 'GET', mode: 'no-cors' });
+    mostrarSucesso();
+  } catch (err) {
+    alert('Ops! Erro ao enviar. Tente novamente.');
+    btn.classList.remove('loading'); btn.disabled = false;
+  }
+}
+
+function mostrarSucesso() {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-sucesso').classList.add('active');
+  document.getElementById('nome-resp-final').textContent = formData.resp1Nome?.split(' ')[0] || '';
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('header-step').textContent = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Máscaras ──────────────────────────────
+document.getElementById('dataNascAdolescente').addEventListener('input', function () {
+  let v = this.value.replace(/\D/g, '').slice(0, 8);
+  if (v.length >= 3) v = v.slice(0, 2) + '/' + v.slice(2);
+  if (v.length >= 6) v = v.slice(0, 5) + '/' + v.slice(5);
+  this.value = v;
+});
+
+['resp1Whatsapp', 'resp2Whatsapp'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function () {
+    let v = this.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length >= 2) v = '(' + v.slice(0, 2) + ') ' + v.slice(2);
+    if (v.length >= 10) v = v.slice(0, 10) + '-' + v.slice(10);
+    this.value = v;
+  });
+});
+
+['resp1Cpf', 'resp2Cpf'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function () {
+    let v = this.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length >= 4) v = v.slice(0, 3) + '.' + v.slice(3);
+    if (v.length >= 8) v = v.slice(0, 7) + '.' + v.slice(7);
+    if (v.length >= 12) v = v.slice(0, 11) + '-' + v.slice(11);
+    this.value = v;
+  });
+});
+
+['resp1Cep', 'resp2Cep'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function () {
+    let v = this.value.replace(/\D/g, '').slice(0, 8);
+    if (v.length >= 6) v = v.slice(0, 5) + '-' + v.slice(5);
+    this.value = v;
+  });
+});
+
+function atualizarContadorExpect() {
+  const val = document.getElementById('expectativas').value.trim();
+  const c = document.getElementById('contador-expectativas');
+  c.textContent = val.length + ' / 100';
+  c.style.color = val.length >= 100 ? 'var(--verde-agua)' : 'var(--cinza)';
+  if (val.length >= 100) {
+    document.getElementById('f-expectativas').classList.remove('has-error');
+    document.getElementById('err-expectativas-texto').style.display = 'none';
+  }
+}
+function atualizarContadorHab() {
+  const val = document.getElementById('habilidades').value.trim();
+  const c = document.getElementById('contador-habilidades');
+  c.textContent = val.length + ' / 100';
+  c.style.color = val.length >= 100 ? 'var(--verde-agua)' : 'var(--cinza)';
+  if (val.length >= 100) {
+    document.getElementById('f-habilidades').classList.remove('has-error');
+    document.getElementById('err-habilidades-texto').style.display = 'none';
+  }
+}
+function atualizarContadorCombinam() {
+  const val = document.getElementById('carreirasCombinam').value.trim();
+  const c = document.getElementById('contador-combinam');
+  c.textContent = val.length + ' / 100';
+  c.style.color = val.length >= 100 ? 'var(--verde-agua)' : 'var(--cinza)';
+  if (val.length >= 100) {
+    document.getElementById('f-carreirasCombinam').classList.remove('has-error');
+    document.getElementById('err-carreirasCombinam-texto').style.display = 'none';
+  }
+}
+function atualizarContadorNaoCombinam() {
+  const val = document.getElementById('carreirasNaoCombinam').value.trim();
+  const c = document.getElementById('contador-naocombinam');
+  c.textContent = val.length + ' / 100';
+  c.style.color = val.length >= 100 ? 'var(--verde-agua)' : 'var(--cinza)';
+  if (val.length >= 100) {
+    document.getElementById('f-carreirasNaoCombinam').classList.remove('has-error');
+    document.getElementById('err-carreirasNaoCombinam-texto').style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>
