@@ -316,15 +316,8 @@
 
         <div class="clausula">
           <span class="clausula-titulo">9 – Do investimento e das formas de pagamento</span>
-          <p>O investimento referente ao processo de Orientação Profissional está vinculado à profissional escolhida pelos responsáveis:</p>
-          <table class="tabela-inv">
-            <thead><tr><th>Psicóloga</th><th>Investimento Total</th></tr></thead>
-            <tbody>
-              <tr><td>Cláudia Botelho (Responsável Técnica)</td><td><strong>R$ 2.400,00</strong></td></tr>
-              <tr><td>Psicóloga especializada na Metodologia Rumo</td><td><strong>R$ 1.800,00</strong></td></tr>
-            </tbody>
-          </table>
-          <p>A forma de pagamento será escolhida na próxima etapa deste formulário.</p>
+          <p>O investimento total referente ao processo de Orientação Profissional foi apresentado e acordado previamente entre as partes, conforme proposta enviada.</p>
+          <p>O pagamento poderá ser realizado à vista via PIX ou de forma parcelada no cartão de crédito, conforme opção escolhida pelos responsáveis na etapa seguinte deste formulário.</p>
         </div>
 
         <div class="clausula">
@@ -391,13 +384,6 @@
             <div class="radio" id="radio-pix"></div>
             PIX à vista
           </div>
-        </div>
-        <div class="pgto-card" id="card-pix3x" onclick="escolherPgto('pix3x')">
-          <div class="pgto-card-title">
-            <div class="radio" id="radio-pix3x"></div>
-            PIX parcelado em 3x (agendamentos)
-          </div>
-          <div class="pgto-card-obs">É necessário enviar os comprovantes dos agendamentos antes do início do processo.</div>
         </div>
         <div class="pgto-card" id="card-cartao" onclick="escolherPgto('cartao')">
           <div class="pgto-card-title">
@@ -547,10 +533,10 @@ function escolherPsi(val) {
 // ── Pagamento ──────────────────────────────
 function escolherPgto(val) {
   pgtoEscolhido = val;
-  ['pix','pix3x','cartao'].forEach(v => {
+  ['pix','cartao'].forEach(v => {
     document.getElementById('card-' + v).classList.toggle('selected', v === val);
   });
-  const labels = { pix: 'PIX à vista', pix3x: 'PIX parcelado em 3x', cartao: 'Cartão de crédito (até 12x)' };
+  const labels = { pix: 'PIX à vista', cartao: 'Cartão de crédito (parcelado em até 6x)' };
   formData.formaPagamento = labels[val];
   document.getElementById('err-pagamento').style.display = 'none';
 }
