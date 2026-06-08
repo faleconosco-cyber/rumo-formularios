@@ -1,0 +1,492 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iI0ZEREVENSIvPjx0ZXh0IHg9IjUwIiB5PSI0NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlJ1PC90ZXh0Pjx0ZXh0IHg9IjUzIiB5PSI3NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm1vPC90ZXh0Pjwvc3ZnPg==">
+  <title>Rumo – Pesquisa de Satisfação</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --azul:       #3E658E;
+      --azul-dark:  #2e4f72;
+      --laranja:    #FD745D;
+      --laranja-dk: #e05a44;
+      --creme:      #FDDED5;
+      --creme-bg:   #fdf0eb;
+      --verde:      #3B503F;
+      --verde-agua: #91B096;
+      --amarelo:    #FDBB71;
+      --preto:      #282828;
+      --cinza:      #6b7280;
+      --branco:     #FFFFFF;
+      --erro:       #d94040;
+    }
+    body { font-family: 'Montserrat', sans-serif; background: var(--creme-bg); color: var(--preto); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+
+    .header { width: 100%; background: var(--azul); padding: 14px 24px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+    .logo-text { color: var(--branco); font-size: 1.5rem; font-weight: 800; font-style: italic; }
+    .logo-sub { color: var(--creme); font-size: 0.6rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+    .header-step { color: rgba(255,255,255,.65); font-size: 0.78rem; font-weight: 600; margin-left: auto; }
+
+    .progress-wrap { width: 100%; background: rgba(255,255,255,.25); height: 4px; }
+    .progress-bar { height: 4px; background: var(--laranja); transition: width .4s ease; border-radius: 0 2px 2px 0; }
+
+    .container { width: 100%; max-width: 600px; padding: 24px 16px 80px; flex: 1; }
+
+    .step { display: none; animation: fadeUp .35s ease; }
+    .step.active { display: block; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+    .step-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--azul); margin-bottom: 6px; }
+    .step-title { font-size: 1.25rem; font-weight: 700; color: var(--preto); line-height: 1.35; margin-bottom: 6px; }
+    .step-desc { font-size: 0.85rem; color: var(--cinza); margin-bottom: 22px; line-height: 1.6; }
+
+    /* WELCOME */
+    .welcome-card { background: var(--azul); border-radius: 20px; padding: 32px 24px; color: var(--branco); text-align: center; margin-top: 12px; }
+    .welcome-logo { font-size: 2.2rem; font-weight: 800; font-style: italic; margin-bottom: 4px; }
+    .welcome-sub { font-size: 0.6rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--creme); margin-bottom: 20px; }
+    .welcome-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 14px; line-height: 1.4; }
+    .welcome-card p { font-size: 0.84rem; opacity: .88; line-height: 1.65; margin-bottom: 8px; }
+    .welcome-card .assinatura { font-size: 0.82rem; font-style: italic; opacity: .75; margin-top: 16px; border-top: 1px solid rgba(255,255,255,.2); padding-top: 14px; }
+    .welcome-card .time-badge { display: inline-block; background: rgba(255,255,255,.15); border-radius: 20px; padding: 5px 14px; font-size: 0.75rem; font-weight: 600; margin: 14px auto 0; }
+
+    /* INPUTS */
+    .field { margin-bottom: 18px; }
+    .field label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--preto); margin-bottom: 7px; }
+    .field input, .field textarea, .field select {
+      width: 100%; padding: 13px 15px; border: 2px solid #e5d9d4; border-radius: 12px;
+      font-family: 'Montserrat', sans-serif; font-size: 0.9rem; color: var(--preto);
+      background: var(--branco); outline: none; transition: border-color .2s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--azul); box-shadow: 0 0 0 3px rgba(62,101,142,.12); }
+    .field textarea { resize: vertical; min-height: 110px; }
+    .field .error-msg { display: none; font-size: 0.75rem; color: var(--erro); margin-top: 5px; font-weight: 500; }
+    .field.has-error input, .field.has-error textarea, .field.has-error select { border-color: var(--erro); }
+    .field.has-error .error-msg { display: block; }
+
+    /* CHIPS */
+    .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+    .chip { cursor: pointer; padding: 10px 16px; border-radius: 30px; border: 2px solid #e5d9d4; font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--cinza); background: var(--branco); transition: all .2s; user-select: none; }
+    .chip:hover { border-color: var(--azul); color: var(--azul); }
+    .chip.selected { background: var(--azul); border-color: var(--azul); color: var(--branco); }
+    .chip.multi.selected { background: var(--azul); border-color: var(--azul); color: var(--branco); }
+    .chips-label { font-size: 0.8rem; font-weight: 600; color: var(--preto); margin-bottom: 10px; }
+    .chip-error { display: none; font-size: 0.75rem; color: var(--erro); font-weight: 500; margin-top: 6px; }
+
+    /* NPS */
+    .nps-wrap { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 6px; }
+    .nps-btn { width: 44px; height: 44px; border-radius: 10px; border: 2px solid #e5d9d4; background: var(--branco); font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--cinza); cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; }
+    .nps-btn:hover { border-color: var(--azul); color: var(--azul); }
+    .nps-btn.selected { background: var(--azul); border-color: var(--azul); color: var(--branco); }
+    .nps-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--cinza); margin-top: 4px; }
+
+    /* OUTRO FIELD */
+    .outro-field { display: none; margin-top: 10px; }
+    .outro-field.visible { display: block; }
+
+    /* CHECKBOXES */
+    .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; background: var(--branco); border-radius: 12px; border: 2px solid #e5d9d4; margin-bottom: 10px; cursor: pointer; transition: border-color .2s; }
+    .check-item:hover { border-color: var(--azul); }
+    .check-item.checked { border-color: var(--azul); background: rgba(62,101,142,.05); }
+    .check-box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #e5d9d4; background: var(--branco); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .2s; margin-top: 1px; }
+    .check-item.checked .check-box { background: var(--azul); border-color: var(--azul); }
+    .check-box::after { content: '✓'; color: var(--branco); font-size: 0.8rem; font-weight: 700; display: none; }
+    .check-item.checked .check-box::after { display: block; }
+    .check-text { font-size: 0.85rem; line-height: 1.5; color: var(--preto); }
+
+    /* BUTTONS */
+    .btn-row { display: flex; gap: 10px; margin-top: 28px; }
+    .btn { flex: 1; padding: 15px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; border: none; transition: all .2s; }
+    .btn-primary { background: var(--azul); color: var(--branco); }
+    .btn-primary:hover { background: var(--azul-dark); }
+    .btn-primary:active { transform: scale(.98); }
+    .btn-secondary { background: transparent; color: var(--azul); border: 2px solid var(--azul); flex: 0 0 auto; padding: 15px 20px; }
+    .btn-secondary:hover { background: rgba(62,101,142,.07); }
+    .btn.loading .btn-label { display: none; }
+    .btn.loading .spinner { display: inline-block; }
+    .spinner { display: none; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* SUCCESS */
+    .success-icon { width: 72px; height: 72px; border-radius: 50%; background: var(--verde-agua); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--branco); margin: 24px auto 16px; }
+    .success-title { text-align: center; font-size: 1.3rem; font-weight: 800; margin-bottom: 10px; }
+    .success-desc { text-align: center; font-size: 0.87rem; color: var(--cinza); line-height: 1.7; margin-bottom: 28px; }
+
+    .google-btn { display: flex; align-items: center; justify-content: center; gap: 12px; background: var(--branco); border: 2px solid #e5d9d4; border-radius: 14px; padding: 16px 20px; text-decoration: none; font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; color: var(--preto); transition: all .2s; box-shadow: 0 2px 12px rgba(0,0,0,.08); margin-bottom: 12px; }
+    .google-btn:hover { border-color: var(--azul); box-shadow: 0 4px 20px rgba(62,101,142,.15); transform: translateY(-1px); }
+    .google-stars { color: #FBBC04; font-size: 1.2rem; letter-spacing: 2px; }
+
+    .success-card { background: var(--azul); border-radius: 16px; padding: 20px; color: var(--branco); margin-top: 8px; text-align: center; }
+    .success-card p { font-size: 0.84rem; opacity: .85; line-height: 1.7; font-style: italic; }
+    .success-card .nome { font-size: 0.78rem; font-weight: 700; opacity: .65; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+
+    .footer { font-size: 0.72rem; color: var(--cinza); text-align: center; margin-top: 20px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="logo-text">Rumo</div>
+    <div class="logo-sub">Orientação Profissional</div>
+  </div>
+  <div class="header-step" id="header-step"></div>
+</div>
+<div class="progress-wrap">
+  <div class="progress-bar" id="progressBar" style="width:0%"></div>
+</div>
+
+<div class="container">
+
+  <!-- BOAS-VINDAS -->
+  <div class="step active" id="step-0">
+    <div class="welcome-card">
+      <div class="welcome-logo">Rumo</div>
+      <div class="welcome-sub">Orientação Profissional</div>
+      <h2>Pesquisa de Satisfação</h2>
+      <p>Agradeço por dedicar um momento para responder a esta pesquisa. A sua opinião é muito importante para que eu possa aprimorar continuamente o processo de Orientação Profissional.</p>
+      <p>Este formulário foi pensado para ouvir sua experiência como responsável: o que trouxe tranquilidade, o que fez diferença na rotina do seu filho(a) e como você percebeu a evolução ao longo do processo.</p>
+      <p>Suas respostas podem inspirar outras famílias que estão vivendo o mesmo momento de dúvidas e decisões importantes.</p>
+      <div class="assinatura">Com carinho,<br><strong>Cláudia — Instituto Rumo de Psicologia e Orientação</strong><br><br>Obrigada por confiar no meu trabalho e por fazer parte dessa jornada de construção de futuro.</div>
+      <div class="time-badge">⏱ Cerca de 3 minutos</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="goTo(1)">Responder agora →</button>
+    </div>
+  </div>
+
+  <!-- STEP 1 – IDENTIFICAÇÃO -->
+  <div class="step" id="step-1">
+    <div class="step-label">Parte 1 de 6</div>
+    <div class="step-title">Identificação</div>
+    <div class="step-desc">Precisamos de algumas informações para registrar sua avaliação.</div>
+
+    <div class="field" id="f-nomeResponsavel">
+      <label>Seu nome completo *</label>
+      <input type="text" id="nomeResponsavel" placeholder="Ex: Maria Silva">
+      <div class="error-msg">Por favor, insira seu nome.</div>
+    </div>
+
+    <div class="field" id="f-nomeFilho">
+      <label>Nome do seu filho(a) *</label>
+      <input type="text" id="nomeFilho" placeholder="Ex: João Silva">
+      <div class="error-msg">Por favor, insira o nome do seu filho(a).</div>
+    </div>
+
+    <div style="margin-bottom:18px">
+      <div class="chips-label">Psicóloga que realizou a Orientação Profissional *</div>
+      <div class="chips" id="chips-psicologa">
+        <div class="chip" data-val="Cláudia Botelho">Cláudia Botelho</div>
+        <div class="chip" data-val="Outra psicóloga do time">Outra psicóloga do time</div>
+      </div>
+      <div class="chip-error" id="err-psicologa">Por favor, selecione a psicóloga.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(0)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(1)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 – RECOMENDAÇÃO (NPS) -->
+  <div class="step" id="step-2">
+    <div class="step-label">Parte 2 de 6</div>
+    <div class="step-title">Recomendação</div>
+    <div class="step-desc">De 0 a 10, o quanto você recomendaria o processo de Orientação Profissional para outros pais?</div>
+
+    <div class="nps-wrap" id="nps-wrap">
+      <button class="nps-btn" onclick="selecionarNPS(0)">0</button>
+      <button class="nps-btn" onclick="selecionarNPS(1)">1</button>
+      <button class="nps-btn" onclick="selecionarNPS(2)">2</button>
+      <button class="nps-btn" onclick="selecionarNPS(3)">3</button>
+      <button class="nps-btn" onclick="selecionarNPS(4)">4</button>
+      <button class="nps-btn" onclick="selecionarNPS(5)">5</button>
+      <button class="nps-btn" onclick="selecionarNPS(6)">6</button>
+      <button class="nps-btn" onclick="selecionarNPS(7)">7</button>
+      <button class="nps-btn" onclick="selecionarNPS(8)">8</button>
+      <button class="nps-btn" onclick="selecionarNPS(9)">9</button>
+      <button class="nps-btn" onclick="selecionarNPS(10)">10</button>
+    </div>
+    <div class="nps-labels">
+      <span>Não recomendaria</span>
+      <span>Recomendaria muito</span>
+    </div>
+    <div class="chip-error" id="err-nps" style="margin-top:8px">Por favor, selecione uma nota.</div>
+
+    <div class="btn-row" style="margin-top:28px">
+      <button class="btn btn-secondary" onclick="goTo(1)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(2)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 – EVOLUÇÃO E ENGAJAMENTO -->
+  <div class="step" id="step-3">
+    <div class="step-label">Parte 3 de 6</div>
+    <div class="step-title">Evolução e engajamento</div>
+    <div class="step-desc">Como você percebeu seu filho(a) ao longo do processo?</div>
+
+    <div style="margin-bottom:22px">
+      <div class="chips-label">Como você avalia a evolução do seu filho(a) ao longo do processo? *</div>
+      <div class="chips" id="chips-evolucao">
+        <div class="chip" data-val="Muito grande">Muito grande</div>
+        <div class="chip" data-val="Grande">Grande</div>
+        <div class="chip" data-val="Moderada">Moderada</div>
+        <div class="chip" data-val="Pequena">Pequena</div>
+        <div class="chip" data-val="Não percebi mudança">Não percebi mudança</div>
+      </div>
+      <div class="chip-error" id="err-evolucao">Por favor, selecione uma opção.</div>
+    </div>
+
+    <div style="margin-bottom:22px">
+      <div class="chips-label">Como você percebeu o engajamento do seu filho(a) durante o processo? *</div>
+      <div class="chips" id="chips-engajamento">
+        <div class="chip" data-val="Muito engajado(a)">Muito engajado(a)</div>
+        <div class="chip" data-val="Engajado(a)">Engajado(a)</div>
+        <div class="chip" data-val="Oscilante">Oscilante</div>
+        <div class="chip" data-val="Pouco engajado(a)">Pouco engajado(a)</div>
+      </div>
+      <div class="chip-error" id="err-engajamento">Por favor, selecione uma opção.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(2)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(3)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 – FRASE -->
+  <div class="step" id="step-4">
+    <div class="step-label">Parte 4 de 6</div>
+    <div class="step-title">Em suas próprias palavras</div>
+    <div class="step-desc">Sua resposta pode inspirar outras famílias.</div>
+
+    <div class="field" id="f-frase">
+      <label>Se você pudesse resumir em uma frase o que representou esse acompanhamento para a sua família, qual seria? *</label>
+      <textarea id="frase" placeholder="Ex: Foi o processo que meu filho precisava para ganhar clareza e confiança na escolha..."></textarea>
+      <div class="error-msg">Por favor, escreva sua resposta.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(3)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(4)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5 – O QUE O PROCESSO TROUXE -->
+  <div class="step" id="step-5">
+    <div class="step-label">Parte 5 de 6</div>
+    <div class="step-title">O que o processo trouxe</div>
+    <div class="step-desc">Selecione quantas opções quiser.</div>
+
+    <div style="margin-bottom:18px">
+      <div class="chips-label">O que o processo de Orientação Profissional trouxe para o seu filho(a)? *</div>
+      <div class="chips" id="chips-resultados">
+        <div class="chip multi" data-val="Organizar as ideias sobre o futuro">Organizar as ideias sobre o futuro</div>
+        <div class="chip multi" data-val="Reduzir a ansiedade sobre a escolha">Reduzir a ansiedade sobre a escolha</div>
+        <div class="chip multi" data-val="Ganhar autoconfiança">Ganhar autoconfiança</div>
+        <div class="chip multi" data-val="Explorar áreas profissionais variadas">Explorar áreas profissionais variadas</div>
+        <div class="chip multi" data-val="Conversar melhor sobre carreira">Conversar melhor sobre carreira</div>
+        <div class="chip multi" data-val="Desenvolver autonomia e responsabilidade">Desenvolver autonomia e responsabilidade</div>
+        <div class="chip multi" data-val="Ampliar o autoconhecimento">Ampliar o autoconhecimento</div>
+        <div class="chip multi" data-val="Outro">Outro</div>
+      </div>
+      <div class="chip-error" id="err-resultados">Por favor, selecione ao menos uma opção.</div>
+    </div>
+
+    <div class="outro-field" id="outro-resultado-field">
+      <div class="field">
+        <label>Qual outro resultado você percebeu?</label>
+        <input type="text" id="outroResultado" placeholder="Descreva aqui...">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(4)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(5)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 6 – AUTORIZAÇÃO -->
+  <div class="step" id="step-6">
+    <div class="step-label">Parte 6 de 6</div>
+    <div class="step-title">Autorização de uso</div>
+    <div class="step-desc">Última pergunta!</div>
+
+    <div style="margin-bottom:18px">
+      <div class="chips-label">Você autoriza o uso das suas respostas em materiais de divulgação do serviço de orientação profissional? *</div>
+      <div class="chips" id="chips-autorizacao">
+        <div class="chip" data-val="Sim, autorizo">Sim, autorizo</div>
+        <div class="chip" data-val="Não autorizo">Não autorizo</div>
+      </div>
+      <div class="chip-error" id="err-autorizacao">Por favor, selecione uma opção.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(5)">← Voltar</button>
+      <button class="btn btn-primary" id="btnEnviar" onclick="enviarFormulario()">
+        <span class="btn-label">Enviar pesquisa ✓</span>
+        <span class="spinner"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SUCESSO -->
+  <div class="step" id="step-sucesso">
+    <div class="success-icon">🌱</div>
+    <div class="success-title">Muito obrigada!</div>
+    <p class="success-desc">Sua avaliação foi registrada com sucesso, <strong id="nome-final"></strong>.<br><br>Ela é muito importante para que eu possa continuar aprimorando o trabalho e ajudando cada vez mais famílias a encontrarem o caminho.</p>
+
+    <a href="https://g.page/r/CfUPgDBh8u_IEBM/review" target="_blank" class="google-btn">
+      <div>
+        <div class="google-stars">★★★★★</div>
+        <div style="font-size:0.88rem;font-weight:700;margin-top:2px">Deixar avaliação no Google</div>
+        <div style="font-size:0.75rem;color:var(--cinza);font-weight:500;margin-top:2px">Sua opinião ajuda outras famílias a nos encontrar</div>
+      </div>
+      <div style="font-size:1.8rem;margin-left:auto">→</div>
+    </a>
+
+    <div class="success-card">
+      <p>"O caminho entre a dúvida e a descoberta."</p>
+      <div class="nome">Rumo Orientação Profissional</div>
+    </div>
+
+    <p class="footer" style="margin-top:20px">Instituto Rumo · Cláudia Botelho · CRP 05/73536</p>
+  </div>
+
+</div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxze9Xvy7_RMPtpSFCXzdx31KTzsYZyabFqkM4oE8DzTKsaAJBao4o1b0rbBJU_L0Ll/exec';
+
+const formData = {};
+const TOTAL_STEPS = 6;
+let npsValue = null;
+
+// ── Progresso ─────────────────────────────
+function updateProgress(step) {
+  const pct = step === 'sucesso' ? 100 : Math.round((step / TOTAL_STEPS) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('header-step').textContent = (step === 0 || step === 'sucesso') ? '' : step + ' / ' + TOTAL_STEPS;
+}
+
+function goTo(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const id = n === 'sucesso' ? 'step-sucesso' : 'step-' + n;
+  document.getElementById(id).classList.add('active');
+  updateProgress(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Chips simples ─────────────────────────
+['psicologa','evolucao','engajamento','autorizacao'].forEach(id => {
+  document.getElementById('chips-' + id).querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.getElementById('chips-' + id).querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      document.getElementById('err-' + id).style.display = 'none';
+    });
+  });
+});
+
+// ── Chips multi ───────────────────────────
+document.getElementById('chips-resultados').querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    chip.classList.toggle('selected');
+    document.getElementById('err-resultados').style.display = 'none';
+    const temOutro = [...document.getElementById('chips-resultados').querySelectorAll('.chip.selected')].some(c => c.dataset.val === 'Outro');
+    document.getElementById('outro-resultado-field').classList.toggle('visible', temOutro);
+  });
+});
+
+function getChipVal(id) {
+  const g = document.getElementById('chips-' + id);
+  const sel = [...g.querySelectorAll('.chip.selected')];
+  const isMulti = g.querySelector('.chip.multi') !== null;
+  if (isMulti) return sel.map(c => c.dataset.val).join(', ');
+  return sel[0]?.dataset.val || '';
+}
+
+// ── NPS ───────────────────────────────────
+function selecionarNPS(val) {
+  npsValue = val;
+  document.querySelectorAll('.nps-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === val);
+  });
+  document.getElementById('err-nps').style.display = 'none';
+}
+
+// ── Validação ─────────────────────────────
+function validate(step) {
+  let ok = true;
+  if (step === 1) {
+    if (!document.getElementById('nomeResponsavel').value.trim()) { document.getElementById('f-nomeResponsavel').classList.add('has-error'); ok = false; } else { document.getElementById('f-nomeResponsavel').classList.remove('has-error'); }
+    if (!document.getElementById('nomeFilho').value.trim()) { document.getElementById('f-nomeFilho').classList.add('has-error'); ok = false; } else { document.getElementById('f-nomeFilho').classList.remove('has-error'); }
+    if (!getChipVal('psicologa')) { document.getElementById('err-psicologa').style.display = 'block'; ok = false; }
+  }
+  if (step === 2) {
+    if (npsValue === null) { document.getElementById('err-nps').style.display = 'block'; ok = false; }
+  }
+  if (step === 3) {
+    if (!getChipVal('evolucao')) { document.getElementById('err-evolucao').style.display = 'block'; ok = false; }
+    if (!getChipVal('engajamento')) { document.getElementById('err-engajamento').style.display = 'block'; ok = false; }
+  }
+  if (step === 4) {
+    if (!document.getElementById('frase').value.trim()) { document.getElementById('f-frase').classList.add('has-error'); ok = false; } else { document.getElementById('f-frase').classList.remove('has-error'); }
+  }
+  if (step === 5) {
+    const selecionados = [...document.getElementById('chips-resultados').querySelectorAll('.chip.selected')];
+    if (selecionados.length === 0) { document.getElementById('err-resultados').style.display = 'block'; ok = false; }
+  }
+  if (step === 6) {
+    if (!getChipVal('autorizacao')) { document.getElementById('err-autorizacao').style.display = 'block'; ok = false; }
+  }
+  return ok;
+}
+
+// ── Próximo passo ─────────────────────────
+function nextStep(current) {
+  if (!validate(current)) return;
+  // coleta dados
+  if (current === 1) {
+    formData.nomeResponsavel = document.getElementById('nomeResponsavel').value.trim();
+    formData.nomeFilho       = document.getElementById('nomeFilho').value.trim();
+    formData.psicologa       = getChipVal('psicologa');
+  }
+  if (current === 2) { formData.nps = npsValue; }
+  if (current === 3) {
+    formData.evolucao    = getChipVal('evolucao');
+    formData.engajamento = getChipVal('engajamento');
+  }
+  if (current === 4) { formData.frase = document.getElementById('frase').value.trim(); }
+  if (current === 5) {
+    let resultados = getChipVal('resultados');
+    const outro = document.getElementById('outroResultado').value.trim();
+    if (outro) resultados = resultados.replace('Outro', 'Outro: ' + outro);
+    formData.resultados = resultados;
+  }
+  goTo(current + 1);
+}
+
+// ── Envio ─────────────────────────────────
+async function enviarFormulario() {
+  if (!validate(6)) return;
+  const btn = document.getElementById('btnEnviar');
+  btn.classList.add('loading'); btn.disabled = true;
+  formData.autorizacao = getChipVal('autorizacao');
+  formData.dataEnvio   = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+  try {
+    const url = APPS_SCRIPT_URL + '?payload=' + encodeURIComponent(JSON.stringify(formData));
+    await fetch(url, { method: 'GET', mode: 'no-cors' });
+    document.getElementById('nome-final').textContent = formData.nomeResponsavel.split(' ')[0];
+    goTo('sucesso');
+  } catch (err) {
+    alert('Ops! Erro ao enviar. Tente novamente.');
+    btn.classList.remove('loading'); btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>

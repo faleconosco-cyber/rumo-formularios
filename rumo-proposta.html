@@ -1,0 +1,520 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iI0ZEREVENSIvPjx0ZXh0IHg9IjUwIiB5PSI0NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlJ1PC90ZXh0Pjx0ZXh0IHg9IjUzIiB5PSI3NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm1vPC90ZXh0Pjwvc3ZnPg==">
+  <title>Rumo – Proposta de Orientação Profissional</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --azul:       #3E658E;
+      --azul-dark:  #2e4f72;
+      --laranja:    #FD745D;
+      --creme:      #FDDED5;
+      --creme-bg:   #fdf0eb;
+      --verde:      #3B503F;
+      --verde-agua: #91B096;
+      --amarelo:    #FDBB71;
+      --preto:      #282828;
+      --cinza:      #6b7280;
+      --branco:     #FFFFFF;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--branco); color: var(--preto); }
+
+    /* ── HEADER ── */
+    .header { background: var(--azul); padding: 14px 24px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.2); }
+    .logo-text { color: var(--branco); font-size: 1.5rem; font-weight: 800; font-style: italic; }
+    .logo-sub { color: var(--creme); font-size: 0.6rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+    .header-cta { margin-left: auto; background: var(--laranja); color: var(--branco); border: none; border-radius: 30px; padding: 9px 18px; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: background .2s; }
+    .header-cta:hover { background: #e05a44; }
+
+    /* ── HERO ── */
+    .hero { background: var(--verde); padding: 64px 24px 56px; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(253,221,213,.15); border: 1px solid rgba(253,221,213,.3); border-radius: 30px; padding: 5px 16px; font-size: 0.72rem; font-weight: 700; color: var(--creme); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; color: var(--branco); line-height: 1.2; margin-bottom: 10px; }
+    .hero h1 em { color: var(--amarelo); font-style: italic; }
+    .hero-sub { font-size: 1rem; color: rgba(255,255,255,.75); max-width: 520px; margin: 0 auto 32px; line-height: 1.6; }
+    .hero-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 36px; }
+    .hero-tag { background: rgba(255,255,255,.12); border-radius: 20px; padding: 6px 14px; font-size: 0.78rem; font-weight: 600; color: var(--branco); }
+    .hero-btn { display: inline-block; background: #25D366; color: var(--branco); border-radius: 14px; padding: 16px 32px; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; text-decoration: none; transition: background .2s; box-shadow: 0 4px 20px rgba(37,211,102,.35); }
+    .hero-btn:hover { background: #1da851; }
+    .hero-btn span { margin-right: 8px; }
+
+    /* ── SECTIONS ── */
+    section { padding: 56px 24px; }
+    .section-inner { max-width: 700px; margin: 0 auto; }
+    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--laranja); margin-bottom: 8px; }
+    .section-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; color: var(--preto); line-height: 1.25; margin-bottom: 8px; }
+    .section-title em { color: var(--laranja); font-style: italic; }
+    .section-title.white { color: var(--branco); }
+    .section-title.white em { color: var(--amarelo); }
+    .section-desc { font-size: 0.9rem; color: var(--cinza); line-height: 1.7; margin-bottom: 28px; }
+    .section-desc.white { color: rgba(255,255,255,.8); }
+
+    /* ── ABOUT ── */
+    .about { background: var(--creme-bg); }
+    .about-text { font-size: 0.92rem; line-height: 1.8; color: var(--preto); margin-bottom: 14px; }
+    .about-text strong { color: var(--azul); }
+    .destaque-box { background: var(--branco); border-left: 4px solid var(--laranja); border-radius: 0 12px 12px 0; padding: 14px 18px; margin-top: 20px; }
+    .destaque-label { font-size: 0.7rem; font-weight: 700; color: var(--laranja); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
+    .destaque-text { font-size: 0.88rem; line-height: 1.6; color: var(--preto); }
+
+    /* ── METODOLOGIA OVERVIEW ── */
+    .metod-section { background: var(--verde); }
+    .rumo-pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px; }
+    @media (max-width: 500px) { .rumo-pillars { grid-template-columns: 1fr; } }
+    .pillar-card { background: rgba(255,255,255,.1); border-radius: 14px; padding: 18px; border: 1px solid rgba(255,255,255,.15); }
+    .pillar-letter { width: 38px; height: 38px; border-radius: 50%; background: var(--amarelo); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; color: var(--verde); margin-bottom: 10px; }
+    .pillar-title { font-size: 0.95rem; font-weight: 700; color: var(--branco); margin-bottom: 4px; }
+    .pillar-desc { font-size: 0.8rem; color: rgba(255,255,255,.7); line-height: 1.5; }
+
+    /* ── DETALHES DA METODOLOGIA ── */
+    .metod-detail { background: var(--branco); }
+    .etapa-card { background: var(--creme-bg); border-radius: 16px; padding: 22px; margin-bottom: 16px; border: 1px solid #f0e0d8; }
+    .etapa-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .etapa-letter { width: 44px; height: 44px; border-radius: 50%; background: var(--azul); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 800; color: var(--branco); flex-shrink: 0; }
+    .etapa-info h3 { font-size: 1rem; font-weight: 700; color: var(--preto); }
+    .etapa-info .encontros { font-size: 0.75rem; color: var(--cinza); font-weight: 600; margin-top: 2px; }
+    .etapa-body { font-size: 0.85rem; line-height: 1.7; color: var(--cinza); margin-bottom: 10px; }
+    .etapa-lista { list-style: none; padding: 0; }
+    .etapa-lista li { font-size: 0.83rem; color: var(--preto); padding: 4px 0 4px 20px; position: relative; line-height: 1.5; }
+    .etapa-lista li::before { content: '→'; position: absolute; left: 0; color: var(--laranja); font-weight: 700; }
+    .etapa-objetivo { font-size: 0.8rem; font-style: italic; color: var(--azul); margin-top: 10px; padding: 8px 12px; background: rgba(62,101,142,.07); border-radius: 8px; }
+
+    /* ── PARA QUEM ── */
+    .paraquem { background: var(--azul); }
+    .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px; }
+    @media (max-width: 560px) { .cols-2 { grid-template-columns: 1fr; } }
+    .lista-card { background: rgba(255,255,255,.1); border-radius: 14px; padding: 20px; border: 1px solid rgba(255,255,255,.15); }
+    .lista-card h4 { font-size: 0.82rem; font-weight: 700; color: var(--creme); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+    .lista-card ul { list-style: none; padding: 0; }
+    .lista-card ul li { font-size: 0.83rem; color: rgba(255,255,255,.85); padding: 5px 0 5px 18px; position: relative; line-height: 1.5; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .lista-card ul li:last-child { border-bottom: none; }
+    .lista-card ul li::before { content: '•'; position: absolute; left: 0; color: var(--amarelo); font-weight: 700; }
+
+    /* ── FAQ ── */
+    .faq { background: var(--creme-bg); }
+    .faq-item { background: var(--branco); border-radius: 12px; padding: 18px 20px; margin-bottom: 10px; border: 1px solid #f0e0d8; }
+    .faq-pergunta { font-size: 0.88rem; font-weight: 700; color: var(--azul); margin-bottom: 8px; }
+    .faq-resposta { font-size: 0.84rem; color: var(--cinza); line-height: 1.7; }
+
+    /* ── PLATAFORMA ── */
+    .plataforma { background: var(--verde); }
+    .plat-items { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+    .plat-item { display: flex; align-items: flex-start; gap: 14px; background: rgba(255,255,255,.1); border-radius: 12px; padding: 14px 16px; }
+    .plat-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .plat-text { font-size: 0.85rem; color: rgba(255,255,255,.85); line-height: 1.6; }
+    .plat-text strong { color: var(--branco); }
+    .req-box { background: rgba(253,187,113,.15); border: 1px solid rgba(253,187,113,.3); border-radius: 12px; padding: 14px 16px; margin-top: 16px; }
+    .req-label { font-size: 0.7rem; font-weight: 700; color: var(--amarelo); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
+    .req-text { font-size: 0.83rem; color: rgba(255,255,255,.85); line-height: 1.6; }
+
+    /* ── INVESTIMENTO ── */
+    .invest { background: var(--branco); }
+    .invest-intro { font-size: 0.9rem; color: var(--cinza); text-align: center; margin-bottom: 28px; line-height: 1.6; }
+    .invest-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 560px) { .invest-cards { grid-template-columns: 1fr; } }
+    .invest-card { border-radius: 18px; padding: 24px; border: 2px solid #e5d9d4; }
+    .invest-card.destaque { border-color: var(--laranja); background: linear-gradient(135deg, #fff5f3, #fff); }
+    .invest-tag { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--cinza); margin-bottom: 12px; }
+    .invest-card.destaque .invest-tag { color: var(--laranja); }
+    .invest-card h3 { font-size: 1rem; font-weight: 800; color: var(--preto); margin-bottom: 6px; line-height: 1.3; }
+    .invest-card p { font-size: 0.82rem; color: var(--cinza); line-height: 1.6; margin-bottom: 16px; }
+    .invest-valor { text-align: center; margin: 16px 0; }
+    .invest-valor .label { font-size: 0.75rem; color: var(--cinza); margin-bottom: 2px; }
+    .invest-valor .valor { font-size: 2rem; font-weight: 800; color: var(--azul); line-height: 1; }
+    .invest-card.destaque .invest-valor .valor { color: var(--laranja); }
+    .invest-valor .parcel { font-size: 0.75rem; color: var(--cinza); font-style: italic; margin-top: 4px; }
+    .invest-lista { list-style: none; padding: 0; margin-top: 14px; }
+    .invest-lista li { font-size: 0.8rem; color: var(--preto); padding: 5px 0 5px 18px; position: relative; border-bottom: 1px solid #f0e0d8; }
+    .invest-lista li:last-child { border-bottom: none; }
+    .invest-lista li::before { content: '✓'; position: absolute; left: 0; color: var(--verde-agua); font-weight: 700; }
+    .invest-nota { text-align: center; font-size: 0.8rem; color: var(--cinza); font-style: italic; margin-top: 20px; padding: 14px; background: var(--creme-bg); border-radius: 10px; }
+    .invest-pgto { background: var(--creme-bg); border-radius: 10px; padding: 12px 14px; margin: 14px 0 6px; }
+    .invest-pgto .pgto-linha { font-size: 0.82rem; color: var(--preto); padding: 4px 0; display: flex; align-items: center; gap: 6px; }
+    .invest-pgto .pgto-linha strong { color: var(--azul); }
+    .invest-card.destaque .invest-pgto { background: rgba(253,116,93,.07); }
+    .invest-card.destaque .invest-pgto .pgto-linha strong { color: var(--laranja); }
+    .btn-pgto { display: block; text-align: center; background: var(--azul); color: var(--branco); border-radius: 10px; padding: 12px 16px; font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; text-decoration: none; margin-top: 14px; transition: background .2s; }
+    .btn-pgto:hover { background: var(--azul-dark); }
+    .invest-card.destaque .btn-pgto { background: var(--laranja); }
+    .invest-card.destaque .btn-pgto:hover { background: #e05a44; }
+    .validade-badge { display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(62,101,142,.07); border: 1px solid rgba(62,101,142,.15); border-radius: 10px; padding: 12px 16px; margin-top: 20px; font-size: 0.82rem; color: var(--azul); font-weight: 600; }
+
+    /* ── DEPOIMENTOS ── */
+    .depos { background: var(--creme-bg); }
+    .depo-card { background: var(--branco); border-radius: 14px; padding: 20px; margin-bottom: 14px; border: 1px solid #f0e0d8; position: relative; }
+    .depo-card::before { content: '"'; font-size: 3rem; color: var(--creme); font-family: Georgia, serif; position: absolute; top: 8px; left: 16px; line-height: 1; }
+    .depo-text { font-size: 0.87rem; line-height: 1.7; color: var(--preto); padding-left: 24px; margin-bottom: 12px; }
+    .depo-autor { font-size: 0.78rem; font-weight: 700; color: var(--azul); padding-left: 24px; }
+
+    /* ── CTA FINAL ── */
+    .cta-final { background: var(--azul); text-align: center; padding: 64px 24px; }
+    .cta-final h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; color: var(--branco); line-height: 1.3; margin-bottom: 10px; }
+    .cta-final h2 em { color: var(--amarelo); font-style: italic; }
+    .cta-final p { font-size: 0.9rem; color: rgba(255,255,255,.75); margin-bottom: 32px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+    .cta-btn { display: inline-block; background: #25D366; color: var(--branco); border-radius: 14px; padding: 18px 40px; font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 700; text-decoration: none; transition: background .2s; box-shadow: 0 4px 24px rgba(37,211,102,.4); }
+    .cta-btn:hover { background: #1da851; }
+    .contato-info { margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+    .contato-item { font-size: 0.8rem; color: rgba(255,255,255,.65); }
+    .contato-item strong { color: rgba(255,255,255,.9); }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--verde); padding: 20px 24px; text-align: center; }
+    .footer p { font-size: 0.75rem; color: rgba(255,255,255,.5); line-height: 1.7; }
+    .footer em { color: rgba(253,187,113,.7); font-style: italic; }
+
+    /* ── WHATSAPP FLUTUANTE ── */
+    .whatsapp-float { position: fixed; bottom: 24px; right: 24px; z-index: 999; }
+    .whatsapp-float a { display: flex; align-items: center; gap: 10px; background: #25D366; color: var(--branco); border-radius: 50px; padding: 14px 20px; text-decoration: none; font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 700; box-shadow: 0 4px 20px rgba(37,211,102,.5); transition: all .25s; }
+    .whatsapp-float a:hover { background: #1da851; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,.5); }
+    .whatsapp-float svg { width: 22px; height: 22px; flex-shrink: 0; }
+    @media (max-width: 480px) { .whatsapp-float a .wpp-label { display: none; } .whatsapp-float a { border-radius: 50%; padding: 14px; } }
+
+    /* divider */
+    .divider { height: 4px; background: linear-gradient(90deg, var(--laranja), var(--amarelo)); }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div>
+    <div class="logo-text">Rumo</div>
+    <div class="logo-sub">Orientação Profissional</div>
+  </div>
+  <a href="https://wa.me/5521990625330?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20o%20processo%20de%20Orienta%C3%A7%C3%A3o%20Profissional%20do%20Instituto%20Rumo." target="_blank" class="header-cta">Falar no WhatsApp</a>
+</header>
+<div class="divider"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Instituto Rumo · Orientação Profissional</div>
+  <h1>O caminho entre a dúvida<br>e a <em>descoberta</em></h1>
+  <p class="hero-sub">Processo de Orientação Profissional para adolescentes — conduzido em plataforma digital própria, com método exclusivo.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">🧭 Metodologia exclusiva RUMO</span>
+    <span class="hero-tag">💻 Plataforma digital própria</span>
+    <span class="hero-tag">👤 Atendimento individual</span>
+    <span class="hero-tag">📍 Online ou presencial</span>
+  </div>
+  <a href="https://wa.me/5521990625330?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20o%20processo%20de%20Orienta%C3%A7%C3%A3o%20Profissional%20do%20Instituto%20Rumo." target="_blank" class="hero-btn">
+    <span>💬</span> Quero iniciar o processo
+  </a>
+</section>
+
+<!-- SOBRE -->
+<section class="about">
+  <div class="section-inner">
+    <div class="section-label">Quem somos</div>
+    <h2 class="section-title">Somos o <em>Instituto Rumo</em></h2>
+    <p class="about-text">O <strong>Instituto Rumo</strong> oferece processos de <strong>Orientação Profissional</strong> voltados a adolescentes e jovens em fase de escolha de curso ou profissão, que desejam tomar essa decisão com mais <strong>clareza, segurança e consciência</strong>.</p>
+    <p class="about-text">A Orientação Profissional não tem como objetivo decidir pelo jovem, mas ajudá-lo a compreender quem ele é, quais são suas possibilidades reais e como transformar essas informações em uma escolha responsável, considerando tanto seus interesses quanto a realidade do mundo do trabalho.</p>
+    <div class="destaque-box">
+      <div class="destaque-label">🚀 Plataforma digital própria</div>
+      <div class="destaque-text">Somos a <strong>primeira iniciativa em orientação profissional digital</strong>: toda a jornada é realizada em nossa plataforma exclusiva, onde o adolescente acessa com login e senha, acompanhando seu progresso em tempo real.</div>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGIA – VISÃO GERAL -->
+<section class="metod-section">
+  <div class="section-inner">
+    <div class="section-label" style="color:var(--amarelo)">Nossa abordagem</div>
+    <h2 class="section-title white">Metodologia <em>RUMO</em></h2>
+    <p class="section-desc white">Uma abordagem estruturada e exclusiva, desenvolvida com base na psicologia clínica e na prática com adolescentes. Organizada em 4 pilares fundamentais.</p>
+    <div class="rumo-pillars">
+      <div class="pillar-card">
+        <div class="pillar-letter">R</div>
+        <div class="pillar-title">Reconhecimento</div>
+        <div class="pillar-desc">Autoconhecimento: interesses, habilidades e valores pessoais</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-letter">U</div>
+        <div class="pillar-title">Ultrapassar</div>
+        <div class="pillar-desc">Medos, crenças limitantes e pressões externas</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-letter">M</div>
+        <div class="pillar-title">Mapear</div>
+        <div class="pillar-desc">Profissões, formações e realidade do mercado de trabalho</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-letter">O</div>
+        <div class="pillar-title">Organizar</div>
+        <div class="pillar-desc">Síntese, comparação de opções e decisão fundamentada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGIA – DETALHES -->
+<section class="metod-detail">
+  <div class="section-inner">
+    <div class="section-label">4 pilares para uma escolha consciente</div>
+    <h2 class="section-title">Como funciona <em>cada etapa</em></h2>
+
+    <div class="etapa-card">
+      <div class="etapa-header">
+        <div class="etapa-letter">R</div>
+        <div class="etapa-info">
+          <h3>Reconhecimento</h3>
+          <div class="encontros">2 encontros</div>
+        </div>
+      </div>
+      <p class="etapa-body">O foco é o autoconhecimento. O adolescente é convidado a reconhecer:</p>
+      <ul class="etapa-lista">
+        <li>Seus interesses</li>
+        <li>Suas habilidades</li>
+        <li>Seus valores pessoais</li>
+        <li>Aspectos da sua história que influenciam suas escolhas</li>
+      </ul>
+      <div class="etapa-objetivo">Objetivo: ampliar a consciência sobre quem ele é, criando uma base sólida para as etapas seguintes.</div>
+    </div>
+
+    <div class="etapa-card">
+      <div class="etapa-header">
+        <div class="etapa-letter">U</div>
+        <div class="etapa-info">
+          <h3>Ultrapassar</h3>
+          <div class="encontros">1 encontro</div>
+        </div>
+      </div>
+      <p class="etapa-body">Trabalhamos os medos, crenças e preconceitos que podem interferir na escolha:</p>
+      <ul class="etapa-lista">
+        <li>Medo de errar</li>
+        <li>Pressão externa</li>
+        <li>Ideias limitantes sobre sucesso, dinheiro ou status</li>
+        <li>Expectativas familiares ou sociais</li>
+      </ul>
+      <div class="etapa-objetivo">Objetivo: permitir uma escolha mais livre e consciente, sem interferências externas.</div>
+    </div>
+
+    <div class="etapa-card">
+      <div class="etapa-header">
+        <div class="etapa-letter">M</div>
+        <div class="etapa-info">
+          <h3>Mapear</h3>
+          <div class="encontros">3 encontros</div>
+        </div>
+      </div>
+      <p class="etapa-body">O foco é a realidade ocupacional. O adolescente é orientado a:</p>
+      <ul class="etapa-lista">
+        <li>Pesquisar profissões e áreas de interesse</li>
+        <li>Conhecer possibilidades de formação</li>
+        <li>Levantar informações reais sobre o mercado de trabalho</li>
+        <li>Definir critérios de escolha coerentes com seu perfil</li>
+      </ul>
+      <div class="etapa-objetivo">Objetivo: transformar curiosidade em informação concreta, reduzindo fantasias e inseguranças.</div>
+    </div>
+
+    <div class="etapa-card">
+      <div class="etapa-header">
+        <div class="etapa-letter">O</div>
+        <div class="etapa-info">
+          <h3>Organizar</h3>
+          <div class="encontros">2 encontros</div>
+        </div>
+      </div>
+      <p class="etapa-body">Na etapa final, todo o conteúdo do processo é organizado de forma clara e visual:</p>
+      <ul class="etapa-lista">
+        <li>Relacionar vantagens e desvantagens das opções levantadas</li>
+        <li>Comparar possibilidades de forma consciente</li>
+        <li>Visualizar o caminho percorrido</li>
+        <li>Tomar a decisão com mais segurança</li>
+        <li>Planejar os próximos passos (estudos, prazos, ações iniciais)</li>
+      </ul>
+      <div class="etapa-objetivo">Objetivo: encerrar o processo com clareza, decisão e direcionamento.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUEM / BENEFÍCIOS -->
+<section class="paraquem">
+  <div class="section-inner">
+    <div class="section-label" style="color:var(--creme)">Indicação e resultados</div>
+    <h2 class="section-title white">Pra quem é a <em>orientação profissional?</em></h2>
+    <div class="cols-2">
+      <div class="lista-card">
+        <h4>O processo é indicado para jovens que:</h4>
+        <ul>
+          <li>Estão nos anos finais do ensino médio ou no início de uma graduação</li>
+          <li>Sentem dúvidas, insegurança ou ansiedade diante da escolha</li>
+          <li>Têm dificuldade em organizar interesses e possibilidades</li>
+          <li>Sofrem influência de medos ou pressões externas</li>
+          <li>Desejam se conhecer melhor antes de decidir</li>
+        </ul>
+      </div>
+      <div class="lista-card">
+        <h4>Benefícios do processo:</h4>
+        <ul>
+          <li>Maior autoconhecimento</li>
+          <li>Redução da ansiedade diante da escolha</li>
+          <li>Clareza sobre possibilidades reais</li>
+          <li>Decisão mais consciente e fundamentada</li>
+          <li>Planejamento dos próximos passos</li>
+          <li>Segurança para dialogar com a família</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="section-inner">
+    <div class="section-label">Dúvidas frequentes</div>
+    <h2 class="section-title">Estrutura do <em>processo</em></h2>
+
+    <div class="faq-item">
+      <div class="faq-pergunta">Quantos encontros compõem o processo?</div>
+      <div class="faq-resposta">O processo é composto por <strong>8 encontros individuais</strong>, estruturados de acordo com a Metodologia RUMO.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-pergunta">Qual é a duração e a frequência dos encontros?</div>
+      <div class="faq-resposta">Cada encontro tem duração de <strong>50 minutos</strong>, com <strong>frequência semanal</strong>. Essa regularidade permite continuidade, reflexão entre as sessões e amadurecimento das decisões.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-pergunta">O processo é presencial ou online?</div>
+      <div class="faq-resposta">O processo pode ser realizado <strong>presencialmente ou online</strong>, conforme a escolha da família. Ambos os formatos seguem a mesma estrutura e metodologia.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-pergunta">São utilizados testes ou instrumentos?</div>
+      <div class="faq-resposta">Todo o processo é realizado dentro da <strong>Plataforma Rumo</strong>, com a mediação ativa da psicóloga ao longo de cada encontro. Qualquer material ou ferramenta necessária é <strong>confeccionado especialmente para a necessidade do orientando</strong> e encaminhado diretamente a ele — garantindo um processo personalizado, do início ao fim.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-pergunta">Quem conduz o processo?</div>
+      <div class="faq-resposta">O processo pode ser realizado com a <strong>Psicóloga Cláudia Botelho</strong>, idealizadora da Metodologia RUMO, ou com outra <strong>psicóloga do Instituto Rumo</strong>, capacitada para aplicar a metodologia. Ambas as opções seguem a mesma estrutura e princípios.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATAFORMA -->
+<section class="plataforma">
+  <div class="section-inner">
+    <div class="section-label" style="color:var(--amarelo)">Tecnologia a serviço da escolha</div>
+    <h2 class="section-title white">Como funciona a <em>plataforma Rumo</em></h2>
+    <p class="section-desc white">A Metodologia RUMO é aplicada por meio de uma plataforma digital própria, onde o jovem registra e vivencia toda a sua jornada. O acesso é feito com login e senha exclusivos.</p>
+    <div class="plat-items">
+      <div class="plat-item">
+        <div class="plat-icon">📊</div>
+        <div class="plat-text"><strong>Progresso em tempo real</strong> — O jovem acompanha cada etapa da sua jornada dentro da plataforma.</div>
+      </div>
+      <div class="plat-item">
+        <div class="plat-icon">💡</div>
+        <div class="plat-text"><strong>Atividades e reflexões</strong> — É possível revisitar todo o material produzido ao longo do processo.</div>
+      </div>
+      <div class="plat-item">
+        <div class="plat-icon">📋</div>
+        <div class="plat-text"><strong>Relatório final completo</strong> — Ao final, é gerado um relatório da jornada e das decisões construídas, disponibilizado ao jovem e aos responsáveis.</div>
+      </div>
+    </div>
+    <div class="req-box">
+      <div class="req-label">⚠️ Requisito de dispositivo</div>
+      <div class="req-text">Para participar, o jovem deve utilizar <strong>notebook ou tablet</strong>. A experiência não funciona em celulares, pois as atividades envolvem escrita, organização e navegação no ambiente digital.</div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTIMENTO -->
+<section class="invest">
+  <div class="section-inner">
+    <div class="section-label">Valores</div>
+    <h2 class="section-title" style="text-align:center">Investimento</h2>
+    <p class="invest-intro">O Programa RUMO pode ser vivido de duas formas, dependendo do tipo de acompanhamento que a família busca.</p>
+
+    <div class="invest-cards">
+      <div class="invest-card">
+        <div class="invest-tag">Psicólogas do Instituto</div>
+        <h3>Com as psicólogas do Instituto Rumo</h3>
+        <p>Profissionais especializadas na Metodologia RUMO. Jornada completa com acesso integral à plataforma digital.</p>
+        <div class="invest-pgto">
+          <div class="pgto-linha">💳 <strong>6x de R$ 330,00</strong></div>
+          <div class="pgto-linha">⚡ PIX à vista: <strong>R$ 1.800,00</strong></div>
+        </div>
+        <ul class="invest-lista">
+          <li>8 encontros individuais</li>
+          <li>Acesso à plataforma digital</li>
+          <li>Relatório final completo</li>
+        </ul>
+        <a href="https://www.asaas.com/c/zqkxd7mywm74brps" target="_blank" class="btn-pgto">Acessar link de pagamento →</a>
+      </div>
+
+      <div class="invest-card destaque">
+        <div class="invest-tag">Com a idealizadora</div>
+        <h3>Com a Psicóloga Cláudia Botelho</h3>
+        <p>Condução direta pela idealizadora da Metodologia RUMO, com acompanhamento mais próximo e integrado.</p>
+        <div class="invest-pgto">
+          <div class="pgto-linha">💳 <strong>6x de R$ 433,33</strong></div>
+          <div class="pgto-linha">⚡ PIX à vista: <strong>R$ 2.400,00</strong></div>
+        </div>
+        <ul class="invest-lista">
+          <li>8 encontros individuais</li>
+          <li>Acesso à plataforma digital</li>
+          <li>Leitura clínica aprofundada</li>
+          <li>1 encontro de fechamento com os responsáveis</li>
+          <li>Relatório final completo</li>
+        </ul>
+        <a href="https://www.asaas.com/c/56uxnz40unxqrjvv" target="_blank" class="btn-pgto">Acessar link de pagamento →</a>
+      </div>
+    </div>
+
+    <p class="invest-nota">As duas opções têm o mesmo objetivo: ajudar o jovem a construir clareza e autonomia.<br>A diferença está no tipo de acompanhamento que a família deseja.</p>
+    <div class="validade-badge">⏳ Esta proposta tem validade de 30 dias.</div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section class="depos">
+  <div class="section-inner">
+    <div class="section-label">O que dizem sobre o Rumo</div>
+    <h2 class="section-title">Depoimentos</h2>
+
+    <div class="depo-card">
+      <p class="depo-text">O processo foi claro, direto e ajudou bastante a entender melhor as opções de carreira. A experiência foi leve, organizada e realmente trouxe mais segurança na escolha. Recomendo demais.</p>
+      <div class="depo-autor">A.G — 17 anos</div>
+    </div>
+
+    <div class="depo-card">
+      <p class="depo-text">Foi incrível!!! Fiquei extremamente contente e feliz com as descobertas que o processo me fez chegar.</p>
+      <div class="depo-autor">A.C — 16 anos</div>
+    </div>
+
+    <div class="depo-card">
+      <p class="depo-text">Poder contar com a Cláudia no processo de orientação profissional de minha filha foi MUITO importante. Seu jeito firme mas ao mesmo tempo leve e alegre de conduzir as sessões deixou minha filha à vontade e envolvida. Chegamos ao fim com a certeza de que foram visitados todos os caminhos possíveis. Parabéns pelo trabalho excepcional.</p>
+      <div class="depo-autor">Pais de adolescente</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <h2>Estamos aqui para ajudar<br>o seu filho a encontrar o <em>caminho</em></h2>
+  <p>Entre em contato pelo WhatsApp e tire todas as suas dúvidas antes de começar.</p>
+  <a href="https://wa.me/5521990625330?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20o%20processo%20de%20Orienta%C3%A7%C3%A3o%20Profissional%20do%20Instituto%20Rumo." target="_blank" class="cta-btn">💬 Iniciar conversa no WhatsApp</a>
+  <div class="contato-info">
+    <div class="contato-item"><strong>WhatsApp:</strong> (21) 99062-5330</div>
+    <div class="contato-item"><strong>Instagram:</strong> @claudiabotelhopsi</div>
+    <div class="contato-item"><strong>E-mail:</strong> faleconosco@institutorumo.com</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>Rumo Orientação &amp; Psicologia · Instituto Rumo · Cláudia Botelho · CRP 05/73536<br>
+  <em>Que o Rumo siga abrindo caminhos.</em></p>
+</footer>
+
+<!-- WHATSAPP FLUTUANTE -->
+<div class="whatsapp-float">
+  <a href="https://wa.me/5521990625330?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20o%20processo%20de%20Orienta%C3%A7%C3%A3o%20Profissional%20do%20Instituto%20Rumo." target="_blank">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="wpp-label">Falar no WhatsApp</span>
+  </a>
+</div>
+
+</body>
+</html>

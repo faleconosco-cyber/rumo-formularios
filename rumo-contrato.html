@@ -1,0 +1,651 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iI0ZEREVENSIvPjx0ZXh0IHg9IjUwIiB5PSI0NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlJ1PC90ZXh0Pjx0ZXh0IHg9IjUzIiB5PSI3NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm1vPC90ZXh0Pjwvc3ZnPg==">
+  <title>Rumo – Acordo de Serviço</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --azul:       #3E658E;
+      --azul-dark:  #2e4f72;
+      --laranja:    #FD745D;
+      --laranja-dk: #e05a44;
+      --creme:      #FDDED5;
+      --creme-bg:   #fdf0eb;
+      --verde:      #3B503F;
+      --verde-agua: #91B096;
+      --amarelo:    #FDBB71;
+      --preto:      #282828;
+      --cinza:      #6b7280;
+      --branco:     #FFFFFF;
+      --erro:       #d94040;
+    }
+    body { font-family: 'Montserrat', sans-serif; background: var(--creme-bg); color: var(--preto); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+
+    /* HEADER */
+    .header { width: 100%; background: var(--azul); padding: 14px 24px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+    .logo-text { color: var(--branco); font-size: 1.5rem; font-weight: 800; font-style: italic; letter-spacing: -0.5px; line-height: 1; }
+    .logo-sub { color: var(--creme); font-size: 0.6rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+    .header-step { color: rgba(255,255,255,.65); font-size: 0.78rem; font-weight: 600; margin-left: auto; }
+
+    /* PROGRESS */
+    .progress-wrap { width: 100%; background: rgba(255,255,255,.25); height: 4px; }
+    .progress-bar { height: 4px; background: var(--laranja); transition: width .4s ease; border-radius: 0 2px 2px 0; }
+
+    /* CONTAINER */
+    .container { width: 100%; max-width: 640px; padding: 24px 16px 80px; flex: 1; }
+
+    /* STEPS */
+    .step { display: none; animation: fadeUp .35s ease; }
+    .step.active { display: block; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+    .step-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--azul); margin-bottom: 6px; }
+    .step-title { font-size: 1.25rem; font-weight: 700; color: var(--preto); line-height: 1.35; margin-bottom: 6px; }
+    .step-desc { font-size: 0.85rem; color: var(--cinza); margin-bottom: 20px; line-height: 1.5; }
+
+    /* WELCOME */
+    .welcome-card { background: var(--azul); border-radius: 20px; padding: 36px 28px 32px; color: var(--branco); text-align: center; margin-top: 12px; }
+    .welcome-logo { font-size: 2.4rem; font-weight: 800; font-style: italic; margin-bottom: 4px; }
+    .welcome-sub { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--creme); margin-bottom: 20px; }
+    .welcome-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; line-height: 1.4; }
+    .welcome-card p { font-size: 0.85rem; opacity: .85; line-height: 1.6; margin-bottom: 8px; }
+    .welcome-card .time-badge { display: inline-block; background: rgba(255,255,255,.15); border-radius: 20px; padding: 5px 14px; font-size: 0.75rem; font-weight: 600; margin: 12px auto 0; }
+
+    /* CONTRACT BOX */
+    .contrato-box {
+      background: var(--branco);
+      border-radius: 16px;
+      border: 2px solid #e5d9d4;
+      padding: 0;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .contrato-header {
+      background: var(--laranja);
+      padding: 16px 20px;
+      text-align: center;
+    }
+    .contrato-header h3 { color: var(--branco); font-size: 1rem; font-weight: 800; margin-bottom: 2px; }
+    .contrato-header p { color: rgba(255,255,255,.85); font-size: 0.72rem; font-weight: 500; }
+    .contrato-scroll {
+      max-height: 460px;
+      overflow-y: auto;
+      padding: 20px;
+      scroll-behavior: smooth;
+    }
+    .contrato-scroll::-webkit-scrollbar { width: 6px; }
+    .contrato-scroll::-webkit-scrollbar-track { background: #f5ede9; }
+    .contrato-scroll::-webkit-scrollbar-thumb { background: var(--azul); border-radius: 3px; }
+
+    .intro-box {
+      background: var(--creme);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 0.82rem;
+      font-style: italic;
+      color: var(--preto);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .clausula { margin-bottom: 20px; }
+    .clausula-titulo {
+      background: var(--azul);
+      color: var(--branco);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 7px 12px;
+      border-radius: 7px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .clausula p { font-size: 0.82rem; line-height: 1.7; color: var(--preto); margin-bottom: 8px; }
+    .clausula ul { padding-left: 18px; margin: 6px 0 10px; }
+    .clausula ul li { font-size: 0.82rem; line-height: 1.7; color: var(--preto); margin-bottom: 4px; }
+    .clausula-rodape { font-size: 0.75rem; color: var(--cinza); text-align: center; margin-top: 10px; font-style: italic; }
+
+    .scroll-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: rgba(62,101,142,.07);
+      border-top: 1px solid #e5d9d4;
+      font-size: 0.75rem;
+      color: var(--cinza);
+      font-weight: 600;
+    }
+    .scroll-indicator.lido { background: rgba(145,176,150,.15); color: var(--verde); }
+    .scroll-indicator .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cinza); flex-shrink: 0; }
+    .scroll-indicator.lido .dot { background: var(--verde-agua); }
+
+    /* TABELA INVESTIMENTO */
+    .tabela-inv { width: 100%; border-collapse: collapse; margin: 12px 0; border-radius: 10px; overflow: hidden; }
+    .tabela-inv thead tr { background: var(--azul); }
+    .tabela-inv thead th { color: var(--branco); font-size: 0.8rem; font-weight: 700; padding: 10px 14px; text-align: left; }
+    .tabela-inv tbody tr:nth-child(odd) { background: rgba(62,101,142,.05); }
+    .tabela-inv tbody td { font-size: 0.82rem; padding: 10px 14px; color: var(--preto); }
+    .tabela-inv tbody td strong { color: var(--azul); font-weight: 700; }
+
+    /* CHIPS */
+    .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+    .chip { cursor: pointer; padding: 9px 15px; border-radius: 30px; border: 2px solid #e5d9d4; font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--cinza); background: var(--branco); transition: all .2s; user-select: none; }
+    .chip:hover { border-color: var(--azul); color: var(--azul); }
+    .chip.selected { background: var(--azul); border-color: var(--azul); color: var(--branco); }
+
+    /* PAGAMENTO CARDS */
+    .pgto-card { background: var(--branco); border: 2px solid #e5d9d4; border-radius: 14px; padding: 16px; margin-bottom: 10px; cursor: pointer; transition: all .2s; }
+    .pgto-card:hover { border-color: var(--azul); }
+    .pgto-card.selected { border-color: var(--azul); background: rgba(62,101,142,.05); }
+    .pgto-card-title { font-size: 0.9rem; font-weight: 700; color: var(--preto); margin-bottom: 3px; display: flex; align-items: center; gap: 8px; }
+    .pgto-card-title .radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #e5d9d4; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .2s; }
+    .pgto-card.selected .pgto-card-title .radio { border-color: var(--azul); background: var(--azul); }
+    .pgto-card.selected .pgto-card-title .radio::after { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--branco); display: block; }
+    .pgto-card-obs { font-size: 0.75rem; color: var(--cinza); font-style: italic; margin-top: 4px; padding-left: 26px; line-height: 1.5; }
+
+    /* VALOR BADGE */
+    .valor-badge { display: flex; align-items: center; justify-content: space-between; background: var(--azul); color: var(--branco); border-radius: 14px; padding: 16px 20px; margin-bottom: 20px; }
+    .valor-badge .label { font-size: 0.75rem; font-weight: 600; opacity: .8; text-transform: uppercase; letter-spacing: 1px; }
+    .valor-badge .valor { font-size: 1.4rem; font-weight: 800; }
+    .valor-badge.hidden { display: none; }
+
+    /* INPUTS */
+    .field { margin-bottom: 18px; }
+    .field label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--preto); margin-bottom: 7px; }
+    .field input { width: 100%; padding: 13px 15px; border: 2px solid #e5d9d4; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; color: var(--preto); background: var(--branco); outline: none; transition: border-color .2s; -webkit-appearance: none; }
+    .field input:focus { border-color: var(--azul); box-shadow: 0 0 0 3px rgba(62,101,142,.12); }
+    .field .error-msg { display: none; font-size: 0.75rem; color: var(--erro); margin-top: 5px; font-weight: 500; }
+    .field.has-error input { border-color: var(--erro); }
+    .field.has-error .error-msg { display: block; }
+
+    /* CHECKBOXES */
+    .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px; background: var(--branco); border-radius: 12px; border: 2px solid #e5d9d4; margin-bottom: 10px; cursor: pointer; transition: border-color .2s; }
+    .check-item:hover { border-color: var(--azul); }
+    .check-item.checked { border-color: var(--azul); background: rgba(62,101,142,.05); }
+    .check-box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #e5d9d4; background: var(--branco); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .2s; margin-top: 1px; }
+    .check-item.checked .check-box { background: var(--azul); border-color: var(--azul); }
+    .check-box::after { content: '✓'; color: var(--branco); font-size: 0.8rem; font-weight: 700; display: none; }
+    .check-item.checked .check-box::after { display: block; }
+    .check-text { font-size: 0.82rem; line-height: 1.5; color: var(--preto); }
+
+    /* ACEITE BOX */
+    .aceite-box { background: var(--branco); border: 2px solid var(--azul); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+    .aceite-box h4 { font-size: 0.85rem; font-weight: 700; color: var(--azul); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+    .aceite-resumo { font-size: 0.82rem; line-height: 1.7; color: var(--preto); background: rgba(62,101,142,.05); border-radius: 10px; padding: 14px; margin-bottom: 16px; }
+    .aceite-resumo strong { color: var(--azul); }
+
+    /* BUTTONS */
+    .btn-row { display: flex; gap: 10px; margin-top: 28px; }
+    .btn { flex: 1; padding: 15px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; border: none; transition: all .2s; }
+    .btn-primary { background: var(--azul); color: var(--branco); }
+    .btn-primary:hover { background: var(--azul-dark); }
+    .btn-primary:active { transform: scale(.98); }
+    .btn-secondary { background: transparent; color: var(--azul); border: 2px solid var(--azul); flex: 0 0 auto; padding: 15px 20px; }
+    .btn-secondary:hover { background: rgba(62,101,142,.07); }
+    .btn.loading .btn-label { display: none; }
+    .btn.loading .spinner { display: inline-block; }
+    .spinner { display: none; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ERROR GLOBAL */
+    .error-global { display: none; font-size: 0.78rem; color: var(--erro); font-weight: 600; margin-top: 8px; padding: 10px 14px; background: rgba(217,64,64,.08); border-radius: 8px; }
+
+    /* SUCCESS */
+    .success-icon { width: 72px; height: 72px; border-radius: 50%; background: var(--verde-agua); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--branco); margin: 24px auto 16px; }
+    .success-card { background: var(--azul); border-radius: 16px; padding: 20px; color: var(--branco); margin-top: 20px; }
+    .success-card h4 { font-size: 0.8rem; font-weight: 700; opacity: .75; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .success-item { font-size: 0.85rem; line-height: 1.8; }
+
+    .footer { font-size: 0.72rem; color: var(--cinza); text-align: center; margin-top: 20px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="logo-text">Rumo</div>
+    <div class="logo-sub">Orientação Profissional</div>
+  </div>
+  <div class="header-step" id="header-step"></div>
+</div>
+<div class="progress-wrap">
+  <div class="progress-bar" id="progressBar" style="width:0%"></div>
+</div>
+
+<div class="container">
+
+  <!-- STEP 0 – BOAS-VINDAS -->
+  <div class="step active" id="step-0">
+    <div class="welcome-card">
+      <div class="welcome-logo">Rumo</div>
+      <div class="welcome-sub">Orientação Profissional</div>
+      <h2>Acordo de Serviço</h2>
+      <p>Este documento apresenta as condições do processo de Orientação Profissional, garantindo segurança e alinhamento de expectativas entre as partes.</p>
+      <p>Leia com atenção, escolha a forma de pagamento e registre seu aceite.</p>
+      <div class="time-badge">⏱ Cerca de 5 minutos</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="goTo(1)">Ler e aceitar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 1 – CONTRATO COMPLETO -->
+  <div class="step" id="step-1">
+    <div class="step-label">Passo 1 de 3</div>
+    <div class="step-title">Acordo de Serviço</div>
+    <div class="step-desc">Role o texto até o final para continuar.</div>
+
+    <div class="contrato-box">
+      <div class="contrato-header">
+        <h3>RUMO – Acordo de Serviço</h3>
+        <p>Cláudia Botelho · Psicóloga/Responsável Técnica · CRP 05/73536</p>
+      </div>
+
+      <div class="contrato-scroll" id="contrato-scroll" onscroll="verificarScroll()">
+
+        <div class="intro-box">
+          Seja bem-vindo(a) ao processo de Orientação Profissional do Rumo Orientação &amp; Psicologia. Este documento apresenta, de forma clara e transparente, as condições, diretrizes e limites do serviço, garantindo segurança, alinhamento de expectativas e respeito aos princípios éticos que regem a Psicologia e a prática da Orientação Profissional.
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">1 – Do objetivo do processo</span>
+          <p>O processo de Orientação Profissional tem como objetivo favorecer a construção de uma escolha profissional mais consciente, responsável e alinhada ao momento de vida do orientando.</p>
+          <p>Para isso, o processo é conduzido mediante o uso da Plataforma Rumo — ambiente digital de acesso exclusivo do orientando por login e senha individuais —, onde são realizadas atividades mediadas pelas profissionais que auxiliam no autoconhecimento, na ampliação de informações sobre o mundo do trabalho e na reflexão necessária para a tomada de decisão.</p>
+          <p>A efetividade do processo depende da participação ativa do orientando, incluindo a realização das atividades propostas fora do espaço das sessões.</p>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">2 – Dos benefícios do processo</span>
+          <p>O processo de Orientação Profissional contribui para maior clareza, segurança e autonomia nas decisões relacionadas à escolha profissional.</p>
+          <p>Além de apoiar a primeira escolha, o processo visa desenvolver recursos internos que auxiliem o orientando em futuras decisões acadêmicas e profissionais, promovendo maior responsabilidade, reflexão e consciência ao longo de sua trajetória.</p>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">3 – Do número, formato e local dos atendimentos</span>
+          <p>O processo é composto, em média, por 08 (oito) sessões, com duração aproximada de 50 (cinquenta) minutos cada.</p>
+          <p>As sessões poderão ocorrer de forma presencial ou online, conforme combinado previamente entre as partes.</p>
+          <p>No caso de atendimentos online, é responsabilidade do orientando garantir um ambiente com privacidade, conexão estável e condições adequadas para a realização da sessão. Recomenda-se o uso de computador (a plataforma não é acessível em smartphone), câmera ligada e materiais simples, como papel e caneta.</p>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">4 – Da duração do processo e da possibilidade de sessões adicionais</span>
+          <p>Por se tratar de um processo personalizado, não é possível garantir que as 08 (oito) sessões sejam suficientes em todos os casos.</p>
+          <p>Caso o orientando apresente insegurança significativa para a tomada de decisão ou dificuldades emocionais que atravessem o processo, poderá ser indicada a realização de sessões adicionais, previamente comunicadas e cobradas à parte.</p>
+          <p>Da mesma forma, caso atividades previstas para serem realizadas fora das sessões não sejam cumpridas e precisem ser realizadas durante o atendimento, isso poderá acarretar a necessidade de sessões extras.</p>
+          <p>O prazo máximo para a conclusão do processo é de até 12 (doze) semanas, contadas a partir da data do primeiro encontro.</p>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">5 – Da assiduidade, cancelamentos e reagendamentos</span>
+          <p>As sessões são previamente agendadas em dia e horário acordados entre as partes.</p>
+          <p>Em caso de necessidade de cancelamento ou reagendamento, a comunicação deverá ocorrer com antecedência mínima de 24 (vinte e quatro) horas úteis.</p>
+          <p>Cancelamentos realizados fora desse prazo implicam cobrança integral da sessão, sem direito à reposição do atendimento.</p>
+          <p>Fica estabelecido o limite máximo de 02 (dois) reagendamentos ou cancelamentos ao longo de todo o processo. Após esse limite, novas alterações poderão ser recusadas.</p>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">6 – Da escolha da psicóloga orientadora</span>
+          <p>O processo poderá ser conduzido pela psicóloga Cláudia Botelho, responsável técnica pelo serviço, ou por outra psicóloga especializada na Metodologia Rumo, integrante da equipe do Instituto.</p>
+          <p>A escolha é feita pelos responsáveis legais antes do início do processo e registrada no momento da contratação. Após o início do processo, não será possível realizar a troca de profissional.</p>
+          <p>Independentemente da psicóloga escolhida, todo e qualquer contato por parte dos responsáveis legais do orientando deverá ser realizado exclusivamente com a Diretora do Instituto, Cláudia Botelho.</p>
+          <p>Não é permitido o contato direto dos responsáveis com as demais psicólogas da equipe, seja por mensagem de WhatsApp, ligação telefônica, chamada de vídeo ou qualquer outro meio, salvo quando previamente autorizado e intermediado pela Diretora do Instituto.</p>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">7 – Da estrutura do processo e da comunicação com responsáveis</span>
+          <p>O processo de Orientação Profissional se organiza, de modo geral, nas seguintes etapas:</p>
+          <ul>
+            <li>Autoconhecimento</li>
+            <li>Levantamento de interesses, valores e habilidades</li>
+            <li>Informação e pesquisa profissional</li>
+            <li>Reflexão e tomada de decisão</li>
+          </ul>
+          <p>Ao final do processo, será elaborado um relatório de devolutiva.</p>
+          <p>Com o objetivo de preservar a privacidade e a autonomia do orientando, não são realizados feedbacks contínuos aos responsáveis durante o processo, salvo em situações específicas previamente acordadas.</p>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">8 – Do papel da psicóloga orientadora</span>
+          <p>O papel da psicóloga orientadora é o de facilitar o processo de reflexão e escolha, oferecendo escuta qualificada, suporte técnico e instrumentos adequados.</p>
+          <p>A psicóloga orientadora não indica, sugere ou define cursos ou profissões. A decisão final é de responsabilidade do orientando, construída ao longo do processo.</p>
+          <p>Caso sejam identificadas demandas que extrapolam o escopo da Orientação Profissional, o orientando poderá ser encaminhado a outros profissionais, quando necessário.</p>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">9 – Do investimento e das formas de pagamento</span>
+          <p>O investimento referente ao processo de Orientação Profissional está vinculado à profissional escolhida pelos responsáveis:</p>
+          <table class="tabela-inv">
+            <thead><tr><th>Psicóloga</th><th>Investimento Total</th></tr></thead>
+            <tbody>
+              <tr><td>Cláudia Botelho (Responsável Técnica)</td><td><strong>R$ 2.400,00</strong></td></tr>
+              <tr><td>Psicóloga especializada na Metodologia Rumo</td><td><strong>R$ 1.800,00</strong></td></tr>
+            </tbody>
+          </table>
+          <p>A forma de pagamento será escolhida na próxima etapa deste formulário.</p>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">10 – Das disposições finais</span>
+          <p>Ao iniciar o processo, o orientando (e seus responsáveis legais, quando aplicável) declara estar ciente e de acordo com todas as condições descritas neste documento.</p>
+        </div>
+
+        <div class="clausula-rodape">Rumo Orientação &amp; Psicologia · Instituto Rumo · Cláudia Botelho · CRP 05/73536</div>
+        <div style="height:8px"></div>
+      </div>
+
+      <div class="scroll-indicator" id="scroll-indicator">
+        <div class="dot"></div>
+        <span id="scroll-txt">Role até o final para continuar ↓</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(0)">← Voltar</button>
+      <button class="btn btn-primary" id="btn-continuar-contrato" onclick="nextStep(1)" disabled style="opacity:.45;cursor:not-allowed">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 – PAGAMENTO -->
+  <div class="step" id="step-2">
+    <div class="step-label">Passo 2 de 3</div>
+    <div class="step-title">Psicóloga e pagamento</div>
+    <div class="step-desc">Confirme a psicóloga escolhida e selecione como prefere pagar.</div>
+
+    <div style="margin-bottom:22px">
+      <div style="font-size:.82rem;font-weight:600;margin-bottom:10px;color:var(--preto)">Psicóloga escolhida *</div>
+      <div id="f-psicologa">
+        <div class="pgto-card" id="card-claudia" onclick="escolherPsi('claudia')">
+          <div class="pgto-card-title">
+            <div class="radio" id="radio-claudia"></div>
+            Cláudia Botelho (Responsável Técnica)
+          </div>
+          <div class="pgto-card-obs">Investimento total: <strong style="color:var(--azul)">R$ 2.400,00</strong></div>
+        </div>
+        <div class="pgto-card" id="card-outra" onclick="escolherPsi('outra')">
+          <div class="pgto-card-title">
+            <div class="radio" id="radio-outra"></div>
+            Psicóloga especializada na Metodologia Rumo
+          </div>
+          <div class="pgto-card-obs">Investimento total: <strong style="color:var(--azul)">R$ 1.800,00</strong></div>
+        </div>
+        <div class="error-msg" id="err-psicologa" style="display:none;font-size:.75rem;color:var(--erro);font-weight:500;margin-top:4px">Por favor, selecione a psicóloga.</div>
+      </div>
+    </div>
+
+    <div id="valor-badge" class="valor-badge hidden">
+      <div>
+        <div class="label">Investimento total</div>
+        <div class="valor" id="valor-texto">—</div>
+      </div>
+      <div style="font-size:1.8rem">💳</div>
+    </div>
+
+    <div style="margin-bottom:6px">
+      <div style="font-size:.82rem;font-weight:600;margin-bottom:10px;color:var(--preto)">Forma de pagamento *</div>
+      <div id="f-pagamento">
+        <div class="pgto-card" id="card-pix" onclick="escolherPgto('pix')">
+          <div class="pgto-card-title">
+            <div class="radio" id="radio-pix"></div>
+            PIX à vista
+          </div>
+        </div>
+        <div class="pgto-card" id="card-pix3x" onclick="escolherPgto('pix3x')">
+          <div class="pgto-card-title">
+            <div class="radio" id="radio-pix3x"></div>
+            PIX parcelado em 3x (agendamentos)
+          </div>
+          <div class="pgto-card-obs">É necessário enviar os comprovantes dos agendamentos antes do início do processo.</div>
+        </div>
+        <div class="pgto-card" id="card-cartao" onclick="escolherPgto('cartao')">
+          <div class="pgto-card-title">
+            <div class="radio" id="radio-cartao"></div>
+            Cartão de crédito (parcelado em até 12x)
+          </div>
+          <div class="pgto-card-obs">Sujeito às taxas da operadora no momento da contratação.</div>
+        </div>
+        <div class="error-msg" id="err-pagamento" style="display:none;font-size:.75rem;color:var(--erro);font-weight:500;margin-top:4px">Por favor, selecione a forma de pagamento.</div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(1)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(2)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 – ACEITE -->
+  <div class="step" id="step-3">
+    <div class="step-label">Passo 3 de 3</div>
+    <div class="step-title">Confirmar aceite</div>
+    <div class="step-desc">Revise o resumo e confirme seu aceite ao acordo de serviço.</div>
+
+    <div class="aceite-box">
+      <h4>Resumo da contratação</h4>
+      <div class="aceite-resumo" id="aceite-resumo">—</div>
+    </div>
+
+    <div class="field" id="field-nomeAceite">
+      <label>Seu nome completo *</label>
+      <input type="text" id="nomeAceite" placeholder="Nome do responsável legal" autocomplete="name">
+      <div class="error-msg">Por favor, informe seu nome completo.</div>
+    </div>
+
+    <div class="field" id="field-cpfAceite">
+      <label>CPF do responsável *</label>
+      <input type="text" id="cpfAceite" placeholder="000.000.000-00" inputmode="numeric" maxlength="14">
+      <div class="error-msg">Por favor, informe um CPF válido.</div>
+    </div>
+
+    <div class="field" id="field-emailResponsavel">
+      <label>E-mail do responsável *</label>
+      <input type="email" id="emailResponsavel" placeholder="seu@email.com" autocomplete="email" inputmode="email">
+      <div class="error-msg">Por favor, informe um e-mail válido.</div>
+    </div>
+
+    <div style="margin-bottom:18px">
+      <div id="checks-aceite">
+        <div class="check-item" onclick="toggleCheckAceite(this)" id="check-termos">
+          <div class="check-box"></div>
+          <div class="check-text">Li e compreendi todas as condições do acordo de serviço e concordo com os termos descritos.</div>
+        </div>
+        <div class="check-item" onclick="toggleCheckAceite(this)" id="check-pagamento">
+          <div class="check-box"></div>
+          <div class="check-text">Confirmo a psicóloga escolhida e a forma de pagamento selecionada.</div>
+        </div>
+        <div class="check-item" onclick="toggleCheckAceite(this)" id="check-responsavel">
+          <div class="check-box"></div>
+          <div class="check-text">Declaro que sou o responsável legal pelo orientando e estou autorizado a firmar este acordo.</div>
+        </div>
+      </div>
+      <div class="error-global" id="err-checks-aceite">Por favor, marque todas as declarações acima.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(2)">← Voltar</button>
+      <button class="btn btn-primary" id="btnEnviar" onclick="enviarFormulario()">
+        <span class="btn-label">Confirmar aceite ✓</span>
+        <span class="spinner"></span>
+      </button>
+    </div>
+    <p class="footer">Ao confirmar, você registra seu aceite com data e hora.</p>
+  </div>
+
+  <!-- SUCESSO -->
+  <div class="step" id="step-sucesso">
+    <div class="success-icon">✓</div>
+    <div class="step-title" style="text-align:center">Aceite registrado!</div>
+    <div class="step-desc" style="text-align:center;margin-top:8px">
+      Obrigada! 🌱<br><br>
+      Seu aceite ao acordo de serviço foi registrado com sucesso. Em breve entraremos em contato para os próximos passos.
+    </div>
+    <div class="success-card">
+      <h4>Resumo do acordo</h4>
+      <div class="success-item" id="success-resumo"></div>
+    </div>
+    <p class="footer" style="margin-top:20px">Rumo Orientação &amp; Psicologia · Instituto Rumo · Cláudia Botelho · CRP 05/73536<br><em>Que o Rumo siga abrindo caminhos.</em></p>
+  </div>
+
+</div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypkUn3aTHoHc2wlDWqJjdlnnFF8LMtJCBIPbl7J5Wz97GJqr32AGMKrcYnIa0AHzVPzQ/exec';
+
+const formData = {};
+const TOTAL_STEPS = 4;
+let contratoLido = false;
+let psiEscolhida = '';
+let pgtoEscolhido = '';
+
+// ── Progresso ─────────────────────────────
+function updateProgress(step) {
+  const pct = step === 'sucesso' ? 100 : Math.round((step / TOTAL_STEPS) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('header-step').textContent = step === 0 || step === 'sucesso' ? '' : step + ' / ' + TOTAL_STEPS;
+}
+
+function goTo(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const id = n === 'sucesso' ? 'step-sucesso' : 'step-' + n;
+  document.getElementById(id).classList.add('active');
+  updateProgress(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Scroll do contrato ─────────────────────
+function verificarScroll() {
+  const el = document.getElementById('contrato-scroll');
+  const chegouFim = el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
+  if (chegouFim && !contratoLido) {
+    contratoLido = true;
+    const btn = document.getElementById('btn-continuar-contrato');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+    const ind = document.getElementById('scroll-indicator');
+    ind.classList.add('lido');
+    document.getElementById('scroll-txt').textContent = '✓ Acordo lido até o final';
+  }
+}
+
+// ── Psicóloga ──────────────────────────────
+function escolherPsi(val) {
+  psiEscolhida = val;
+  ['claudia','outra'].forEach(v => {
+    document.getElementById('card-' + v).classList.toggle('selected', v === val);
+  });
+  const badge = document.getElementById('valor-badge');
+  const texto = document.getElementById('valor-texto');
+  badge.classList.remove('hidden');
+  if (val === 'claudia') { texto.textContent = 'R$ 2.400,00'; formData.psicologa = 'Cláudia Botelho'; formData.valorTotal = 'R$ 2.400,00'; }
+  else { texto.textContent = 'R$ 1.800,00'; formData.psicologa = 'Psicóloga especializada na Metodologia Rumo'; formData.valorTotal = 'R$ 1.800,00'; }
+  document.getElementById('err-psicologa').style.display = 'none';
+}
+
+// ── Pagamento ──────────────────────────────
+function escolherPgto(val) {
+  pgtoEscolhido = val;
+  ['pix','pix3x','cartao'].forEach(v => {
+    document.getElementById('card-' + v).classList.toggle('selected', v === val);
+  });
+  const labels = { pix: 'PIX à vista', pix3x: 'PIX parcelado em 3x', cartao: 'Cartão de crédito (até 12x)' };
+  formData.formaPagamento = labels[val];
+  document.getElementById('err-pagamento').style.display = 'none';
+}
+
+// ── Checkboxes aceite ──────────────────────
+function toggleCheckAceite(el) {
+  el.classList.toggle('checked');
+  document.getElementById('err-checks-aceite').style.display = 'none';
+}
+function todosCheckedAceite() {
+  return [...document.querySelectorAll('#checks-aceite .check-item')].every(el => el.classList.contains('checked'));
+}
+
+// ── Validação ─────────────────────────────
+function validate(step) {
+  let ok = true;
+  if (step === 2) {
+    if (!psiEscolhida) { document.getElementById('err-psicologa').style.display = 'block'; ok = false; }
+    if (!pgtoEscolhido) { document.getElementById('err-pagamento').style.display = 'block'; ok = false; }
+  }
+  if (step === 3) {
+    const nome  = document.getElementById('nomeAceite').value.trim();
+    const cpf   = document.getElementById('cpfAceite').value.replace(/\D/g,'');
+    const email = document.getElementById('emailResponsavel').value.trim();
+    if (!nome) { document.getElementById('field-nomeAceite').classList.add('has-error'); ok = false; }
+    else { document.getElementById('field-nomeAceite').classList.remove('has-error'); }
+    if (cpf.length !== 11) { document.getElementById('field-cpfAceite').classList.add('has-error'); ok = false; }
+    else { document.getElementById('field-cpfAceite').classList.remove('has-error'); }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById('field-emailResponsavel').classList.add('has-error'); ok = false; }
+    else { document.getElementById('field-emailResponsavel').classList.remove('has-error'); }
+    if (!todosCheckedAceite()) { document.getElementById('err-checks-aceite').style.display = 'block'; ok = false; }
+  }
+  return ok;
+}
+
+// ── Próximo passo ─────────────────────────
+function nextStep(current) {
+  if (current === 1) { goTo(2); return; }
+  if (!validate(current)) return;
+  if (current === 2) {
+    atualizarResumoAceite();
+    goTo(3);
+  }
+}
+
+function atualizarResumoAceite() {
+  const psiLabel = psiEscolhida === 'claudia' ? 'Cláudia Botelho (Responsável Técnica)' : 'Psicóloga especializada na Metodologia Rumo';
+  const pgtoLabel = { pix: 'PIX à vista', pix3x: 'PIX parcelado em 3x', cartao: 'Cartão de crédito (até 12x)' }[pgtoEscolhido] || '';
+  const valor = psiEscolhida === 'claudia' ? 'R$ 2.400,00' : 'R$ 1.800,00';
+  document.getElementById('aceite-resumo').innerHTML =
+    '🧑‍💼 <strong>Psicóloga:</strong> ' + psiLabel + '<br>' +
+    '💰 <strong>Investimento:</strong> ' + valor + '<br>' +
+    '💳 <strong>Pagamento:</strong> ' + pgtoLabel;
+}
+
+// ── Envio ─────────────────────────────────
+async function enviarFormulario() {
+  if (!validate(3)) return;
+  const btn = document.getElementById('btnEnviar');
+  btn.classList.add('loading'); btn.disabled = true;
+  formData.dataAceite  = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+  formData.nomeAceite        = document.getElementById('nomeAceite').value.trim();
+  formData.cpfAceite         = document.getElementById('cpfAceite').value.trim();
+  formData.emailResponsavel  = document.getElementById('emailResponsavel').value.trim();
+  const payload = { ...formData };
+  try {
+    const url = APPS_SCRIPT_URL + '?payload=' + encodeURIComponent(JSON.stringify(payload));
+    await fetch(url, { method: 'GET', mode: 'no-cors' });
+    mostrarSucesso();
+  } catch (err) {
+    alert('Ops! Erro ao enviar. Tente novamente.');
+    btn.classList.remove('loading'); btn.disabled = false;
+  }
+}
+
+function mostrarSucesso() {
+  const psiLabel = psiEscolhida === 'claudia' ? 'Cláudia Botelho' : 'Psicóloga especializada na Metodologia Rumo';
+  const valor = psiEscolhida === 'claudia' ? 'R$ 2.400,00' : 'R$ 1.800,00';
+  document.getElementById('success-resumo').innerHTML =
+    '🧑‍💼 Psicóloga: ' + psiLabel + '<br>' +
+    '💰 Investimento: ' + valor + '<br>' +
+    '💳 Pagamento: ' + formData.formaPagamento + '<br>' +
+    '📅 Aceite registrado em: ' + formData.dataAceite + '<br>' +
+    '📧 Uma cópia foi enviada para: ' + formData.emailResponsavel;
+  goTo('sucesso');
+}
+
+// ── Máscara CPF ───────────────────────────
+document.getElementById('cpfAceite').addEventListener('input', function () {
+  let v = this.value.replace(/\D/g, '').slice(0, 11);
+  if (v.length >= 4) v = v.slice(0,3) + '.' + v.slice(3);
+  if (v.length >= 8) v = v.slice(0,7) + '.' + v.slice(7);
+  if (v.length >= 12) v = v.slice(0,11) + '-' + v.slice(11);
+  this.value = v;
+});
+</script>
+</body>
+</html>

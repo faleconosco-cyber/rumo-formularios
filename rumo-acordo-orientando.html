@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iI0ZEREVENSIvPjx0ZXh0IHg9IjUwIiB5PSI0NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlJ1PC90ZXh0Pjx0ZXh0IHg9IjUzIiB5PSI3NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm1vPC90ZXh0Pjwvc3ZnPg==">
+  <title>Rumo – Acordo do Orientando</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --azul:       #3E658E;
+      --azul-dark:  #2e4f72;
+      --laranja:    #FD745D;
+      --laranja-dk: #e05a44;
+      --creme:      #FDDED5;
+      --creme-bg:   #fdf0eb;
+      --verde:      #3B503F;
+      --verde-agua: #91B096;
+      --amarelo:    #FDBB71;
+      --preto:      #282828;
+      --cinza:      #6b7280;
+      --branco:     #FFFFFF;
+      --erro:       #d94040;
+    }
+    body { font-family: 'Montserrat', sans-serif; background: var(--creme-bg); color: var(--preto); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+
+    /* HEADER */
+    .header { width: 100%; background: var(--verde); padding: 14px 24px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+    .logo-text { color: var(--branco); font-size: 1.5rem; font-weight: 800; font-style: italic; letter-spacing: -0.5px; line-height: 1; }
+    .logo-sub { color: var(--creme); font-size: 0.6rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+    .header-step { color: rgba(255,255,255,.65); font-size: 0.78rem; font-weight: 600; margin-left: auto; }
+
+    /* PROGRESS */
+    .progress-wrap { width: 100%; background: rgba(255,255,255,.25); height: 4px; }
+    .progress-bar { height: 4px; background: var(--laranja); transition: width .4s ease; border-radius: 0 2px 2px 0; }
+
+    /* CONTAINER */
+    .container { width: 100%; max-width: 640px; padding: 24px 16px 80px; flex: 1; }
+
+    /* STEPS */
+    .step { display: none; animation: fadeUp .35s ease; }
+    .step.active { display: block; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+    .step-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--verde); margin-bottom: 6px; }
+    .step-title { font-size: 1.25rem; font-weight: 700; color: var(--preto); line-height: 1.35; margin-bottom: 6px; }
+    .step-desc { font-size: 0.85rem; color: var(--cinza); margin-bottom: 20px; line-height: 1.5; }
+
+    /* WELCOME */
+    .welcome-card { background: var(--verde); border-radius: 20px; padding: 36px 28px 32px; color: var(--branco); text-align: center; margin-top: 12px; }
+    .welcome-logo { font-size: 2.4rem; font-weight: 800; font-style: italic; margin-bottom: 4px; }
+    .welcome-sub { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--creme); margin-bottom: 20px; }
+    .welcome-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; line-height: 1.4; }
+    .welcome-card p { font-size: 0.85rem; opacity: .85; line-height: 1.6; margin-bottom: 8px; }
+    .welcome-card .time-badge { display: inline-block; background: rgba(255,255,255,.15); border-radius: 20px; padding: 5px 14px; font-size: 0.75rem; font-weight: 600; margin: 12px auto 0; }
+
+    /* ACORDO BOX */
+    .contrato-box { background: var(--branco); border-radius: 16px; border: 2px solid #e5d9d4; padding: 0; overflow: hidden; margin-bottom: 16px; }
+    .contrato-header { background: var(--verde); padding: 16px 20px; text-align: center; }
+    .contrato-header h3 { color: var(--branco); font-size: 1rem; font-weight: 800; margin-bottom: 2px; }
+    .contrato-header p { color: rgba(255,255,255,.8); font-size: 0.72rem; font-weight: 500; }
+    .contrato-scroll { max-height: 460px; overflow-y: auto; padding: 20px; scroll-behavior: smooth; }
+    .contrato-scroll::-webkit-scrollbar { width: 6px; }
+    .contrato-scroll::-webkit-scrollbar-track { background: #f5ede9; }
+    .contrato-scroll::-webkit-scrollbar-thumb { background: var(--verde); border-radius: 3px; }
+
+    .intro-box { background: var(--creme); border-radius: 10px; padding: 14px 16px; font-size: 0.82rem; font-style: italic; color: var(--preto); line-height: 1.6; margin-bottom: 18px; }
+
+    .clausula { margin-bottom: 22px; }
+    .clausula-titulo { background: var(--verde); color: var(--branco); font-size: 0.78rem; font-weight: 700; padding: 7px 12px; border-radius: 7px; margin-bottom: 10px; display: block; }
+    .clausula p { font-size: 0.82rem; line-height: 1.75; color: var(--preto); margin-bottom: 8px; }
+    .clausula ul { padding-left: 18px; margin: 6px 0 10px; }
+    .clausula ul li { font-size: 0.82rem; line-height: 1.75; color: var(--preto); margin-bottom: 4px; }
+    .clausula-rodape { font-size: 0.75rem; color: var(--cinza); text-align: center; margin-top: 10px; font-style: italic; }
+
+    .aviso-especial { background: #fff8e6; border: 2px solid var(--amarelo); border-radius: 10px; padding: 12px 14px; margin: 10px 0; font-size: 0.82rem; line-height: 1.6; color: var(--preto); }
+    .aviso-especial strong { color: #a06800; }
+
+    .scroll-indicator { display: flex; align-items: center; gap: 8px; padding: 10px 20px; background: rgba(59,80,63,.07); border-top: 1px solid #e5d9d4; font-size: 0.75rem; color: var(--cinza); font-weight: 600; }
+    .scroll-indicator.lido { background: rgba(145,176,150,.15); color: var(--verde); }
+    .scroll-indicator .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cinza); flex-shrink: 0; }
+    .scroll-indicator.lido .dot { background: var(--verde-agua); }
+
+    /* INPUTS */
+    .field { margin-bottom: 18px; }
+    .field label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--preto); margin-bottom: 7px; }
+    .field input { width: 100%; padding: 13px 15px; border: 2px solid #e5d9d4; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; color: var(--preto); background: var(--branco); outline: none; transition: border-color .2s; -webkit-appearance: none; }
+    .field input:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(59,80,63,.12); }
+    .field .error-msg { display: none; font-size: 0.75rem; color: var(--erro); margin-top: 5px; font-weight: 500; }
+    .field.has-error input { border-color: var(--erro); }
+    .field.has-error .error-msg { display: block; }
+
+    /* CHECKBOXES */
+    .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px; background: var(--branco); border-radius: 12px; border: 2px solid #e5d9d4; margin-bottom: 10px; cursor: pointer; transition: border-color .2s; }
+    .check-item:hover { border-color: var(--verde); }
+    .check-item.checked { border-color: var(--verde); background: rgba(59,80,63,.05); }
+    .check-box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #e5d9d4; background: var(--branco); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .2s; margin-top: 1px; }
+    .check-item.checked .check-box { background: var(--verde); border-color: var(--verde); }
+    .check-box::after { content: '✓'; color: var(--branco); font-size: 0.8rem; font-weight: 700; display: none; }
+    .check-item.checked .check-box::after { display: block; }
+    .check-text { font-size: 0.82rem; line-height: 1.55; color: var(--preto); }
+
+    .aceite-box { background: var(--branco); border: 2px solid var(--verde); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+    .aceite-box h4 { font-size: 0.85rem; font-weight: 700; color: var(--verde); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+    .aceite-box p { font-size: 0.82rem; color: var(--cinza); line-height: 1.5; }
+
+    /* BUTTONS */
+    .btn-row { display: flex; gap: 10px; margin-top: 28px; }
+    .btn { flex: 1; padding: 15px; border-radius: 14px; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; border: none; transition: all .2s; }
+    .btn-primary { background: var(--verde); color: var(--branco); }
+    .btn-primary:hover { background: #2a3a2e; }
+    .btn-primary:active { transform: scale(.98); }
+    .btn-secondary { background: transparent; color: var(--verde); border: 2px solid var(--verde); flex: 0 0 auto; padding: 15px 20px; }
+    .btn-secondary:hover { background: rgba(59,80,63,.07); }
+    .btn.loading .btn-label { display: none; }
+    .btn.loading .spinner { display: inline-block; }
+    .spinner { display: none; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-global { display: none; font-size: 0.78rem; color: var(--erro); font-weight: 600; margin-top: 8px; padding: 10px 14px; background: rgba(217,64,64,.08); border-radius: 8px; }
+
+    /* SUCCESS */
+    .success-icon { width: 72px; height: 72px; border-radius: 50%; background: var(--verde-agua); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--branco); margin: 24px auto 16px; }
+    .success-card { background: var(--verde); border-radius: 16px; padding: 20px; color: var(--branco); margin-top: 20px; }
+    .success-card h4 { font-size: 0.8rem; font-weight: 700; opacity: .75; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .success-item { font-size: 0.88rem; line-height: 1.8; }
+
+    .footer { font-size: 0.72rem; color: var(--cinza); text-align: center; margin-top: 20px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="logo-text">Rumo</div>
+    <div class="logo-sub">Orientação Profissional</div>
+  </div>
+  <div class="header-step" id="header-step"></div>
+</div>
+<div class="progress-wrap">
+  <div class="progress-bar" id="progressBar" style="width:0%"></div>
+</div>
+
+<div class="container">
+
+  <!-- STEP 0 – BOAS-VINDAS -->
+  <div class="step active" id="step-0">
+    <div class="welcome-card">
+      <div class="welcome-logo">Rumo</div>
+      <div class="welcome-sub">Orientação Profissional</div>
+      <h2>Esse processo é seu. 🌱</h2>
+      <p>Antes de começar, queremos que você entenda como tudo vai funcionar — e o que a gente espera de você ao longo dessa jornada.</p>
+      <p>Leia com atenção e registre seu compromisso ao final.</p>
+      <div class="time-badge">⏱ Cerca de 5 minutos</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="goTo(1)">Vamos lá →</button>
+    </div>
+  </div>
+
+  <!-- STEP 1 – ACORDO COMPLETO -->
+  <div class="step" id="step-1">
+    <div class="step-label">Passo 1 de 2</div>
+    <div class="step-title">Acordo do Orientando</div>
+    <div class="step-desc">Role o texto até o final para continuar.</div>
+
+    <div class="contrato-box">
+      <div class="contrato-header">
+        <h3>RUMO – Acordo do Orientando</h3>
+        <p>Leia com atenção — esse combinado é entre a gente.</p>
+      </div>
+
+      <div class="contrato-scroll" id="contrato-scroll" onscroll="verificarScroll()">
+
+        <div class="intro-box">
+          Esse documento apresenta como o processo de Orientação Profissional funciona e o que a gente espera de você durante essa jornada.
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">1 – O que é esse processo</span>
+          <p>Você está começando uma jornada feita para te ajudar a chegar à sua escolha profissional com mais clareza, segurança e consciência.</p>
+          <p>Não é terapia. Não tem resposta certa. Não existe escolha errada. É um espaço de autoconhecimento onde você vai explorar seus interesses, valores, habilidades e o mundo do trabalho.</p>
+          <p>Tudo acontece dentro da <strong>Plataforma Rumo</strong> — um ambiente digital com login e senha individuais, exclusivamente seu.</p>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">2 – Seu papel aqui</span>
+          <p>A psicóloga facilita o processo — mas <strong>você é o protagonista</strong>.</p>
+          <p>A qualidade do que você vai viver aqui depende da sua participação, da sua honestidade consigo mesmo(a) e da sua abertura para se descobrir. Quanto mais você se envolver, mais o processo vai fazer sentido.</p>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">3 – As sessões</span>
+          <p>O processo tem, em média, <strong>8 sessões</strong> com duração de aproximadamente <strong>50 minutos</strong> cada. Elas acontecem semanalmente, em dia e horário combinados com antecedência.</p>
+          <p>As sessões serão online. Para que tudo funcione bem:</p>
+          <ul>
+            <li>Garanta um ambiente com privacidade e sem interrupções</li>
+            <li>Use computador — a plataforma não funciona no celular</li>
+            <li>Mantenha a câmera ligada</li>
+            <li>Tenha papel e caneta por perto</li>
+            <li>Verifique sua conexão antes de começar</li>
+          </ul>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">4 – Presença, pontualidade e cancelamentos</span>
+          <p>Comparecer às sessões é parte do compromisso que você está assumindo hoje.</p>
+          <p>Se precisar cancelar ou remarcar, avise com pelo menos <strong>24 horas de antecedência</strong> — em dias úteis.</p>
+
+          <div class="aviso-especial">
+            ⚠️ <strong>Atenção especial:</strong> se a sua sessão for às <strong>segundas-feiras</strong>, o aviso precisa ser dado até a <strong>sexta-feira anterior</strong> — o final de semana não conta como prazo.
+          </div>
+
+          <p>Cancelamentos fora desse prazo implicam cobrança integral da sessão, sem direito à reposição.</p>
+          <p>O limite ao longo de todo o processo é de <strong>2 cancelamentos ou remarcações</strong>. Depois disso, novas alterações poderão ser recusadas.</p>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">5 – As atividades entre as sessões</span>
+          <p>Parte do processo acontece <strong>fora dos encontros</strong> e essas atividades são essenciais para o ritmo da sua jornada e precisam ser feitas antes da próxima sessão.</p>
+          <p>Deixar acumular compromete o andamento e pode gerar a necessidade de sessões extras — o que atrasa sua chegada à resposta que você veio buscar.</p>
+          <p>As atividades fora das sessões incluem diferentes formatos:</p>
+          <ul>
+            <li><strong>Pesquisa sobre cursos</strong> — explorar grades curriculares, instituições e mercado de trabalho em sites especializados</li>
+            <li><strong>Leitura de materiais</strong> — textos e conteúdos selecionados e enviados pela psicóloga para aprofundar o que foi trabalhado na sessão</li>
+            <li><strong>Vídeos e podcasts</strong> — links indicados para ampliar sua visão sobre áreas e profissões de interesse</li>
+            <li><strong>Entrevistas com profissionais</strong> — conversar com quem já está no mercado é uma das formas mais ricas de testar se uma área faz mesmo sentido para você; sempre que possível, a psicóloga compartilha contatos para facilitar esse encontro</li>
+          </ul>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">6 – Sigilo e privacidade</span>
+          <p>Tudo o que você compartilha nas sessões é <strong>sigiloso</strong>.</p>
+          <p>Seus responsáveis recebem informações sobre a estrutura geral do processo e o relatório de devolutiva ao final — que é apresentado a <strong>você primeiro</strong>, antes de ser compartilhado com eles.</p>
+          <p>A orientação profissional é um espaço seu.</p>
+        </div>
+
+        <div class="clausula">
+          <span class="clausula-titulo">7 – O papel da psicóloga orientadora</span>
+          <p>A psicóloga não vai te dizer o que fazer. Não vai indicar uma profissão. Não vai julgar seus interesses ou escolhas.</p>
+          <p>Ela está aqui para facilitar seu processo de reflexão e te ajudar a construir a sua própria resposta — que só você pode encontrar.</p>
+          <p>Se surgirem questões que vão além da orientação profissional, você poderá ser encaminhado(a) para outros profissionais, quando necessário.</p>
+        </div>
+
+
+        <div class="clausula-rodape">Rumo Orientação &amp; Psicologia · Instituto Rumo · Cláudia Botelho · CRP 05/73536</div>
+        <div style="height:8px"></div>
+      </div>
+
+      <div class="scroll-indicator" id="scroll-indicator">
+        <div class="dot"></div>
+        <span id="scroll-txt">Role até o final para continuar ↓</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(0)">← Voltar</button>
+      <button class="btn btn-primary" id="btn-continuar" onclick="goTo(2)" disabled style="opacity:.45;cursor:not-allowed">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 – ACEITE -->
+  <div class="step" id="step-2">
+    <div class="step-label">Passo 2 de 2</div>
+    <div class="step-title">Seu compromisso</div>
+    <div class="step-desc">Informe seu nome e marque as declarações abaixo para registrar seu aceite.</div>
+
+    <div class="aceite-box">
+      <h4>Quem está assumindo esse compromisso?</h4>
+      <p>Preencha com seu nome — esse registro fica guardado com data e hora.</p>
+    </div>
+
+    <div class="field" id="field-nomeOrientando">
+      <label>Seu nome completo *</label>
+      <input type="text" id="nomeOrientando" placeholder="Nome do orientando" autocomplete="name">
+      <div class="error-msg">Por favor, informe seu nome completo.</div>
+    </div>
+
+    <div class="field" id="field-emailOrientando">
+      <label>Seu e-mail *</label>
+      <input type="email" id="emailOrientando" placeholder="para receber uma cópia do seu acordo" autocomplete="email" inputmode="email">
+      <div class="error-msg">Por favor, informe um e-mail válido.</div>
+    </div>
+
+    <div style="margin-bottom:18px">
+      <div id="checks-aceite">
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">Li e entendi o acordo acima. Me comprometo a participar do processo com presença, honestidade e abertura.</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">Sei que preciso avisar com pelo menos 24 horas de antecedência se precisar cancelar ou remarcar — e que, se minha sessão for na segunda-feira, o aviso precisa ser dado na sexta-feira anterior.</div>
+        </div>
+      </div>
+      <div class="error-global" id="err-checks">Por favor, marque todas as declarações acima.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(1)">← Voltar</button>
+      <button class="btn btn-primary" id="btnEnviar" onclick="enviarFormulario()">
+        <span class="btn-label">Confirmar compromisso ✓</span>
+        <span class="spinner"></span>
+      </button>
+    </div>
+    <p class="footer">Ao confirmar, seu aceite é registrado com data e hora.</p>
+  </div>
+
+  <!-- SUCESSO -->
+  <div class="step" id="step-sucesso">
+    <div class="success-icon">🌱</div>
+    <div class="step-title" style="text-align:center">Compromisso registrado!</div>
+    <div class="step-desc" style="text-align:center;margin-top:8px">
+      Que bom ter você aqui.<br><br>
+      Agora é só começar — e lembrar que esse processo é seu. A gente está aqui para caminhar junto.
+    </div>
+    <div class="success-card">
+      <h4>O que você assumiu hoje</h4>
+      <div class="success-item">
+        ✓ Participar com presença e abertura<br>
+        ✓ Avisar com 24h de antecedência sobre cancelamentos<br>
+        ✓ Fazer as atividades entre as sessões
+      </div>
+    </div>
+    <p class="footer" style="margin-top:20px">Rumo Orientação &amp; Psicologia · Instituto Rumo · Cláudia Botelho · CRP 05/73536<br><em>Que o Rumo siga abrindo caminhos.</em></p>
+  </div>
+
+</div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx-QEDpIPoluT0GGn0VTR3wnTGeqRS_RFI74bdbUPLHXPX5ogyBp9PVwr85St-i79xB/exec';
+
+const TOTAL_STEPS = 3;
+let acordoLido = false;
+
+function updateProgress(step) {
+  const pct = step === 'sucesso' ? 100 : Math.round((step / TOTAL_STEPS) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('header-step').textContent = (step === 0 || step === 'sucesso') ? '' : step + ' / 2';
+}
+
+function goTo(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const id = n === 'sucesso' ? 'step-sucesso' : 'step-' + n;
+  document.getElementById(id).classList.add('active');
+  updateProgress(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function verificarScroll() {
+  const el = document.getElementById('contrato-scroll');
+  const chegouFim = el.scrollTop + el.clientHeight >= el.scrollHeight - 20;
+  if (chegouFim && !acordoLido) {
+    acordoLido = true;
+    const btn = document.getElementById('btn-continuar');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+    const ind = document.getElementById('scroll-indicator');
+    ind.classList.add('lido');
+    document.getElementById('scroll-txt').textContent = '✓ Acordo lido até o final';
+  }
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  document.getElementById('err-checks').style.display = 'none';
+}
+
+function todosChecked() {
+  return [...document.querySelectorAll('#checks-aceite .check-item')].every(el => el.classList.contains('checked'));
+}
+
+async function enviarFormulario() {
+  const nome  = document.getElementById('nomeOrientando').value.trim();
+  const email = document.getElementById('emailOrientando').value.trim();
+  let ok = true;
+
+  if (!nome) {
+    document.getElementById('field-nomeOrientando').classList.add('has-error');
+    ok = false;
+  } else {
+    document.getElementById('field-nomeOrientando').classList.remove('has-error');
+  }
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    document.getElementById('field-emailOrientando').classList.add('has-error');
+    ok = false;
+  } else {
+    document.getElementById('field-emailOrientando').classList.remove('has-error');
+  }
+
+  if (!todosChecked()) {
+    document.getElementById('err-checks').style.display = 'block';
+    ok = false;
+  }
+
+  if (!ok) return;
+
+  const btn = document.getElementById('btnEnviar');
+  btn.classList.add('loading'); btn.disabled = true;
+
+  const payload = {
+    dataAceite:      new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+    nomeOrientando:  nome,
+    emailOrientando: email
+  };
+
+  try {
+    const url = APPS_SCRIPT_URL + '?payload=' + encodeURIComponent(JSON.stringify(payload));
+    await fetch(url, { method: 'GET', mode: 'no-cors' });
+    goTo('sucesso');
+  } catch (err) {
+    alert('Ops! Erro ao enviar. Tente novamente.');
+    btn.classList.remove('loading'); btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>
