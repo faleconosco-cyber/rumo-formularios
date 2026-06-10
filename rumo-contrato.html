@@ -388,7 +388,7 @@
         <div class="pgto-card" id="card-cartao" onclick="escolherPgto('cartao')">
           <div class="pgto-card-title">
             <div class="radio" id="radio-cartao"></div>
-            Cartão de crédito (parcelado em até 12x)
+            Cartão de crédito parcelado
           </div>
           <div class="pgto-card-obs">Sujeito às taxas da operadora no momento da contratação.</div>
         </div>
@@ -536,7 +536,7 @@ function escolherPgto(val) {
   ['pix','cartao'].forEach(v => {
     document.getElementById('card-' + v).classList.toggle('selected', v === val);
   });
-  const labels = { pix: 'PIX à vista', cartao: 'Cartão de crédito (parcelado em até 6x)' };
+  const labels = { pix: 'PIX à vista', cartao: 'Cartão de crédito parcelado' };
   formData.formaPagamento = labels[val];
   document.getElementById('err-pagamento').style.display = 'none';
 }
@@ -584,7 +584,7 @@ function nextStep(current) {
 
 function atualizarResumoAceite() {
   const psiLabel = psiEscolhida === 'claudia' ? 'Cláudia Botelho (Responsável Técnica)' : 'Psicóloga especializada na Metodologia Rumo';
-  const pgtoLabel = { pix: 'PIX à vista', pix3x: 'PIX parcelado em 3x', cartao: 'Cartão de crédito (até 12x)' }[pgtoEscolhido] || '';
+  const pgtoLabel = { pix: 'PIX à vista', cartao: 'Cartão de crédito parcelado' }[pgtoEscolhido] || '';
   const valor = psiEscolhida === 'claudia' ? 'R$ 2.400,00' : 'R$ 1.800,00';
   document.getElementById('aceite-resumo').innerHTML =
     '🧑‍💼 <strong>Psicóloga:</strong> ' + psiLabel + '<br>' +
