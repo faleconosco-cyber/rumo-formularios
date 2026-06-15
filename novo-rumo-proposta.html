@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iI0ZEREVENSIvPjx0ZXh0IHg9IjUwIiB5PSI0NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlJ1PC90ZXh0Pjx0ZXh0IHg9IjUzIiB5PSI3NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm1vPC90ZXh0Pjwvc3ZnPg==">
+  <title>Novo Rumo – Proposta Comercial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --verde:      #3B503F;
+      --verde-md:   #5C7A5F;
+      --verde-agua: #91B096;
+      --bege:       #F2E8D9;
+      --bege-md:    #E8D5B7;
+      --bege-dk:    #D4BC97;
+      --bordo:      #7D2B3A;
+      --bordo-dk:   #5C1F2A;
+      --preto:      #282828;
+      --cinza:      #6b7280;
+      --branco:     #FFFFFF;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--branco); color: var(--preto); }
+
+    /* ── HEADER ── */
+    .header { background: var(--verde); padding: 14px 24px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,.2); }
+    .logo-text { color: var(--branco); font-size: 1.5rem; font-weight: 800; font-style: italic; }
+    .logo-sub { color: var(--bege); font-size: 0.6rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+    .header-cta { margin-left: auto; background: var(--bordo); color: var(--branco); border: none; border-radius: 30px; padding: 9px 18px; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: background .2s; }
+    .header-cta:hover { background: var(--bordo-dk); }
+
+    /* ── HERO ── */
+    .hero { background: var(--verde); padding: 72px 24px 64px; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(242,232,217,.15); border: 1px solid rgba(242,232,217,.3); border-radius: 30px; padding: 5px 16px; font-size: 0.72rem; font-weight: 700; color: var(--bege); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; color: var(--branco); line-height: 1.2; margin-bottom: 16px; }
+    .hero h1 em { color: var(--bege-md); font-style: italic; }
+    .hero-sub { font-size: 1rem; color: rgba(255,255,255,.8); max-width: 560px; margin: 0 auto 32px; line-height: 1.7; }
+    .hero-btn { display: inline-block; background: var(--verde); color: var(--branco); border-radius: 14px; padding: 16px 32px; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; text-decoration: none; transition: background .2s; box-shadow: 0 4px 20px rgba(0,0,0,.2); }
+    .hero-btn:hover { background: var(--verde-md); }
+
+    /* ── SECTIONS ── */
+    section { padding: 56px 24px; }
+    .section-inner { max-width: 700px; margin: 0 auto; }
+    .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--bordo); margin-bottom: 8px; }
+    .section-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; color: var(--preto); line-height: 1.25; margin-bottom: 12px; }
+    .section-title em { color: var(--bordo); font-style: italic; }
+    .section-title.white { color: var(--branco); }
+    .section-title.white em { color: var(--bege-md); }
+    .section-desc { font-size: 0.9rem; color: var(--cinza); line-height: 1.7; margin-bottom: 28px; }
+    .section-desc.white { color: rgba(255,255,255,.8); }
+
+    /* ── PROBLEMA ── */
+    .problema { background: var(--bege); }
+    .problema-text { font-size: 0.95rem; line-height: 1.85; color: var(--preto); margin-bottom: 16px; }
+    .problema-text strong { color: var(--bordo); }
+    .problema-destaque { background: var(--branco); border-left: 4px solid var(--bordo); border-radius: 0 12px 12px 0; padding: 16px 20px; margin-top: 24px; font-size: 1rem; font-weight: 700; color: var(--bordo); font-style: italic; }
+
+    /* ── O QUE OFERECE ── */
+    .oferece { background: var(--branco); }
+    .oferece-text { font-size: 0.92rem; line-height: 1.8; color: var(--preto); margin-bottom: 14px; }
+    .oferece-text strong { color: var(--verde); }
+
+    /* ── PARA QUEM ── */
+    .paraquem { background: var(--verde); }
+    .paraquem-lista { list-style: none; padding: 0; margin-top: 8px; }
+    .paraquem-lista li { font-size: 0.9rem; color: rgba(255,255,255,.9); padding: 12px 0 12px 28px; position: relative; border-bottom: 1px solid rgba(255,255,255,.1); line-height: 1.6; }
+    .paraquem-lista li:last-child { border-bottom: none; }
+    .paraquem-lista li::before { content: '→'; position: absolute; left: 0; color: var(--bege-md); font-weight: 700; }
+
+    /* ── METODOLOGIA ── */
+    .metod { background: var(--bege); }
+    .rumo-pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px; }
+    @media (max-width: 500px) { .rumo-pillars { grid-template-columns: 1fr; } }
+    .pillar-card { background: var(--branco); border-radius: 14px; padding: 20px; border: 1px solid var(--bege-md); }
+    .pillar-letter { width: 40px; height: 40px; border-radius: 50%; background: var(--verde); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; color: var(--branco); margin-bottom: 10px; }
+    .pillar-title { font-size: 0.95rem; font-weight: 700; color: var(--preto); margin-bottom: 4px; }
+    .pillar-desc { font-size: 0.8rem; color: var(--cinza); line-height: 1.5; }
+
+    /* ── FORMATOS ── */
+    .formatos { background: var(--branco); }
+    .formato-card { border-radius: 18px; padding: 28px; margin-bottom: 16px; border: 2px solid var(--bege-md); }
+    .formato-card.principal { border-color: var(--bordo); background: linear-gradient(135deg, #fdf5f6, #fff); }
+    .formato-card.flex { border-color: var(--verde); background: linear-gradient(135deg, #f4f8f4, #fff); }
+    .formato-card.app { border-color: var(--bege-dk); background: var(--bege); }
+    .formato-tag { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--cinza); margin-bottom: 10px; }
+    .formato-card.principal .formato-tag { color: var(--bordo); }
+    .formato-card.flex .formato-tag { color: var(--verde); }
+    .formato-nome { font-size: 1.15rem; font-weight: 800; color: var(--preto); margin-bottom: 6px; }
+    .formato-valor { display: flex; align-items: baseline; gap: 10px; margin: 14px 0; flex-wrap: wrap; }
+    .formato-valor .vista { font-size: 1.6rem; font-weight: 800; color: var(--bordo); }
+    .formato-card.flex .formato-valor .vista { color: var(--verde); }
+    .formato-card.app .formato-valor .vista { color: var(--verde); }
+    .formato-valor .parcel { font-size: 0.82rem; color: var(--cinza); font-style: italic; }
+    .formato-desc { font-size: 0.85rem; line-height: 1.75; color: var(--preto); margin-bottom: 12px; }
+    .formato-paraquem { font-size: 0.82rem; line-height: 1.6; color: var(--cinza); font-style: italic; padding: 10px 14px; background: rgba(0,0,0,.03); border-radius: 10px; }
+    .formato-paraquem strong { color: var(--preto); font-style: normal; }
+    .formato-duracao { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 700; color: var(--verde); background: rgba(91,122,95,.1); border-radius: 20px; padding: 4px 12px; margin-bottom: 12px; }
+
+    /* ── DIFERENCIAL ── */
+    .diferencial { background: var(--bordo); }
+    .dif-items { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+    .dif-item { display: flex; align-items: flex-start; gap: 14px; background: rgba(255,255,255,.08); border-radius: 12px; padding: 16px; border: 1px solid rgba(255,255,255,.12); }
+    .dif-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .dif-text { font-size: 0.87rem; color: rgba(255,255,255,.9); line-height: 1.65; }
+    .dif-text strong { color: var(--branco); }
+
+    /* ── ESTEIRA ── */
+    .esteira { background: var(--bege); }
+    .esteira-text { font-size: 0.9rem; line-height: 1.8; color: var(--preto); margin-bottom: 14px; }
+    .esteira-flow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 24px 0; justify-content: center; }
+    .esteira-step { background: var(--branco); border: 2px solid var(--bege-dk); border-radius: 12px; padding: 12px 16px; text-align: center; flex: 1; min-width: 120px; }
+    .esteira-step .step-nome { font-size: 0.78rem; font-weight: 700; color: var(--verde); text-transform: uppercase; letter-spacing: 1px; }
+    .esteira-step .step-valor { font-size: 0.72rem; color: var(--cinza); margin-top: 2px; }
+    .esteira-arrow { font-size: 1.2rem; color: var(--bordo); font-weight: 700; }
+
+    /* ── FAQ ── */
+    .faq { background: var(--branco); }
+    .faq-item { background: var(--bege); border-radius: 12px; padding: 20px; margin-bottom: 12px; border: 1px solid var(--bege-md); }
+    .faq-pergunta { font-size: 0.9rem; font-weight: 700; color: var(--verde); margin-bottom: 8px; }
+    .faq-resposta { font-size: 0.85rem; color: var(--cinza); line-height: 1.7; }
+
+    /* ── DEPOIMENTOS ── */
+    .depos { background: var(--verde); }
+    .depo-card { background: rgba(255,255,255,.1); border-radius: 14px; padding: 22px; margin-bottom: 14px; border: 1px solid rgba(255,255,255,.15); position: relative; }
+    .depo-card::before { content: '"'; font-size: 3rem; color: rgba(242,232,217,.25); font-family: Georgia, serif; position: absolute; top: 8px; left: 16px; line-height: 1; }
+    .depo-text { font-size: 0.88rem; line-height: 1.7; color: rgba(255,255,255,.9); padding-left: 24px; margin-bottom: 12px; }
+    .depo-autor { font-size: 0.78rem; font-weight: 700; color: var(--bege-md); padding-left: 24px; }
+    .depo-stars { color: #FDBB71; font-size: 0.85rem; padding-left: 24px; margin-bottom: 6px; }
+
+    /* ── CTA FINAL ── */
+    .cta-final { background: var(--verde); text-align: center; padding: 64px 24px; }
+    .cta-final h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; color: var(--branco); line-height: 1.3; margin-bottom: 10px; }
+    .cta-final h2 em { color: var(--bege-md); font-style: italic; }
+    .cta-final p { font-size: 0.9rem; color: rgba(255,255,255,.75); margin-bottom: 32px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+    .cta-btn { display: inline-block; background: #25D366; color: var(--branco); border-radius: 14px; padding: 18px 40px; font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 700; text-decoration: none; transition: background .2s; box-shadow: 0 4px 24px rgba(37,211,102,.4); }
+    .cta-btn:hover { background: #1da851; }
+    .contato-info { margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+    .contato-item { font-size: 0.8rem; color: rgba(255,255,255,.65); }
+    .contato-item strong { color: rgba(255,255,255,.9); }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--bordo-dk); padding: 20px 24px; text-align: center; }
+    .footer p { font-size: 0.75rem; color: rgba(255,255,255,.5); line-height: 1.7; }
+    .footer em { color: rgba(242,232,217,.6); font-style: italic; }
+
+    /* ── WHATSAPP ── */
+    .whatsapp-float { position: fixed; bottom: 24px; right: 24px; z-index: 999; }
+    .whatsapp-float a { display: flex; align-items: center; gap: 10px; background: #25D366; color: var(--branco); border-radius: 50px; padding: 14px 20px; text-decoration: none; font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 700; box-shadow: 0 4px 20px rgba(37,211,102,.5); transition: all .25s; }
+    .whatsapp-float a:hover { background: #1da851; transform: translateY(-2px); }
+    .whatsapp-float svg { width: 22px; height: 22px; flex-shrink: 0; }
+    @media (max-width: 480px) { .whatsapp-float a .wpp-label { display: none; } .whatsapp-float a { border-radius: 50%; padding: 14px; } }
+
+    .divider { height: 4px; background: linear-gradient(90deg, var(--bordo), var(--verde)); }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div>
+    <div class="logo-text">Rumo</div>
+    <div class="logo-sub">Orientação &amp; Psicologia</div>
+  </div>
+</header>
+<div class="divider"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Transição de Carreira</div>
+  <h1>Quando o trabalho não faz<br>mais sentido, e você sabe<br>que algo precisa <em>mudar</em></h1>
+  <p class="hero-sub">Para você que sente que algo precisa mudar.</p>
+</section>
+
+<!-- O PROBLEMA -->
+<section class="problema">
+  <div class="section-inner">
+    <div class="section-label">O ponto de partida</div>
+    <h2 class="section-title">O problema que o <em>Novo Rumo</em> resolve</h2>
+    <p class="problema-text">Muitos adultos chegam a um ponto da vida em que o trabalho não faz mais sentido, mas não sabem se o problema é o emprego, a área, o ambiente ou tudo junto. Ficam paralisados com medo de errar, porém diante de uma necessidade de mudança. <strong>Sem clareza, qualquer decisão parece arriscada.</strong></p>
+    <div class="problema-destaque">O Novo Rumo existe para esse momento.</div>
+  </div>
+</section>
+
+<!-- O QUE OFERECE -->
+<section class="oferece">
+  <div class="section-inner">
+    <div class="section-label">O processo</div>
+    <h2 class="section-title">O que o <em>Novo Rumo</em> oferece</h2>
+    <p class="oferece-text">Um processo estruturado de transição de carreira, baseado na <strong>Metodologia RUMO</strong>, desenvolvida pela psicóloga <strong>Cláudia Botelho Marcos</strong> com 6 anos de experiência em orientação profissional.</p>
+    <p class="oferece-text">O processo ajuda a pessoa a olhar para a própria história, entender o que a move, o que a trava e o que quer construir — e sair com um plano real para o próximo capítulo.</p>
+  </div>
+</section>
+
+<!-- PARA QUEM -->
+<section class="paraquem">
+  <div class="section-inner">
+    <div class="section-label" style="color:var(--bege-md)">Indicação</div>
+    <h2 class="section-title white">Para <em>quem é</em> o Novo Rumo</h2>
+    <p class="section-desc white">Para adultos que se reconhecem em uma dessas situações:</p>
+    <ul class="paraquem-lista">
+      <li>Estão num emprego que não faz mais sentido</li>
+      <li>Mudaram de área e precisam se reposicionar</li>
+      <li>Ficaram muito tempo parados e perderam a referência de quem são profissionalmente</li>
+      <li>Estão diante de uma decisão importante de carreira e não sabem por onde começar</li>
+    </ul>
+  </div>
+</section>
+
+<!-- METODOLOGIA -->
+<section class="metod">
+  <div class="section-inner">
+    <div class="section-label">A base do processo</div>
+    <h2 class="section-title">Metodologia <em>RUMO</em></h2>
+    <p class="section-desc">Uma abordagem exclusiva, desenvolvida com base na psicologia e na prática com adultos em transição. Organizada em 4 pilares que guiam toda a jornada.</p>
+    <div class="rumo-pillars">
+      <div class="pillar-card">
+        <div class="pillar-letter">R</div>
+        <div class="pillar-title">Reconhecimento</div>
+        <div class="pillar-desc">Autoconhecimento: interesses, habilidades, valores e história profissional</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-letter">U</div>
+        <div class="pillar-title">Ultrapassar</div>
+        <div class="pillar-desc">Medos, crenças limitantes e pressões externas que travam a decisão</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-letter">M</div>
+        <div class="pillar-title">Mapear</div>
+        <div class="pillar-desc">Possibilidades reais: profissões, formações e realidade do mercado</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-letter">O</div>
+        <div class="pillar-title">Organizar</div>
+        <div class="pillar-desc">Síntese, comparação de opções e construção de um plano concreto</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATOS -->
+<section class="formatos">
+  <div class="section-inner">
+    <div class="section-label">Investimento</div>
+    <h2 class="section-title">Os três <em>formatos</em></h2>
+    <p class="section-desc">Cada formato foi pensado para um momento diferente — escolha o que faz mais sentido para onde você está agora.</p>
+
+    <!-- MENTORIA -->
+    <div class="formato-card principal">
+      <div class="formato-tag">Acompanhamento completo</div>
+      <div class="formato-nome">Mentoria Novo Rumo</div>
+      <div class="formato-duracao">⏱ ~60 dias · 8 encontros · frequência semanal</div>
+      <div class="formato-valor">
+        <span class="vista">R$ 2.400</span>
+        <span class="parcel">à vista · ou 6x de R$ 416 no cartão de crédito</span>
+      </div>
+      <p class="formato-desc">Para quem quer acompanhamento próximo durante todo o processo. São 8 encontros individuais online de 50 minutos, conduzidos pela psicóloga, um a um com cada módulo da metodologia. O app Novo Rumo funciona como suporte entre os encontros — a pessoa registra, reflete e chega preparada para a próxima sessão.</p>
+      <div class="formato-paraquem"><strong>Para quem é:</strong> quem está num momento de mudança significativa, tem mais de uma questão em jogo (área, vínculo, identidade profissional) e quer ter alguém ao lado para processar o que vai surgindo.</div>
+    </div>
+
+    <!-- FLEX -->
+    <div class="formato-card flex">
+      <div class="formato-tag">Orientação em pontos-chave</div>
+      <div class="formato-nome">Novo Rumo Flex</div>
+      <div class="formato-duracao">⏱ ~30 dias · 4 encontros</div>
+      <div class="formato-valor">
+        <span class="vista">R$ 1.200</span>
+        <span class="parcel">à vista · ou 4x de R$ 312 no cartão de crédito</span>
+      </div>
+      <p class="formato-desc">Para quem quer orientação especializada em momentos-chave, sem o compromisso de um processo completo. São 4 encontros individuais online de 50 minutos — um por etapa da metodologia — para aprofundar o que surgiu no app, tirar dúvidas e ter um olhar profissional no momento certo.</p>
+      <div class="formato-paraquem"><strong>Para quem é:</strong> quem tem autonomia para fazer o processo sozinho, mas sabe que vai precisar de apoio em alguns pontos — ou quem quer experimentar antes de investir num processo completo.</div>
+    </div>
+
+    <!-- APP -->
+    <div class="formato-card app">
+      <div class="formato-tag">Jornada autônoma</div>
+      <div class="formato-nome">Meu Novo Rumo</div>
+      <div class="formato-duracao">⏱ No seu próprio ritmo</div>
+      <div class="formato-valor">
+        <span class="vista">R$ 97</span>
+        <span class="parcel">pagamento único</span>
+      </div>
+      <p class="formato-desc">Para quem quer fazer o processo no próprio ritmo, sem encontros. O app Novo Rumo guia a pessoa pelas quatro etapas da metodologia, com perguntas, reflexões e um mapa completo da jornada ao final.</p>
+      <div class="formato-paraquem"><strong>Para quem é:</strong> quem está começando a se questionar, quer clareza antes de tomar uma decisão, ou não tem condições de investir num processo com acompanhamento agora — mas quer dar o primeiro passo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAL -->
+<section class="diferencial">
+  <div class="section-inner">
+    <div class="section-label" style="color:var(--bege-md)">Por que é diferente</div>
+    <h2 class="section-title white">O Novo Rumo <em>não é</em></h2>
+    <div class="dif-items">
+      <div class="dif-item">
+        <div class="dif-icon">🚫</div>
+        <div class="dif-text"><strong>Não é um teste vocacional.</strong> Não entrega uma lista de profissões. Não diz o que a pessoa deve fazer.</div>
+      </div>
+      <div class="dif-item">
+        <div class="dif-icon">💡</div>
+        <div class="dif-text"><strong>O Novo Rumo parte do princípio de que a sua história profissional já contém as respostas</strong> — e o processo existe para tornar esse padrão visível.</div>
+      </div>
+      <div class="dif-item">
+        <div class="dif-icon">🧠</div>
+        <div class="dif-text"><strong>A metodologia foi desenvolvida por uma psicóloga, não por um algoritmo.</strong> O app foi construído para sustentar uma reflexão real, não para entregar uma fórmula pronta.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section class="depos">
+  <div class="section-inner">
+    <div class="section-label" style="color:var(--bege-md)">O que dizem</div>
+    <h2 class="section-title white">Depoimentos</h2>
+
+    <div class="depo-card">
+      <div class="depo-stars">★★★★★</div>
+      <p class="depo-text">Como foi bom ter uma profissional me ajudando a me reencontrar aos 42 anos. Cláudia me mostrou que tenho muitas opções ainda 💗</p>
+      <div class="depo-autor">Vanessa Noblat</div>
+    </div>
+
+    <div class="depo-card">
+      <div class="depo-stars">★★★★★</div>
+      <p class="depo-text">Me ajudou a encontrar um rumo para a minha carreira quando eu estava me sentindo totalmente perdida. Me senti acolhida desde a primeira sessão. Super recomendo para quem se sente perdido no quesito profissional e quer se encontrar.</p>
+      <div class="depo-autor">Amanda Souza</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="section-inner">
+    <div class="section-label">Dúvidas frequentes</div>
+    <h2 class="section-title">Perguntas <em>frequentes</em></h2>
+
+    <div class="faq-item">
+      <div class="faq-pergunta">O Novo Rumo é terapia?</div>
+      <div class="faq-resposta">Não. O processo de orientação profissional não é terapia. Na terapia, o enfoque é mais abrangente e envolve o cuidado e o acolhimento de questões emocionais em sentido amplo. Na orientação profissional, apesar de haver cuidado e acolhimento, o foco é especificamente em questões de ordem profissional — sem se deter a outros assuntos psíquicos.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-pergunta">O processo é online?</div>
+      <div class="faq-resposta">Sim. Todos os encontros são realizados online, com suporte do aplicativo Novo Rumo — que acompanha a pessoa ao longo de toda a jornada.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-pergunta">Qual é a duração do processo?</div>
+      <div class="faq-resposta">Depende do formato escolhido. A <strong>Mentoria Novo Rumo</strong> tem duração de aproximadamente 60 dias, com 8 encontros em frequência semanal. O <strong>Novo Rumo Flex</strong> dura em torno de 30 dias, podendo se estender um pouco mais caso os encontros sejam quinzenais. Já o <strong>Meu Novo Rumo</strong> (app) é uma jornada pessoal — cada pessoa faz no próprio ritmo, sem prazo definido.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-pergunta">Posso contratar sessões avulsas se escolher só o app?</div>
+      <div class="faq-resposta">Sim. Quem opta pela jornada <strong>Meu Novo Rumo</strong> pode contratar sessões individuais à parte, consultando o valor disponível no momento da contratação.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <h2>Pronto para encontrar<br>o seu <em>próximo capítulo?</em></h2>
+  <p>Entre em contato e tire todas as suas dúvidas antes de começar.</p>
+  <div class="contato-info">
+    <div class="contato-item"><strong>WhatsApp:</strong> (21) 990625330</div>
+    <div class="contato-item"><strong>Instagram:</strong> @claudiabotelhopsi</div>
+    <div class="contato-item"><strong>E-mail:</strong> faleconosco@institutorumo.com</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>Rumo Orientação &amp; Psicologia · Instituto Rumo · Cláudia Botelho Marcos · CRP 05/73536<br>
+  <em>Que o Rumo siga abrindo caminhos.</em></p>
+</footer>
+
+
+</body>
+</html>
