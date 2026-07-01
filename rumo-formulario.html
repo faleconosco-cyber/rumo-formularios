@@ -788,6 +788,10 @@
 // ═══════════════════════════════════════════
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby93L6z3lZN8LLWX4esAdRQXOEiBzx_sMqt0YvDxH8JYmPFBb7I4Q8nO-7Sfp2w1Kn7bA/exec';
 
+// Mesmo projeto Supabase do rumo-crm — chave pública, protegida por RLS.
+const SUPABASE_URL = 'https://ipgyrwxnvtuetnuyryzk.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_JELHL8UlHqaGdnhhD2Ycqg_LnCBoDjr';
+
 // ── Estado do formulário ─────────────────
 const formData = {};
 const TOTAL_STEPS = 12; // steps 1-11 + resumo
@@ -1057,6 +1061,65 @@ function buildResumo() {
   document.getElementById('resumo-content').innerHTML = html;
 }
 
+// ── Envio ao CRM (Supabase) ─────────────────
+// DD/MM/AAAA -> AAAA-MM-DD
+function paraDataISO(ddmmyyyy) {
+  const [d, m, y] = (ddmmyyyy || '').split('/');
+  return (d && m && y) ? `${y}-${m}-${d}` : null;
+}
+// "A, B, C" -> ["A","B","C"] (chips multi juntam com ', ')
+function paraArray(strComVirgulas) {
+  return (strComVirgulas || '').split(',').map(s => s.trim()).filter(Boolean);
+}
+
+// Envia a mesma triagem para o CRM (Supabase), best-effort — se falhar,
+// a família já viu sucesso pelo caminho do Sheets e não é bloqueada por isso.
+async function enviarParaCRM(d) {
+  const triagem = {
+    nome_jovem:              d.nomeJovem,
+    data_nascimento:         paraDataISO(d.dataNasc),
+    colegio:                 d.colegio || null,
+    serie:                   d.serie,
+    nome_responsavel:        d.nomeResp,
+    whatsapp:                d.whatsapp,
+    origem:                  paraArray(d.comoChegou),
+    historico_orientacao:    d.orientacaoAnterior || 'Não',
+    qual_historico:          d.detailOrientacao || null,
+    motivacao:               d.motivacao,
+    quando_surgiu:           d.quandoSurgiu,
+    reacao_tema:             paraArray(d.reacaoTema),
+    expectativas:            paraArray(d.expectativas),
+    psicoterapia:            d.psicoterapia,
+    diagnostico:             d.diagnostico,
+    qual_diagnostico:        d.detailDiagnostico || null,
+    psiquiatrico:            d.psiquiatra,
+    medicacao:               d.medicacao,
+    qual_medicacao:          d.detailMedicacao || null,
+    observacoes:             d.observacoes || null,
+    dias_disponiveis:        paraArray(d.diasDisponiveis),
+    periodos_disponiveis:    paraArray(d.periodosDisponiveis),
+    preferencia_atendimento: d.preferenciaAtendimento,
+  };
+
+  const hoje = new Date().toLocaleDateString('sv-SE', { timeZone: 'America/Sao_Paulo' }); // AAAA-MM-DD
+
+  const r = await fetch(SUPABASE_URL + '/rest/v1/rpc/criar_triagem_completa', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+    },
+    body: JSON.stringify({
+      triagem,
+      lead_origem: d.comoChegou,
+      tarefa_texto: 'Entrar em contato pelo WhatsApp',
+      tarefa_data: hoje,
+    }),
+  });
+  if (!r.ok) throw new Error('CRM respondeu ' + r.status + ': ' + await r.text());
+}
+
 // ── Envio ──────────────────────────────────
 async function enviarFormulario() {
   const btn = document.getElementById('btnEnviar');
@@ -1067,6 +1130,9 @@ async function enviarFormulario() {
     ...formData,
     dataEnvio: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
   };
+
+  // Best-effort: não bloqueia nem mostra erro pra família se o CRM falhar.
+  enviarParaCRM(formData).catch(err => console.error('Falha ao enviar triagem pro CRM:', err));
 
   try {
     // Se a URL ainda é o placeholder, simula envio local (modo demo)
