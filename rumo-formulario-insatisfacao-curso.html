@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Rumo – Triagem | Insatisfação com o Curso</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul:       #3E658E;
+      --azul-dark:  #2e4f72;
+      --laranja:    #FD745D;
+      --laranja-dk: #e05a44;
+      --creme:      #FDDED5;
+      --creme-bg:   #fdf0eb;
+      --verde:      #3B503F;
+      --verde-agua: #91B096;
+      --amarelo:    #FDBB71;
+      --preto:      #282828;
+      --cinza:      #6b7280;
+      --branco:     #FFFFFF;
+      --erro:       #d94040;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--creme-bg);
+      color: var(--preto);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── HEADER ─────────────────────────────── */
+    .header {
+      width: 100%;
+      background: var(--azul);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
+    .logo-text {
+      color: var(--branco);
+      font-size: 1.5rem;
+      font-weight: 800;
+      font-style: italic;
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+    .logo-sub {
+      color: var(--creme);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ── PROGRESS BAR ───────────────────────── */
+    .progress-wrap {
+      width: 100%;
+      background: rgba(255,255,255,.25);
+      height: 4px;
+    }
+    .progress-bar {
+      height: 4px;
+      background: var(--laranja);
+      transition: width .4s ease;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* ── CONTAINER ──────────────────────────── */
+    .container {
+      width: 100%;
+      max-width: 600px;
+      padding: 24px 16px 80px;
+      flex: 1;
+    }
+
+    /* ── STEP CARD ──────────────────────────── */
+    .step { display: none; animation: fadeUp .35s ease; }
+    .step.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--azul);
+      margin-bottom: 6px;
+    }
+    .step-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--preto);
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+    .step-desc {
+      font-size: 0.85rem;
+      color: var(--cinza);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    /* ── WELCOME ────────────────────────────── */
+    .welcome-card {
+      background: var(--azul);
+      border-radius: 20px;
+      padding: 36px 28px 32px;
+      color: var(--branco);
+      text-align: center;
+      margin-top: 12px;
+    }
+    .welcome-logo { font-size: 2.4rem; font-weight: 800; font-style: italic; margin-bottom: 4px; }
+    .welcome-logo span { color: var(--laranja); }
+    .welcome-sub { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--creme); margin-bottom: 20px; }
+    .welcome-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; line-height: 1.4; }
+    .welcome-card p { font-size: 0.85rem; opacity: .85; line-height: 1.6; margin-bottom: 8px; }
+    .welcome-card .time-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.15);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin: 12px auto 0;
+    }
+
+    /* ── INPUTS ─────────────────────────────── */
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--preto);
+      margin-bottom: 7px;
+    }
+    .field input, .field textarea, .field select {
+      width: 100%;
+      padding: 13px 15px;
+      border: 2px solid #e5d9d4;
+      border-radius: 12px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      color: var(--preto);
+      background: var(--branco);
+      outline: none;
+      transition: border-color .2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      border-color: var(--azul);
+      box-shadow: 0 0 0 3px rgba(62,101,142,.12);
+    }
+    .field textarea { resize: vertical; min-height: 90px; }
+    .field .error-msg { display: none; font-size: 0.75rem; color: var(--erro); margin-top: 5px; font-weight: 500; }
+    .field.has-error input, .field.has-error textarea, .field.has-error select { border-color: var(--erro); }
+    .field.has-error .error-msg { display: block; }
+
+    /* Chip options (radio / multi-select) */
+    .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+    .chip {
+      cursor: pointer;
+      padding: 9px 15px;
+      border-radius: 30px;
+      border: 2px solid #e5d9d4;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--cinza);
+      background: var(--branco);
+      transition: all .2s;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .chip:hover { border-color: var(--azul); color: var(--azul); }
+    .chip.selected { background: var(--azul); border-color: var(--azul); color: var(--branco); }
+    .chip.multi.selected { background: var(--azul); border-color: var(--azul); color: var(--branco); }
+    .chip.laranja.selected { background: var(--laranja); border-color: var(--laranja); color: var(--branco); }
+
+    /* Conditional sub-field */
+    .sub-field { display: none; margin-top: 12px; }
+    .sub-field.visible { display: block; }
+
+    /* ── BUTTONS ─────────────────────────────── */
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .btn {
+      flex: 1;
+      padding: 15px;
+      border-radius: 14px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all .2s;
+    }
+    .btn-primary {
+      background: var(--azul);
+      color: var(--branco);
+    }
+    .btn-primary:hover { background: var(--azul-dark); transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--azul);
+      border: 2px solid var(--azul);
+      flex: 0 0 auto;
+      padding: 15px 20px;
+    }
+    .btn-secondary:hover { background: var(--azul); color: var(--branco); }
+    .btn-start {
+      width: 100%;
+      background: var(--laranja);
+      color: var(--branco);
+      padding: 16px;
+      border-radius: 14px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      margin-top: 22px;
+      transition: all .2s;
+    }
+    .btn-start:hover { background: var(--laranja-dk); transform: translateY(-1px); }
+
+    /* ── RESUMO / CONFIRMAÇÃO ───────────────── */
+    .resumo-block {
+      background: var(--branco);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 12px;
+    }
+    .resumo-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--azul);
+      margin-bottom: 10px;
+    }
+    .resumo-row { display: flex; flex-direction: column; margin-bottom: 8px; gap: 2px; }
+    .resumo-label { font-size: 0.72rem; color: var(--cinza); font-weight: 600; }
+    .resumo-val { font-size: 0.88rem; color: var(--preto); font-weight: 500; }
+
+    /* ── SUCESSO ────────────────────────────── */
+    #step-sucesso .success-icon {
+      width: 72px; height: 72px;
+      background: var(--verde-agua);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 20px auto 20px;
+      font-size: 2rem;
+    }
+    #step-sucesso {
+      text-align: center;
+    }
+    #step-sucesso .step-title { color: var(--azul); }
+
+    /* ── SPINNER ────────────────────────────── */
+    .spinner {
+      display: none;
+      width: 20px; height: 20px;
+      border: 3px solid rgba(255,255,255,.4);
+      border-top-color: var(--branco);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading .btn-label { display: none; }
+    .loading .spinner { display: block; }
+
+    /* ── FOOTER ─────────────────────────────── */
+    .footer { text-align: center; font-size: 0.7rem; color: var(--cinza); margin-top: 24px; opacity: .7; }
+    .footer strong { color: var(--azul); }
+
+    /* ── SAUDE CARD ─────────────────────────── */
+    .saude-section { margin-bottom: 20px; }
+    .saude-section .saude-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--preto);
+      margin-bottom: 9px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div>
+    <div class="logo-text">Ru<span style="font-style:normal">m</span>o</div>
+    <div class="logo-sub">Orientação Profissional</div>
+  </div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+    <span id="header-step" style="font-size:.75rem;font-weight:600;color:var(--creme);opacity:.8"></span>
+  </div>
+</header>
+<div class="progress-wrap" style="background:var(--azul-dark)">
+  <div class="progress-bar" id="progressBar" style="width:0%"></div>
+</div>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════
+       STEP 0 – BOAS-VINDAS
+  ════════════════════════════════════════ -->
+  <div class="step active" id="step-0">
+    <div class="welcome-card">
+      <div class="welcome-logo">Rumo</div>
+      <div class="welcome-sub">Orientação Profissional</div>
+      <h2>Oi! Que bom ter você aqui 🌱</h2>
+      <p>Esse formulário nos ajuda a entender melhor o que você está sentindo em relação ao seu curso, antes da nossa conversa.</p>
+      <p>As informações são <strong>confidenciais</strong> e usadas somente para nossa triagem.</p>
+      <div class="time-badge">⏱ Cerca de 5 minutos</div>
+    </div>
+    <button class="btn-start" onclick="goTo(1)">Começar preenchimento →</button>
+    <p class="footer">Dúvidas? Fale conosco pelo WhatsApp.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP 1 – SOBRE VOCÊ
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-1">
+    <div class="step-label">Parte 1 de 13</div>
+    <div class="step-title">Sobre você</div>
+    <div class="step-desc">Vamos começar com suas informações básicas.</div>
+
+    <div class="field" id="f-nome">
+      <label>Nome completo *</label>
+      <input type="text" id="nome" placeholder="Ex: Ana Paula Silva" autocomplete="name">
+      <div class="error-msg">Por favor, informe seu nome completo.</div>
+    </div>
+    <div class="field" id="f-dataNasc">
+      <label>Data de nascimento *</label>
+      <input type="text" id="dataNasc" placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric">
+      <div class="error-msg">Por favor, informe uma data válida (DD/MM/AAAA).</div>
+    </div>
+    <div class="field" id="f-whatsapp">
+      <label>WhatsApp *</label>
+      <div style="display:flex;gap:8px;align-items:flex-start">
+        <select id="codigoPais" style="width:120px;padding:13px 10px;border:2px solid #e5d9d4;border-radius:12px;font-family:'Montserrat',sans-serif;font-size:0.85rem;color:var(--preto);background:var(--branco);outline:none;flex-shrink:0">
+          <option value="+55">🇧🇷 +55</option>
+          <option value="+351">🇵🇹 +351</option>
+          <option value="+1">🇺🇸 +1</option>
+          <option value="+44">🇬🇧 +44</option>
+          <option value="+34">🇪🇸 +34</option>
+          <option value="+33">🇫🇷 +33</option>
+          <option value="+49">🇩🇪 +49</option>
+          <option value="+39">🇮🇹 +39</option>
+          <option value="+54">🇦🇷 +54</option>
+          <option value="+56">🇨🇱 +56</option>
+          <option value="+598">🇺🇾 +598</option>
+        </select>
+        <input type="tel" id="whatsapp" placeholder="(11) 99999-9999" autocomplete="tel" style="flex:1">
+      </div>
+      <div class="error-msg">Por favor, informe um WhatsApp válido.</div>
+    </div>
+    <div class="field" id="f-email">
+      <label>E-mail *</label>
+      <input type="email" id="email" placeholder="seu@email.com" autocomplete="email">
+      <div class="error-msg">Por favor, informe um e-mail válido.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(0)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(1)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP 2 – VIDA ACADÊMICA ATUAL
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-2">
+    <div class="step-label">Parte 2 de 13</div>
+    <div class="step-title">Vida acadêmica atual</div>
+    <div class="step-desc">Conte pra gente como está sua vida acadêmica hoje.</div>
+
+    <div class="field" id="f-situacaoAcademica">
+      <label>Qual sua situação atual? *</label>
+      <div class="chips" style="flex-direction:column;align-items:flex-start" id="chips-situacaoAcademica">
+        <div class="chip" data-val="Cursando graduação" style="width:100%">Cursando graduação</div>
+        <div class="chip" data-val="Pré-vestibular" style="width:100%">Pré-vestibular</div>
+        <div class="chip" data-val="Não estou estudando" style="width:100%">Não estou estudando</div>
+      </div>
+      <div class="error-msg" id="err-situacaoAcademica">Por favor, selecione uma opção.</div>
+    </div>
+
+    <div class="sub-field" id="sub-situacaoAcademica">
+      <div class="field" id="f-faculdade">
+        <label>Nome da faculdade/instituição</label>
+        <input type="text" id="faculdade" placeholder="Ex: PUC-Rio">
+      </div>
+      <div class="field" id="f-curso">
+        <label>Curso atual</label>
+        <input type="text" id="curso" placeholder="Ex: Direito, Engenharia, Psicologia...">
+      </div>
+      <div class="field" id="f-periodoCurso">
+        <label>Período/semestre atual</label>
+        <div class="chips" id="chips-periodoCurso">
+          <div class="chip" data-val="1º/2º período">1º/2º período</div>
+          <div class="chip" data-val="3º/4º período">3º/4º período</div>
+          <div class="chip" data-val="5º/6º período">5º/6º período</div>
+          <div class="chip" data-val="7º/8º período">7º/8º período</div>
+          <div class="chip" data-val="9º período ou mais">9º período ou mais</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field" id="f-cursouAntesParou">
+      <label>Você já chegou a cursar uma graduação antes e parou (trancou)? *</label>
+      <div class="chips" id="chips-cursouAntesParou">
+        <div class="chip" data-val="Sim">Sim</div>
+        <div class="chip" data-val="Não">Não</div>
+      </div>
+      <div class="error-msg" id="err-cursouAntesParou">Por favor, selecione uma opção.</div>
+    </div>
+
+    <div class="sub-field" id="sub-cursouAntesParou">
+      <div class="field">
+        <label>Qual curso?</label>
+        <input type="text" id="qualCursoParou" placeholder="Ex: Engenharia Civil">
+      </div>
+      <div class="field">
+        <label>Em qual semestre você parou?</label>
+        <input type="text" id="semestreParou" placeholder="Ex: 4º semestre">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(1)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(2)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP 3 – COMO CHEGOU
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-3">
+    <div class="step-label">Parte 3 de 13</div>
+    <div class="step-title">Como nos encontrou?</div>
+    <div class="step-desc">Pode selecionar mais de uma opção.</div>
+
+    <div class="field" id="f-comoChegou">
+      <div class="chips" id="chips-comoChegou">
+        <div class="chip multi" data-val="Indicação de amigos ou família">👥 Indicação</div>
+        <div class="chip multi" data-val="Google">🔍 Google</div>
+        <div class="chip multi" data-val="Instagram">📸 Instagram</div>
+        <div class="chip multi" data-val="TikTok">🎵 TikTok</div>
+        <div class="chip multi" data-val="Outro">Outro</div>
+      </div>
+      <div class="error-msg" id="err-comoChegou">Por favor, selecione ao menos uma opção.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(2)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(3)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP 4 – HISTÓRICO
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-4">
+    <div class="step-label">Parte 4 de 13</div>
+    <div class="step-title">Histórico de orientação</div>
+    <div class="step-desc">Você já participou de alguma atividade de escolha profissional ou fez algum teste vocacional?</div>
+
+    <div class="field" id="f-orientacaoAnterior">
+      <div class="chips" id="chips-orientacaoAnterior">
+        <div class="chip" data-val="Sim">Sim</div>
+        <div class="chip" data-val="Não">Não</div>
+      </div>
+      <div class="error-msg" id="err-orientacaoAnterior">Por favor, selecione uma opção.</div>
+    </div>
+
+    <div class="sub-field" id="sub-orientacao">
+      <div class="field">
+        <label>Qual atividade ou teste? Onde foi feito?</label>
+        <textarea id="detailOrientacao" placeholder="Ex: Teste MBTI na escola, orientação profissional particular..."></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(3)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(4)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP 5 – MOTIVAÇÃO
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-5">
+    <div class="step-label">Parte 5 de 13</div>
+    <div class="step-title">O que te fez buscar orientação agora?</div>
+    <div class="step-desc">Conte um pouco sobre o que está te trazendo até aqui.</div>
+
+    <div class="field" id="f-motivacao">
+      <textarea id="motivacao" placeholder="Ex: Estou no 4º período e sinto que não é isso que eu quero pro resto da vida. Fico em dúvida se tranco, mudo de curso ou continuo..." oninput="atualizarContador()" style="min-height:130px"></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px">
+        <div class="error-msg" style="margin:0" id="err-motivacao-texto">Por favor, escreva ao menos um parágrafo (mínimo 150 caracteres).</div>
+        <span id="contador-motivacao" style="font-size:0.72rem;color:var(--cinza);font-weight:600;margin-left:auto">0 / 150</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(4)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(5)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP 6 – QUANDO COMEÇOU
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-6">
+    <div class="step-label">Parte 6 de 13</div>
+    <div class="step-title">Desde quando você sente essa insatisfação com o curso?</div>
+
+    <div class="field" id="f-quandoSurgiu">
+      <div class="chips" style="flex-direction:column;align-items:flex-start" id="chips-quandoSurgiu">
+        <div class="chip" data-val="É recente" style="width:100%">É recente – surgiu nos últimos meses</div>
+        <div class="chip" data-val="Há algum tempo" style="width:100%">Há algum tempo – já vem de antes</div>
+        <div class="chip" data-val="Se intensificou recentemente" style="width:100%">Estava lá, mas se intensificou recentemente</div>
+      </div>
+      <div class="error-msg" id="err-quandoSurgiu">Por favor, selecione uma opção.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(5)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(6)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP 7 – O QUE MAIS INCOMODA
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-7">
+    <div class="step-label">Parte 7 de 13</div>
+    <div class="step-title">O que mais te incomoda no curso?</div>
+    <div class="step-desc">Pode selecionar mais de uma opção.</div>
+
+    <div class="field" id="f-incomodaCurso">
+      <div class="chips" id="chips-incomodaCurso">
+        <div class="chip multi" data-val="O conteúdo das matérias">O conteúdo das matérias</div>
+        <div class="chip multi" data-val="A rotina/carga horária">A rotina/carga horária</div>
+        <div class="chip multi" data-val="O mercado de trabalho da área">O mercado de trabalho da área</div>
+        <div class="chip multi" data-val="Os colegas ou o ambiente">Os colegas ou o ambiente</div>
+        <div class="chip multi" data-val="Não é o que eu imaginava">Não é o que eu imaginava</div>
+        <div class="chip multi" data-val="Pressão da família para continuar">Pressão da família para continuar</div>
+        <div class="chip multi" data-val="Não sei se é o curso ou sou eu">Não sei se é o curso ou sou eu</div>
+        <div class="chip multi" data-val="Estar sem direção">Estar sem direção</div>
+        <div class="chip multi" data-val="Outro">Outro</div>
+      </div>
+      <div class="error-msg" id="err-incomodaCurso">Por favor, selecione ao menos uma opção.</div>
+    </div>
+
+    <div class="sub-field" id="sub-incomodaOutro">
+      <div class="field">
+        <label>O que mais? Conte com suas palavras.</label>
+        <input type="text" id="detailIncomodaOutro" placeholder="Descreva aqui...">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(6)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(7)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP 8 – JÁ PENSOU EM
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-8">
+    <div class="step-label">Parte 8 de 13</div>
+    <div class="step-title">Você já pensou em...</div>
+
+    <div class="field" id="f-pensouEm">
+      <div class="chips" style="flex-direction:column;align-items:flex-start" id="chips-pensouEm">
+        <div class="chip" data-val="Trancar o curso" style="width:100%">Trancar o curso</div>
+        <div class="chip" data-val="Mudar de curso" style="width:100%">Mudar de curso</div>
+        <div class="chip" data-val="Ainda não sei o que fazer" style="width:100%">Ainda não sei o que fazer</div>
+        <div class="chip" data-val="Só quero entender melhor antes de decidir" style="width:100%">Só quero entender melhor antes de decidir</div>
+      </div>
+      <div class="error-msg" id="err-pensouEm">Por favor, selecione uma opção.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(7)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(8)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP 9 – COMO SE SENTE
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-9">
+    <div class="step-label">Parte 9 de 13</div>
+    <div class="step-title">Como você se sente ao pensar nisso?</div>
+    <div class="step-desc">Pode selecionar mais de uma opção.</div>
+
+    <div class="field" id="f-reacaoTema">
+      <div class="chips" id="chips-reacaoTema">
+        <div class="chip multi" data-val="Evito pensar nisso">Evito pensar nisso</div>
+        <div class="chip multi" data-val="Fico ansioso/a">Fico ansioso/a</div>
+        <div class="chip multi" data-val="Sinto culpa">Sinto culpa</div>
+        <div class="chip multi" data-val="Sinto alívio só de imaginar mudar">Sinto alívio só de imaginar mudar</div>
+        <div class="chip multi" data-val="Converso abertamente sobre isso">Converso abertamente sobre isso</div>
+        <div class="chip multi" data-val="Tenho medo de decepcionar a família">Tenho medo de decepcionar a família</div>
+      </div>
+      <div class="error-msg" id="err-reacaoTema">Por favor, selecione ao menos uma opção.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(8)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(9)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP 10 – EXPECTATIVAS
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-10">
+    <div class="step-label">Parte 10 de 13</div>
+    <div class="step-title">O que você espera que a orientação te ajude a construir?</div>
+    <div class="step-desc">Pode selecionar mais de uma opção.</div>
+
+    <div class="field" id="f-expectativas">
+      <div class="chips" id="chips-expectativas">
+        <div class="chip multi" data-val="Ter clareza se devo continuar ou mudar de curso">Ter clareza se devo continuar ou mudar de curso</div>
+        <div class="chip multi" data-val="Entender se é a profissão certa pra mim">Entender se é a profissão certa pra mim</div>
+        <div class="chip multi" data-val="Descobrir alternativas de curso ou carreira">Descobrir alternativas de curso ou carreira</div>
+        <div class="chip multi" data-val="Segurança para tomar a decisão">Segurança para tomar a decisão</div>
+        <div class="chip multi" data-val="Reduzir a ansiedade">Reduzir a ansiedade</div>
+        <div class="chip multi" data-val="Autoconhecimento">Autoconhecimento</div>
+        <div class="chip multi" data-val="Ter uma resposta para a minha questão">Ter uma resposta para a minha questão</div>
+      </div>
+      <div class="error-msg" id="err-expectativas">Por favor, selecione ao menos uma opção.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(9)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(10)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP 11 – SAÚDE MENTAL
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-11">
+    <div class="step-label">Parte 11 de 13</div>
+    <div class="step-title">Saúde mental</div>
+    <div class="step-desc">Essas informações são confidenciais e nos ajudam a oferecer o melhor suporte possível.</div>
+
+    <!-- Psicoterapia -->
+    <div class="saude-section">
+      <div class="saude-label">Você tem ou já teve acompanhamento psicoterápico?</div>
+      <div class="field" id="f-psicoterapia">
+        <div class="chips" id="chips-psicoterapia">
+          <div class="chip" data-val="Sim, atualmente">Sim, atualmente</div>
+          <div class="chip" data-val="Já teve, não tem mais">Já teve, não tem mais</div>
+          <div class="chip" data-val="Nunca teve">Nunca teve</div>
+        </div>
+        <div class="error-msg" id="err-psicoterapia">Por favor, selecione uma opção.</div>
+      </div>
+    </div>
+
+    <!-- Diagnóstico -->
+    <div class="saude-section">
+      <div class="saude-label">Possui algum diagnóstico?</div>
+      <div class="field" id="f-diagnostico">
+        <div class="chips" id="chips-diagnostico">
+          <div class="chip" data-val="Sim">Sim</div>
+          <div class="chip" data-val="Não">Não</div>
+          <div class="chip" data-val="Em investigação">Em investigação</div>
+        </div>
+        <div class="error-msg" id="err-diagnostico">Por favor, selecione uma opção.</div>
+      </div>
+      <div class="sub-field" id="sub-diagnostico">
+        <div class="field">
+          <label>Qual diagnóstico?</label>
+          <input type="text" id="detailDiagnostico" placeholder="Ex: TDAH, Ansiedade, Depressão...">
+        </div>
+      </div>
+    </div>
+
+    <!-- Psiquiatra -->
+    <div class="saude-section">
+      <div class="saude-label">Tem acompanhamento psiquiátrico?</div>
+      <div class="field" id="f-psiquiatra">
+        <div class="chips" id="chips-psiquiatra">
+          <div class="chip" data-val="Sim">Sim</div>
+          <div class="chip" data-val="Não">Não</div>
+        </div>
+        <div class="error-msg" id="err-psiquiatra">Por favor, selecione uma opção.</div>
+      </div>
+    </div>
+
+    <!-- Medicação -->
+    <div class="saude-section">
+      <div class="saude-label">Faz uso de medicação?</div>
+      <div class="field" id="f-medicacao">
+        <div class="chips" id="chips-medicacao">
+          <div class="chip" data-val="Sim">Sim</div>
+          <div class="chip" data-val="Não">Não</div>
+        </div>
+        <div class="error-msg" id="err-medicacao">Por favor, selecione uma opção.</div>
+      </div>
+      <div class="sub-field" id="sub-medicacao">
+        <div class="field">
+          <label>Qual medicação?</label>
+          <input type="text" id="detailMedicacao" placeholder="Ex: Ritalina, Fluoxetina...">
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(10)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(11)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP 12 – OBSERVAÇÕES
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-12">
+    <div class="step-label">Parte 12 de 13</div>
+    <div class="step-title">Quer nos contar mais alguma coisa?</div>
+    <div class="step-desc">Qualquer informação que achar relevante e que ainda não tenha sido mencionada. (Opcional)</div>
+
+    <div class="field">
+      <textarea id="observacoes" placeholder="Escreva aqui o que quiser compartilhar..." style="min-height:120px"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(11)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(12)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP 13 – DISPONIBILIDADE E PREFERÊNCIA
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-13">
+    <div class="step-label">Parte 13 de 13</div>
+    <div class="step-title">Disponibilidade e preferência de atendimento</div>
+    <div class="step-desc">Os encontros são <strong>online</strong>, semanais, com duração de <strong>50 minutos</strong>, ao longo de <strong>8 semanas</strong>.</div>
+
+    <div class="field" id="f-diasDisponiveis">
+      <label>Dias disponíveis *</label>
+      <div class="chips" id="chips-diasDisponiveis">
+        <div class="chip multi" data-val="Segunda-feira">Segunda</div>
+        <div class="chip multi" data-val="Terça-feira">Terça</div>
+        <div class="chip multi" data-val="Quarta-feira">Quarta</div>
+        <div class="chip multi" data-val="Quinta-feira">Quinta</div>
+        <div class="chip multi" data-val="Sexta-feira">Sexta</div>
+      </div>
+      <div class="error-msg" id="err-diasDisponiveis">Por favor, selecione ao menos um dia.</div>
+    </div>
+
+    <div class="field" id="f-periodosDisponiveis">
+      <label>Períodos disponíveis *</label>
+      <div class="chips" id="chips-periodosDisponiveis">
+        <div class="chip multi" data-val="Manhã (7h–12h)">☀️ Manhã (7h–12h)</div>
+        <div class="chip multi" data-val="Tarde (12h–18h)">🌤️ Tarde (12h–18h)</div>
+        <div class="chip multi" data-val="Noite (18h–21h)">🌙 Noite (18h–21h)</div>
+      </div>
+      <div class="error-msg" id="err-periodosDisponiveis">Por favor, selecione ao menos um período.</div>
+    </div>
+
+    <div class="field" id="f-preferenciaAtendimento">
+      <label>Como prefere ser atendido/a?</label>
+      <div class="chips" style="flex-direction:column;align-items:flex-start" id="chips-preferenciaAtendimento">
+        <div class="chip" data-val="Somente com a Psicóloga Cláudia Botelho" style="width:100%">Somente com a Psicóloga Cláudia Botelho</div>
+        <div class="chip" data-val="Aceito ser atendido/a por outra psicóloga do time" style="width:100%">Aceito ser atendido/a por outra psicóloga do time</div>
+        <div class="chip" data-val="Sem preferência" style="width:100%">Sem preferência</div>
+      </div>
+      <div class="error-msg" id="err-preferenciaAtendimento">Por favor, selecione uma opção.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(12)">← Voltar</button>
+      <button class="btn btn-primary" onclick="nextStep(13)">Revisar e enviar →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP RESUMO – CONFIRMAÇÃO
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-resumo">
+    <div class="step-label">Confirme os dados</div>
+    <div class="step-title">Tudo certo?</div>
+    <div class="step-desc">Revise as informações antes de enviar. Se precisar corrigir algo, volte ao início.</div>
+
+    <div id="resumo-content"></div>
+
+    <div class="error-msg" id="erro-envio" style="display:none;background:#fdeaea;border:1.5px solid var(--erro);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:0.8rem;">
+      Ops! Houve um erro ao enviar. Tente novamente ou fale conosco pelo WhatsApp.
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goTo(13)">← Editar</button>
+      <button class="btn btn-primary" id="btnEnviar" onclick="enviarFormulario()">
+        <span class="btn-label">Enviar ✓</span>
+        <span class="spinner"></span>
+      </button>
+    </div>
+    <p class="footer" style="margin-top:16px">Ao enviar, você concorda com o uso das informações para fins de triagem pela Rumo Orientação Profissional.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       STEP SUCESSO
+  ════════════════════════════════════════ -->
+  <div class="step" id="step-sucesso">
+    <div class="success-icon">✓</div>
+    <div class="step-title">Formulário enviado!</div>
+    <div class="step-desc" style="margin-top:12px">
+      Obrigada por dedicar esse tempo, <strong id="nome-resp-final"></strong>! 🌱<br><br>
+      Em breve entraremos em contato pelo WhatsApp para agendar uma conversa e dar os próximos passos.<br><br>
+      <span style="color:var(--azul);font-weight:600">Rumo Orientação Profissional</span>
+    </div>
+    <div style="margin-top:24px;background:var(--creme);border-radius:14px;padding:16px;text-align:left">
+      <div style="font-size:.75rem;font-weight:700;color:var(--azul);margin-bottom:6px;letter-spacing:1px;text-transform:uppercase">O que acontece agora?</div>
+      <div style="font-size:.85rem;line-height:1.7;color:var(--preto)">
+        📋 Analisamos as respostas com cuidado<br>
+        📞 Entramos em contato em até <strong>2 dias úteis</strong><br>
+        🗓️ Agendamos uma conversa inicial sem compromisso
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+// ═══════════════════════════════════════════
+// CONFIGURAÇÃO – mesmo projeto Supabase do
+// rumo-crm e do rumo-formulario.html — chave
+// pública, protegida por RLS.
+// ═══════════════════════════════════════════
+const SUPABASE_URL = 'https://ipgyrwxnvtuetnuyryzk.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_JELHL8UlHqaGdnhhD2Ycqg_LnCBoDjr';
+
+// ── Estado do formulário ─────────────────
+const formData = {};
+
+// ── Mapeamento de chips por grupo ────────
+const chipGroups = {};
+
+// ── Inicializa chips ─────────────────────
+document.querySelectorAll('.chips').forEach(group => {
+  const id = group.id.replace('chips-', '');
+  const isMulti = group.querySelector('.chip.multi') !== null;
+  chipGroups[id] = { multi: isMulti };
+
+  group.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      if (isMulti) {
+        chip.classList.toggle('selected');
+      } else {
+        group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+      }
+      // Mostra sub-campos condicionais
+      handleConditional(id, group);
+      // Remove erro
+      clearError(id);
+    });
+  });
+});
+
+function handleConditional(groupId, group) {
+  const selected = [...group.querySelectorAll('.chip.selected')].map(c => c.dataset.val);
+
+  if (groupId === 'orientacaoAnterior') {
+    document.getElementById('sub-orientacao').classList.toggle('visible', selected.includes('Sim'));
+  }
+  if (groupId === 'diagnostico') {
+    document.getElementById('sub-diagnostico').classList.toggle('visible', selected.includes('Sim'));
+  }
+  if (groupId === 'medicacao') {
+    document.getElementById('sub-medicacao').classList.toggle('visible', selected.includes('Sim'));
+  }
+  if (groupId === 'situacaoAcademica') {
+    document.getElementById('sub-situacaoAcademica').classList.toggle('visible', selected.includes('Cursando graduação'));
+  }
+  if (groupId === 'cursouAntesParou') {
+    document.getElementById('sub-cursouAntesParou').classList.toggle('visible', selected.includes('Sim'));
+  }
+  if (groupId === 'incomodaCurso') {
+    document.getElementById('sub-incomodaOutro').classList.toggle('visible', selected.includes('Outro'));
+  }
+}
+
+// ── Getters de chips ─────────────────────
+function getChipVal(id) {
+  const group = document.getElementById('chips-' + id);
+  if (!group) return '';
+  const sel = [...group.querySelectorAll('.chip.selected')];
+  if (chipGroups[id]?.multi) return sel.map(c => c.dataset.val).join(', ');
+  return sel[0]?.dataset.val || '';
+}
+
+// ── Erros ────────────────────────────────
+function setError(fieldId, errId) {
+  const f = document.getElementById('f-' + fieldId);
+  const e = document.getElementById(errId || 'err-' + fieldId);
+  if (f) f.classList.add('has-error');
+  if (e) e.style.display = 'block';
+}
+function clearError(fieldId) {
+  const f = document.getElementById('f-' + fieldId);
+  if (f) f.classList.remove('has-error');
+  const e = document.getElementById('err-' + fieldId);
+  if (e) e.style.display = 'none';
+}
+function clearAllErrors() {
+  document.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error'));
+  document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
+}
+
+// ── Validação por step ───────────────────
+function validate(step) {
+  clearAllErrors();
+  let ok = true;
+
+  if (step === 1) {
+    if (!document.getElementById('nome').value.trim()) { setError('nome'); ok = false; }
+    const dn = document.getElementById('dataNasc').value;
+    const dnOk = /^\d{2}\/\d{2}\/\d{4}$/.test(dn);
+    if (!dnOk) { setError('dataNasc'); ok = false; }
+    const wa = document.getElementById('whatsapp').value.replace(/\D/g, '');
+    if (wa.length < 10) { setError('whatsapp'); ok = false; }
+    const em = document.getElementById('email').value.trim();
+    if (!em || !em.includes('@')) { setError('email'); ok = false; }
+  }
+  if (step === 2) {
+    if (!getChipVal('situacaoAcademica')) { setError('situacaoAcademica'); ok = false; }
+    if (!getChipVal('cursouAntesParou')) { setError('cursouAntesParou'); ok = false; }
+  }
+  if (step === 3) {
+    if (!getChipVal('comoChegou')) { setError('comoChegou'); ok = false; }
+  }
+  if (step === 4) {
+    if (!getChipVal('orientacaoAnterior')) { setError('orientacaoAnterior'); ok = false; }
+  }
+  if (step === 5) {
+    const mot = document.getElementById('motivacao').value.trim();
+    if (mot.length < 150) {
+      document.getElementById('f-motivacao').classList.add('has-error');
+      document.getElementById('err-motivacao-texto').style.display = 'block';
+      ok = false;
+    }
+  }
+  if (step === 6) {
+    if (!getChipVal('quandoSurgiu')) { setError('quandoSurgiu'); ok = false; }
+  }
+  if (step === 7) {
+    if (!getChipVal('incomodaCurso')) { setError('incomodaCurso'); ok = false; }
+  }
+  if (step === 8) {
+    if (!getChipVal('pensouEm')) { setError('pensouEm'); ok = false; }
+  }
+  if (step === 9) {
+    if (!getChipVal('reacaoTema')) { setError('reacaoTema'); ok = false; }
+  }
+  if (step === 10) {
+    if (!getChipVal('expectativas')) { setError('expectativas'); ok = false; }
+  }
+  if (step === 11) {
+    if (!getChipVal('psicoterapia')) { setError('psicoterapia'); ok = false; }
+    if (!getChipVal('diagnostico'))  { setError('diagnostico');  ok = false; }
+    if (!getChipVal('psiquiatra'))   { setError('psiquiatra');   ok = false; }
+    if (!getChipVal('medicacao'))    { setError('medicacao');    ok = false; }
+  }
+  if (step === 13) {
+    if (!getChipVal('diasDisponiveis'))    { setError('diasDisponiveis');    ok = false; }
+    if (!getChipVal('periodosDisponiveis')){ setError('periodosDisponiveis'); ok = false; }
+    if (!getChipVal('preferenciaAtendimento')) { setError('preferenciaAtendimento'); ok = false; }
+  }
+
+  return ok;
+}
+
+// ── Coleta dados do step atual ───────────
+function collectStep(step) {
+  if (step === 1) {
+    formData.nome     = document.getElementById('nome').value.trim();
+    formData.dataNasc = document.getElementById('dataNasc').value.trim();
+    const codigo = document.getElementById('codigoPais').value;
+    formData.whatsapp = codigo + ' ' + document.getElementById('whatsapp').value.trim();
+    formData.email    = document.getElementById('email').value.trim();
+  }
+  if (step === 2) {
+    formData.situacaoAcademica = getChipVal('situacaoAcademica');
+    formData.faculdade   = document.getElementById('faculdade').value.trim();
+    formData.curso       = document.getElementById('curso').value.trim();
+    formData.periodoCurso = getChipVal('periodoCurso');
+    formData.cursouAntesParou = getChipVal('cursouAntesParou');
+    formData.qualCursoParou   = document.getElementById('qualCursoParou').value.trim();
+    formData.semestreParou    = document.getElementById('semestreParou').value.trim();
+  }
+  if (step === 3) { formData.comoChegou = getChipVal('comoChegou'); }
+  if (step === 4) {
+    formData.orientacaoAnterior = getChipVal('orientacaoAnterior');
+    formData.detailOrientacao   = document.getElementById('detailOrientacao').value.trim();
+  }
+  if (step === 5) { formData.motivacao = document.getElementById('motivacao').value.trim(); }
+  if (step === 6) { formData.quandoSurgiu = getChipVal('quandoSurgiu'); }
+  if (step === 7) {
+    formData.incomodaCurso = getChipVal('incomodaCurso');
+    formData.detailIncomodaOutro = document.getElementById('detailIncomodaOutro').value.trim();
+  }
+  if (step === 8) { formData.pensouEm = getChipVal('pensouEm'); }
+  if (step === 9) { formData.reacaoTema = getChipVal('reacaoTema'); }
+  if (step === 10) { formData.expectativas = getChipVal('expectativas'); }
+  if (step === 11) {
+    formData.psicoterapia      = getChipVal('psicoterapia');
+    formData.diagnostico       = getChipVal('diagnostico');
+    formData.detailDiagnostico = document.getElementById('detailDiagnostico').value.trim();
+    formData.psiquiatra        = getChipVal('psiquiatra');
+    formData.medicacao         = getChipVal('medicacao');
+    formData.detailMedicacao   = document.getElementById('detailMedicacao').value.trim();
+  }
+  if (step === 12) { formData.observacoes = document.getElementById('observacoes').value.trim(); }
+  if (step === 13) {
+    formData.diasDisponiveis        = getChipVal('diasDisponiveis');
+    formData.periodosDisponiveis    = getChipVal('periodosDisponiveis');
+    formData.preferenciaAtendimento = getChipVal('preferenciaAtendimento');
+  }
+}
+
+// ── Navegação ─────────────────────────────
+let currentStep = 0;
+
+function goTo(step) {
+  document.getElementById('step-' + currentStep)?.classList.remove('active');
+  document.getElementById('step-resumo')?.classList.remove('active');
+  document.getElementById('step-sucesso')?.classList.remove('active');
+
+  const el = document.getElementById('step-' + step);
+  if (el) {
+    el.classList.add('active');
+    currentStep = step;
+  }
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep(current) {
+  if (!validate(current)) return;
+  collectStep(current);
+  if (current === 13) { goResumo(); return; }
+  goTo(current + 1);
+}
+
+function goResumo() {
+  collectStep(13);
+  buildResumo();
+  document.getElementById('erro-envio').style.display = 'none';
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-resumo').classList.add('active');
+  currentStep = 'resumo';
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress() {
+  const stepNum = typeof currentStep === 'number' ? currentStep : 14;
+  const pct = Math.min((stepNum / 14) * 100, 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('header-step').textContent =
+    stepNum > 0 && stepNum <= 13 ? `${stepNum} / 13` : '';
+}
+
+// ── Resumo ────────────────────────────────
+function buildResumo() {
+  const d = formData;
+  const rows = [
+    { title: 'Sobre você', items: [
+      ['Nome', d.nome],
+      ['Data de nascimento', d.dataNasc],
+      ['WhatsApp', d.whatsapp],
+      ['E-mail', d.email],
+    ]},
+    { title: 'Vida acadêmica atual', items: [
+      ['Situação', d.situacaoAcademica],
+      ['Faculdade', d.faculdade || '—'],
+      ['Curso', d.curso || '—'],
+      ['Período', d.periodoCurso || '—'],
+      ['Já cursou outra graduação e parou', d.cursouAntesParou + (d.cursouAntesParou === 'Sim' ? ` – ${d.qualCursoParou || '—'} (${d.semestreParou || '—'})` : '')],
+      ['Como chegou', d.comoChegou],
+    ]},
+    { title: 'Histórico e motivação', items: [
+      ['Orientação anterior', d.orientacaoAnterior + (d.detailOrientacao ? ` – ${d.detailOrientacao}` : '')],
+      ['Motivação', d.motivacao],
+      ['Desde quando', d.quandoSurgiu],
+    ]},
+    { title: 'Sobre a insatisfação', items: [
+      ['O que mais incomoda', d.incomodaCurso + (d.detailIncomodaOutro ? ` – ${d.detailIncomodaOutro}` : '')],
+      ['Já pensou em', d.pensouEm],
+      ['Como se sente', d.reacaoTema],
+    ]},
+    { title: 'Expectativas', items: [
+      ['', d.expectativas],
+    ]},
+    { title: 'Saúde mental', items: [
+      ['Psicoterapia', d.psicoterapia],
+      ['Diagnóstico', d.diagnostico + (d.detailDiagnostico ? ` – ${d.detailDiagnostico}` : '')],
+      ['Psiquiatra', d.psiquiatra],
+      ['Medicação', d.medicacao + (d.detailMedicacao ? ` – ${d.detailMedicacao}` : '')],
+    ]},
+    { title: 'Observações', items: [
+      ['', d.observacoes || '(nenhuma)'],
+    ]},
+    { title: 'Disponibilidade e preferência', items: [
+      ['Dias', d.diasDisponiveis],
+      ['Períodos', d.periodosDisponiveis],
+      ['Preferência de atendimento', d.preferenciaAtendimento],
+    ]},
+  ];
+
+  let html = '';
+  rows.forEach(section => {
+    html += `<div class="resumo-block"><div class="resumo-title">${section.title}</div>`;
+    section.items.forEach(([label, val]) => {
+      html += `<div class="resumo-row">
+        ${label ? `<div class="resumo-label">${label}</div>` : ''}
+        <div class="resumo-val">${val || '—'}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  document.getElementById('resumo-content').innerHTML = html;
+}
+
+// ── Envio ao CRM (Supabase) ─────────────────
+// DD/MM/AAAA -> AAAA-MM-DD
+function paraDataISO(ddmmyyyy) {
+  const [d, m, y] = (ddmmyyyy || '').split('/');
+  return (d && m && y) ? `${y}-${m}-${d}` : null;
+}
+// "A, B, C" -> ["A","B","C"] (chips multi juntam com ', ')
+function paraArray(strComVirgulas) {
+  return (strComVirgulas || '').split(',').map(s => s.trim()).filter(Boolean);
+}
+
+// Reaproveita a mesma função criar_triagem_completa usada pela triagem de
+// 1ª escolha. Como esse formulário é preenchido pelo próprio jovem, o nome
+// dele entra tanto em nome_jovem quanto em nome_responsavel. Faculdade e
+// curso/período entram em colegio/serie (mesmos campos, texto livre). O que
+// mais incomoda e a etapa de decisão (trancar/mudar) entram junto no texto
+// de motivação, já que a tabela não tem colunas próprias pra isso.
+async function enviarParaCRM(d) {
+  let motivacaoCompleta = d.motivacao;
+  if (d.incomodaCurso) {
+    const incomodaTexto = d.incomodaCurso + (d.detailIncomodaOutro ? ` (${d.detailIncomodaOutro})` : '');
+    motivacaoCompleta += `\n\nO que mais incomoda agora: ${incomodaTexto}`;
+  }
+  if (d.pensouEm) motivacaoCompleta += `\n\nJá pensou em: ${d.pensouEm}`;
+  if (d.cursouAntesParou === 'Sim') {
+    motivacaoCompleta += `\n\nJá cursou outra graduação e parou: ${d.qualCursoParou || '(curso não informado)'} — parou no ${d.semestreParou || '(semestre não informado)'}`;
+  }
+
+  let serieValor;
+  if (d.situacaoAcademica === 'Cursando graduação') {
+    serieValor = d.curso || 'Graduação';
+    if (d.periodoCurso) serieValor += ` — ${d.periodoCurso}`;
+  } else {
+    serieValor = d.situacaoAcademica || 'Não informado';
+  }
+
+  let observacoesCompleto = `E-mail: ${d.email}`;
+  if (d.observacoes) observacoesCompleto += `\n\n${d.observacoes}`;
+
+  const triagem = {
+    nome_jovem:              d.nome,
+    data_nascimento:         paraDataISO(d.dataNasc),
+    colegio:                 d.faculdade || null,
+    serie:                   serieValor,
+    nome_responsavel:        d.nome,
+    whatsapp:                d.whatsapp,
+    origem:                  paraArray(d.comoChegou),
+    historico_orientacao:    d.orientacaoAnterior || 'Não',
+    qual_historico:          d.detailOrientacao || null,
+    motivacao:               motivacaoCompleta,
+    quando_surgiu:           d.quandoSurgiu,
+    reacao_tema:             paraArray(d.reacaoTema),
+    expectativas:            paraArray(d.expectativas),
+    psicoterapia:            d.psicoterapia,
+    diagnostico:             d.diagnostico,
+    qual_diagnostico:        d.detailDiagnostico || null,
+    psiquiatrico:            d.psiquiatra,
+    medicacao:               d.medicacao,
+    qual_medicacao:          d.detailMedicacao || null,
+    observacoes:             observacoesCompleto,
+    dias_disponiveis:        paraArray(d.diasDisponiveis),
+    periodos_disponiveis:    paraArray(d.periodosDisponiveis),
+    preferencia_atendimento: d.preferenciaAtendimento,
+  };
+
+  const hoje = new Date().toLocaleDateString('sv-SE', { timeZone: 'America/Sao_Paulo' }); // AAAA-MM-DD
+
+  const r = await fetch(SUPABASE_URL + '/rest/v1/rpc/criar_triagem_completa', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+    },
+    body: JSON.stringify({
+      triagem,
+      lead_origem: d.comoChegou,
+      tarefa_texto: 'Entrar em contato pelo WhatsApp',
+      tarefa_data: hoje,
+    }),
+  });
+  if (!r.ok) throw new Error('CRM respondeu ' + r.status + ': ' + await r.text());
+}
+
+// ── Envio ──────────────────────────────────
+async function enviarFormulario() {
+  const btn = document.getElementById('btnEnviar');
+  const erroBanner = document.getElementById('erro-envio');
+  erroBanner.style.display = 'none';
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    await enviarParaCRM(formData);
+    mostrarSucesso();
+  } catch (err) {
+    console.error('Falha ao enviar triagem pro CRM:', err);
+    erroBanner.style.display = 'block';
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    erroBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function mostrarSucesso() {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-resumo').classList.remove('active');
+  document.getElementById('step-sucesso').classList.add('active');
+  document.getElementById('nome-resp-final').textContent = formData.nome?.split(' ')[0] || '';
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('header-step').textContent = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Máscara data DD/MM/AAAA
+document.getElementById('dataNasc').addEventListener('input', function () {
+  let v = this.value.replace(/\D/g, '').slice(0, 8);
+  if (v.length >= 3) v = v.slice(0, 2) + '/' + v.slice(2);
+  if (v.length >= 6) v = v.slice(0, 5) + '/' + v.slice(5);
+  this.value = v;
+});
+
+// Contador motivação
+function atualizarContador() {
+  const val = document.getElementById('motivacao').value.trim();
+  const contador = document.getElementById('contador-motivacao');
+  const min = 150;
+  contador.textContent = val.length + ' / ' + min;
+  contador.style.color = val.length >= min ? 'var(--verde-agua)' : 'var(--cinza)';
+  if (val.length >= min) {
+    document.getElementById('f-motivacao').classList.remove('has-error');
+    document.getElementById('err-motivacao-texto').style.display = 'none';
+  }
+}
+
+// Máscara WhatsApp
+document.getElementById('whatsapp').addEventListener('input', function () {
+  let v = this.value.replace(/\D/g, '').slice(0, 11);
+  if (v.length >= 2)  v = '(' + v.slice(0, 2) + ') ' + v.slice(2);
+  if (v.length >= 10) v = v.slice(0, 10) + '-' + v.slice(10);
+  this.value = v;
+});
+</script>
+</body>
+</html>
