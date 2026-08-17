@@ -144,9 +144,9 @@ function confirmarPorEmail(d) {
       '• Formação: ' + (d.formacao || '') + '\n' +
       '• Tempo na área: ' + (d.tempo || '') + '\n\n' +
       'O combinado, para você guardar:\n\n' +
-      '• Eu pergunto antes de cada conversa. Você decide uma por uma, e dizer não para uma não tira você do banco.\n' +
+      '• Eu entro em contato antes de cada conversa, e você decide se pode ou não participar.\n' +
       '• A outra família vê só seu nome, sua formação e sua área. Seu telefone e seu e-mail não são passados para ninguém.\n' +
-      '• A conversa é online, dura cerca de 30 minutos, eu agendo, e acontece com a ciência dos responsáveis dos dois lados.\n' +
+      '• A conversa é online ou por chamada de voz, pelo tempo que você tiver disponível, e acontece com a ciência dos responsáveis dos dois lados.\n' +
       '• Não é aula nem indicação de carreira. É você contando o seu dia a dia.\n' +
       '• Para sair do banco, responda este e-mail. Saída imediata, sem justificar nada.\n\n' +
       'Qualquer coisa é só chamar.\n\n' +
