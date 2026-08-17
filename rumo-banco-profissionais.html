@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Banco de Profissionais Rumo</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iI0ZEREVENSIvPjx0ZXh0IHg9IjUwIiB5PSI0NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlJ1PC90ZXh0Pjx0ZXh0IHg9IjUzIiB5PSI3NyIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsc2VyaWYiIGZvbnQtc2l6ZT0iMzEiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMzQjUwM0YiIHRleHQtYW5jaG9yPSJtaWRkbGUiPm1vPC90ZXh0Pjwvc3ZnPg==">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --verde:#3B503F; --bordo:#6B2F3C; --creme:#FDDED5; --creme-bg:#FEF4F0;
+    --laranja:#FD745D; --laranja-dk:#e05a44;
+    --branco:#FFFFFF; --texto:#2B2B2B; --cinza:#6E6A67;
+    --linha:#E4D8D2; --erro:#C0392B;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Montserrat',system-ui,sans-serif;background:var(--creme-bg);color:var(--texto);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+
+  header{width:100%;background:var(--verde);padding:16px 24px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .marca{font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-style:italic;font-weight:600;color:var(--branco);line-height:1}
+  .marca-sub{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--creme);font-weight:600}
+  .filete{width:100%;height:4px;background:var(--laranja)}
+
+  .container{width:100%;max-width:560px;padding:24px 18px 70px}
+
+  .capa{background:var(--verde);border-radius:18px;padding:30px 26px;color:var(--branco);margin-bottom:20px}
+  .capa .tipo{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--creme);font-weight:700;margin-bottom:8px}
+  .capa h1{font-family:'Playfair Display',Georgia,serif;font-size:1.55rem;font-weight:600;line-height:1.25;margin-bottom:12px}
+  .capa p{font-size:.88rem;line-height:1.65;color:rgba(253,222,213,.92);margin-bottom:9px}
+  .capa p:last-child{margin-bottom:0}
+  .capa strong{color:var(--branco);font-weight:600}
+
+  .combinado{background:var(--branco);border-left:4px solid var(--creme);border-radius:0 14px 14px 0;padding:18px 20px;margin-bottom:22px}
+  .combinado b{display:block;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bordo);margin-bottom:10px}
+  .combinado ul{list-style:none}
+  .combinado li{position:relative;padding-left:18px;margin-bottom:9px;font-size:.85rem;line-height:1.6}
+  .combinado li:last-child{margin-bottom:0}
+  .combinado li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--laranja)}
+
+  .secao{font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:600;color:var(--verde);margin:26px 0 14px;padding-top:16px;border-top:1px solid var(--linha)}
+
+  .campo{margin-bottom:18px}
+  .campo label{display:block;font-size:.82rem;font-weight:600;margin-bottom:7px}
+  .campo .dica{display:block;font-size:.74rem;color:var(--cinza);font-weight:500;margin-top:-3px;margin-bottom:8px;line-height:1.5}
+  .campo input,.campo textarea{width:100%;padding:13px 15px;border:2px solid var(--linha);border-radius:12px;font-family:'Montserrat',sans-serif;font-size:.92rem;color:var(--texto);background:var(--branco);outline:none;transition:border-color .2s;-webkit-appearance:none}
+  .campo textarea{min-height:92px;resize:vertical;line-height:1.55}
+  .campo input:focus,.campo textarea:focus{border-color:var(--verde);box-shadow:0 0 0 3px rgba(59,80,63,.12)}
+  .campo .erro{display:none;font-size:.75rem;color:var(--erro);margin-top:5px;font-weight:600}
+  .campo.tem-erro input,.campo.tem-erro textarea{border-color:var(--erro)}
+  .campo.tem-erro .erro{display:block}
+  .opcional{font-size:.68rem;color:var(--cinza);font-weight:500;margin-left:5px}
+
+  .fichas{display:flex;flex-wrap:wrap;gap:8px}
+  .ficha{cursor:pointer;padding:9px 14px;border-radius:30px;border:2px solid var(--linha);font-size:.8rem;font-weight:600;color:var(--cinza);background:var(--branco);transition:all .18s;user-select:none;-webkit-user-select:none}
+  .ficha:hover{border-color:var(--verde);color:var(--verde)}
+  .ficha.marcada{background:var(--verde);border-color:var(--verde);color:var(--branco)}
+  .campo.tem-erro .fichas{outline:2px solid var(--erro);outline-offset:6px;border-radius:6px}
+
+  .zap{display:flex;gap:8px}
+  .zap select{width:118px;flex-shrink:0;padding:13px 10px;border:2px solid var(--linha);border-radius:12px;font-family:'Montserrat',sans-serif;font-size:.85rem;background:var(--branco);color:var(--texto);outline:none}
+  .zap input{flex:1}
+
+  .aceite{display:flex;gap:12px;align-items:flex-start;background:var(--creme);border-radius:14px;padding:16px 18px;margin:22px 0 6px;cursor:pointer}
+  .aceite .caixa{width:22px;height:22px;flex-shrink:0;margin-top:1px;border:2px solid var(--verde);border-radius:6px;background:var(--branco);display:flex;align-items:center;justify-content:center;transition:background .18s}
+  .aceite.marcado .caixa{background:var(--verde)}
+  .aceite .caixa::after{content:"✓";color:var(--branco);font-size:.8rem;font-weight:700;display:none}
+  .aceite.marcado .caixa::after{display:block}
+  .aceite span{font-size:.84rem;line-height:1.6}
+  .erro-solto{display:none;font-size:.75rem;color:var(--erro);font-weight:600;margin-top:8px}
+  .erro-solto.visivel{display:block}
+
+  .btn{width:100%;padding:16px;border:none;border-radius:14px;background:var(--laranja);color:var(--branco);font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:background .2s;margin-top:18px}
+  .btn:hover{background:var(--laranja-dk)}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+  .btn .girando{display:none;width:20px;height:20px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:girar .7s linear infinite;margin:0 auto}
+  .btn.carregando .rotulo{display:none}
+  .btn.carregando .girando{display:block}
+  @keyframes girar{to{transform:rotate(360deg)}}
+
+  .nota{font-size:.76rem;color:var(--cinza);line-height:1.6;margin-top:16px;text-align:center}
+
+  #pronto{display:none;text-align:center}
+  #pronto.visivel{display:block}
+  #formulario.escondido{display:none}
+  .selo{width:70px;height:70px;border-radius:50%;background:var(--verde);color:var(--creme);display:flex;align-items:center;justify-content:center;font-size:1.9rem;margin:10px auto 18px}
+  #pronto h2{font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:600;color:var(--verde);margin-bottom:10px}
+  #pronto p{font-size:.9rem;line-height:1.65;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="marca">Instituto Rumo</span>
+  <span class="marca-sub">Orientação Profissional</span>
+</header>
+<div class="filete"></div>
+
+<div class="container">
+
+  <div id="formulario">
+    <div class="capa">
+      <div class="tipo">Convite · participação voluntária</div>
+      <h1>Você pode ajudar o filho de outra família a escolher.</h1>
+      <p>Na etapa <strong>Mapear</strong>, os adolescentes pesquisam profissões. O que mais muda a cabeça deles nessa fase não é ler sobre uma carreira, é conversar com alguém que faz aquilo todo dia.</p>
+      <p>Por isso estou montando um banco de profissionais formado pelos próprios pais e responsáveis. Você conta como é o seu trabalho de verdade, e outro adolescente sai da conversa com uma noção que nenhum site dá.</p>
+      <p><strong>Não é obrigatório e não tem nada a ver com o processo do seu filho.</strong> Se não quiser, é só fechar esta página.</p>
+    </div>
+
+    <div class="combinado">
+      <b>O combinado</b>
+      <ul>
+        <li><strong>Eu pergunto antes de cada conversa.</strong> Você decide uma por uma, e dizer não para uma não tira você do banco.</li>
+        <li><strong>A outra família vê só nome, formação e área.</strong> Seu telefone e seu e-mail nunca são passados para ninguém, todo contato passa por mim.</li>
+        <li><strong>É uma conversa online de uns 30 minutos</strong>, que eu agendo, com a ciência dos responsáveis dos dois lados.</li>
+        <li><strong>Não é aula nem indicação de carreira.</strong> É você contando o seu dia a dia.</li>
+        <li><strong>Sair é um e-mail</strong>, a qualquer momento, sem justificar nada.</li>
+      </ul>
+    </div>
+
+    <div class="secao">Quem é você</div>
+
+    <div class="campo" id="c-nome">
+      <label>Nome completo</label>
+      <input type="text" id="nome" placeholder="como você quer ser apresentado" autocomplete="name">
+      <div class="erro">Escreva seu nome completo.</div>
+    </div>
+
+    <div class="campo" id="c-filho">
+      <label>Você é responsável por qual orientando? <span class="opcional">(opcional)</span></label>
+      <span class="dica">Se você já passou pelo Rumo com seu filho, escreva o nome dele. Se chegou aqui por outro caminho, pode deixar em branco.</span>
+      <input type="text" id="filho" placeholder="nome do adolescente">
+    </div>
+
+    <div class="secao">O seu trabalho</div>
+
+    <div class="campo" id="c-area">
+      <label>Em que área você trabalha</label>
+      <span class="dica">Escolha a que mais se aproxima. É por aqui que eu encontro você quando um adolescente pesquisar essa área.</span>
+      <div class="fichas" id="fichas-area">
+        <div class="ficha" data-val="Saúde">Saúde</div>
+        <div class="ficha" data-val="Educação">Educação</div>
+        <div class="ficha" data-val="Direito">Direito</div>
+        <div class="ficha" data-val="Engenharias">Engenharias</div>
+        <div class="ficha" data-val="Tecnologia e dados">Tecnologia e dados</div>
+        <div class="ficha" data-val="Negócios, gestão e finanças">Negócios, gestão e finanças</div>
+        <div class="ficha" data-val="Marketing e comunicação">Marketing e comunicação</div>
+        <div class="ficha" data-val="Design, arquitetura e urbanismo">Design, arquitetura e urbanismo</div>
+        <div class="ficha" data-val="Artes e entretenimento">Artes e entretenimento</div>
+        <div class="ficha" data-val="Ciências humanas e sociais">Ciências humanas e sociais</div>
+        <div class="ficha" data-val="Ciências exatas e da natureza">Ciências exatas e da natureza</div>
+        <div class="ficha" data-val="Agro e meio ambiente">Agro e meio ambiente</div>
+        <div class="ficha" data-val="Carreira pública, militar e diplomacia">Carreira pública, militar e diplomacia</div>
+        <div class="ficha" data-val="Empreendedorismo">Empreendedorismo</div>
+        <div class="ficha" data-val="Outra">Outra</div>
+      </div>
+      <div class="erro">Escolha uma área.</div>
+    </div>
+
+    <div class="campo" id="c-cargo">
+      <label>Profissão ou cargo atual</label>
+      <input type="text" id="cargo" placeholder="Ex: fisioterapeuta, gerente de projetos, promotora">
+      <div class="erro">Escreva sua profissão ou cargo.</div>
+    </div>
+
+    <div class="campo" id="c-formacao">
+      <label>Formação</label>
+      <input type="text" id="formacao" placeholder="Ex: Fisioterapia, UFRJ">
+      <div class="erro">Escreva sua formação.</div>
+    </div>
+
+    <div class="campo" id="c-tempo">
+      <label>Há quanto tempo você trabalha nessa área</label>
+      <div class="fichas" id="fichas-tempo">
+        <div class="ficha" data-val="Menos de 5 anos">Menos de 5 anos</div>
+        <div class="ficha" data-val="Entre 5 e 15 anos">Entre 5 e 15 anos</div>
+        <div class="ficha" data-val="Mais de 15 anos">Mais de 15 anos</div>
+      </div>
+      <div class="erro">Escolha uma opção.</div>
+    </div>
+
+    <div class="campo" id="c-diaadia">
+      <label>O que você faz no dia a dia</label>
+      <span class="dica">Escreva como se estivesse explicando para um adolescente de 17 anos que nunca ouviu falar da sua profissão. Duas ou três linhas bastam.</span>
+      <textarea id="diaadia" placeholder="Ex: Atendo pacientes que estão se recuperando de cirurgia. Monto o plano de exercícios de cada um e acompanho semana a semana até voltarem a andar sozinhos."></textarea>
+      <div class="erro">Escreva pelo menos uma frase completa.</div>
+    </div>
+
+    <div class="secao">Como eu falo com você</div>
+    <p style="font-size:.8rem;color:var(--cinza);line-height:1.6;margin-bottom:16px">Estes dois campos ficam só comigo. Nenhuma família recebe seu contato.</p>
+
+    <div class="campo" id="c-email">
+      <label>E-mail</label>
+      <input type="email" id="email" placeholder="voce@email.com" autocomplete="email" inputmode="email">
+      <div class="erro">Confira o e-mail.</div>
+    </div>
+
+    <div class="campo" id="c-zap">
+      <label>WhatsApp</label>
+      <div class="zap">
+        <select id="ddi">
+          <option value="+55">🇧🇷 +55</option>
+          <option value="+351">🇵🇹 +351</option>
+          <option value="+1">🇺🇸 +1</option>
+          <option value="+44">🇬🇧 +44</option>
+          <option value="+34">🇪🇸 +34</option>
+          <option value="+54">🇦🇷 +54</option>
+          <option value="+56">🇨🇱 +56</option>
+          <option value="+598">🇺🇾 +598</option>
+        </select>
+        <input type="tel" id="zap" placeholder="(21) 99999-9999" inputmode="tel">
+      </div>
+      <div class="erro">Confira o número.</div>
+    </div>
+
+    <div class="aceite" id="aceite" onclick="this.classList.toggle('marcado');document.getElementById('err-aceite').classList.remove('visivel')">
+      <div class="caixa"></div>
+      <span>Li o combinado acima e quero entrar no Banco de Profissionais Rumo. Entendo que apenas meu nome, minha formação e minha área são compartilhados, que serei consultado antes de cada conversa e que posso sair quando quiser.</span>
+    </div>
+    <div class="erro-solto" id="err-aceite">Marque o combinado para entrar no banco.</div>
+
+    <button class="btn" id="botao" onclick="enviar()">
+      <span class="rotulo">Entrar no banco ✓</span>
+      <span class="girando"></span>
+    </button>
+
+    <p class="nota">Instituto Rumo · Cláudia Botelho Marcos · CRP 05/73536<br>faleconosco@institutorumo.com</p>
+  </div>
+
+  <div id="pronto">
+    <div class="selo">🌱</div>
+    <h2>Você está no banco, <span id="primeiro-nome"></span>.</h2>
+    <p>Obrigada de verdade. Isso vale mais do que parece: adolescente que conversa com gente de verdade escolhe com muito menos medo.</p>
+    <p>Quando algum orientando quiser conhecer a sua área, eu te chamo antes para combinar. Sem pressa e sem compromisso.</p>
+    <p class="nota">Pode fechar esta página.</p>
+  </div>
+
+</div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3bq37H3LQDxzNrhADHtuSAPM_SpS5Sm3lDInMW00PTayI10Z7CDkfYupUwGmGQuHy/exec';
+
+// ── Fichas de escolha única ───────────────
+document.querySelectorAll('.fichas').forEach(grupo => {
+  grupo.querySelectorAll('.ficha').forEach(ficha => {
+    ficha.addEventListener('click', () => {
+      grupo.querySelectorAll('.ficha').forEach(f => f.classList.remove('marcada'));
+      ficha.classList.add('marcada');
+      grupo.closest('.campo').classList.remove('tem-erro');
+    });
+  });
+});
+
+function valorFicha(grupo) {
+  const marcada = document.querySelector('#fichas-' + grupo + ' .ficha.marcada');
+  return marcada ? marcada.dataset.val : '';
+}
+
+function marcarErro(id, tem) {
+  document.getElementById('c-' + id).classList.toggle('tem-erro', tem);
+  return !tem;
+}
+
+function validar() {
+  const v = id => document.getElementById(id).value.trim();
+  let ok = true;
+  if (!marcarErro('nome',     v('nome').split(/\s+/).length < 2)) ok = false;
+  if (!marcarErro('area',     !valorFicha('area'))) ok = false;
+  if (!marcarErro('cargo',    v('cargo').length < 3)) ok = false;
+  if (!marcarErro('formacao', v('formacao').length < 3)) ok = false;
+  if (!marcarErro('tempo',    !valorFicha('tempo'))) ok = false;
+  if (!marcarErro('diaadia',  v('diaadia').length < 30)) ok = false;
+  if (!marcarErro('email',    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('email')))) ok = false;
+  if (!marcarErro('zap',      v('zap').replace(/\D/g, '').length < 10)) ok = false;
+
+  const aceitou = document.getElementById('aceite').classList.contains('marcado');
+  document.getElementById('err-aceite').classList.toggle('visivel', !aceitou);
+  if (!aceitou) ok = false;
+
+  if (!ok) {
+    const alvo = document.querySelector('.campo.tem-erro') || document.getElementById('aceite');
+    alvo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  return ok;
+}
+
+async function enviar() {
+  if (!validar()) return;
+  const botao = document.getElementById('botao');
+  botao.classList.add('carregando'); botao.disabled = true;
+
+  const v = id => document.getElementById(id).value.trim();
+  const payload = {
+    dataEnvio: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+    nome: v('nome'),
+    orientando: v('filho'),
+    area: valorFicha('area'),
+    cargo: v('cargo'),
+    formacao: v('formacao'),
+    tempo: valorFicha('tempo'),
+    diaadia: v('diaadia'),
+    email: v('email'),
+    whatsapp: document.getElementById('ddi').value + ' ' + v('zap'),
+    consentimento: 'Sim, li o combinado e aceito entrar'
+  };
+
+  try {
+    await fetch(APPS_SCRIPT_URL + '?payload=' + encodeURIComponent(JSON.stringify(payload)), { method: 'GET', mode: 'no-cors' });
+    document.getElementById('primeiro-nome').textContent = payload.nome.split(' ')[0];
+    document.getElementById('formulario').classList.add('escondido');
+    document.getElementById('pronto').classList.add('visivel');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (err) {
+    alert('Deu erro no envio. Tenta de novo?');
+    botao.classList.remove('carregando'); botao.disabled = false;
+  }
+}
+
+document.getElementById('zap').addEventListener('input', function () {
+  if (document.getElementById('ddi').value !== '+55') return;
+  let x = this.value.replace(/\D/g, '').slice(0, 11);
+  if (x.length >= 2) x = '(' + x.slice(0, 2) + ') ' + x.slice(2);
+  if (x.length >= 10) x = x.slice(0, 10) + '-' + x.slice(10);
+  this.value = x;
+});
+</script>
+</body>
+</html>
