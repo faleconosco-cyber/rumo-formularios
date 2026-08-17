@@ -3,11 +3,10 @@
 // Conta: faleconosco@institutorumo.com
 // Planilha: Banco de Profissionais Rumo
 //
-// Duas abas. "Profissionais" recebe uma linha por voluntário.
-// "Por área" se organiza sozinha por fórmula, agrupada por área e nome,
-// e mostra só o que pode ser apresentado a outra família. Telefone e
-// e-mail ficam de fora dela de propósito: o acordo promete que nenhuma
-// outra família recebe contato, todo agendamento passa pelo Instituto.
+// Duas abas. "Profissionais" recebe uma linha por voluntário, na ordem de
+// chegada. "Por área" se organiza sozinha por fórmula, agrupada por área e
+// nome, e é a aba de consulta: é dela que sai o contato para passar ao
+// adolescente depois que o voluntário topar a conversa.
 // =====================================================
 
 function doGet(e)  { return processarDados(e); }
@@ -30,8 +29,8 @@ var CABECALHO = [
   'Consentimento'
 ];
 
-// O que pode ser mostrado a outra família
-var CABECALHO_AREA = ['Área', 'Nome', 'Profissão ou cargo', 'Formação', 'Tempo na área', 'O que faz no dia a dia'];
+// A aba de consulta, para achar quem chamar e já ter o contato à mão
+var CABECALHO_AREA = ['Área', 'Nome', 'Profissão ou cargo', 'Formação', 'Tempo na área', 'O que faz no dia a dia', 'E-mail', 'WhatsApp'];
 
 function processarDados(e) {
   try {
@@ -94,6 +93,8 @@ function pegarBase() {
 
 // Aba de consulta, agrupada por área. Só precisa ser montada uma vez;
 // depois a fórmula se atualiza sozinha a cada novo voluntário.
+// Use esta aba para achar quem chamar. O contato só sai daqui depois que o
+// voluntário disser que pode participar daquela conversa.
 function garantirAbaPorArea() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   if (ss.getSheetByName(ABA_AREA)) return;
@@ -104,7 +105,7 @@ function garantirAbaPorArea() {
 
   sheet.getRange('A2').setFormula(
     '=IFERROR(QUERY(' + ABA_BASE + '!A2:K, ' +
-    '"select C, B, D, E, F, G where C is not null order by C, B", 0), )'
+    '"select C, B, D, E, F, G, H, I where C is not null order by C, B", 0), )'
   );
 
   sheet.setColumnWidth(1, 220);
@@ -112,7 +113,9 @@ function garantirAbaPorArea() {
   sheet.setColumnWidth(3, 210);
   sheet.setColumnWidth(4, 210);
   sheet.setColumnWidth(5, 140);
-  sheet.setColumnWidth(6, 460);
+  sheet.setColumnWidth(6, 420);
+  sheet.setColumnWidth(7, 230);
+  sheet.setColumnWidth(8, 160);
   sheet.getRange('F:F').setWrap(true);
 }
 
@@ -145,9 +148,8 @@ function confirmarPorEmail(d) {
       '• Tempo na área: ' + (d.tempo || '') + '\n\n' +
       'O combinado, para você guardar:\n\n' +
       '• Eu entro em contato antes de cada conversa, e você decide se pode ou não participar.\n' +
-      '• A outra família vê só seu nome, sua formação e sua área. Seu telefone e seu e-mail não são passados para ninguém.\n' +
-      '• A conversa é online ou por chamada de voz, pelo tempo que você tiver disponível, e acontece com a ciência dos responsáveis dos dois lados.\n' +
-      '• Não é aula nem indicação de carreira. É você contando o seu dia a dia.\n' +
+      '• Se você topar, eu passo o seu contato para o adolescente e vocês combinam entre vocês o que for melhor para os dois.\n' +
+      '• A conversa é online ou por chamada de voz, pelo tempo que você tiver disponível.\n' +
       '• Para sair do banco, responda este e-mail. Saída imediata, sem justificar nada.\n\n' +
       'Qualquer coisa é só chamar.\n\n' +
       'Cláudia Botelho\n' +
