@@ -97,10 +97,20 @@ function pegarBase() {
 // voluntário disser que pode participar daquela conversa.
 function garantirAbaPorArea() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  if (ss.getSheetByName(ABA_AREA)) return;
+  var sheet = ss.getSheetByName(ABA_AREA);
 
-  var sheet = ss.insertSheet(ABA_AREA);
-  sheet.appendRow(CABECALHO_AREA);
+  if (sheet) {
+    // Ja existe. So refaz se o cabecalho estiver diferente do esperado, que e
+    // o que acontece quando as colunas mudam. Sem isso a aba fica presa na
+    // versao antiga e ninguem percebe.
+    var atual = sheet.getRange(1, 1, 1, CABECALHO_AREA.length).getValues()[0].join('|');
+    if (atual === CABECALHO_AREA.join('|')) return;
+    sheet.clear();
+  } else {
+    sheet = ss.insertSheet(ABA_AREA);
+  }
+
+  sheet.getRange(1, 1, 1, CABECALHO_AREA.length).setValues([CABECALHO_AREA]);
   estilizarCabecalho(sheet, CABECALHO_AREA.length);
 
   sheet.getRange('A2').setFormula(
